@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="Избранное"
+        android:id="@+id/liked_ads"
+        android:icon="@drawable/ic_liked_ads"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:icon="@drawable/ic_about"
+        android:id="@+id/about_app"
+        android:title="О программе"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:title="@string/app_main_name"
+        android:icon="@drawable/ic_acc"
+        android:id="@+id/own_acc"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:title="@string/app_main_name"
+        android:icon="@drawable/ic_whats"
+        android:id="@+id/net_with_dev"
+        app:showAsAction="always"
+        />
+</menu>

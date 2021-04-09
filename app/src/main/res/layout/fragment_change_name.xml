@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_main_color">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/change_name_toolbar"
+            style="@style/Widget.MaterialComponents.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/app_main_color"
+            android:baselineAligned="false"
+            android:elevation="10dp"
+            app:layout_collapseMode="parallax"
+            app:popupTheme="@style/Widget.MaterialComponents.Toolbar.Primary"
+            app:titleTextColor="@color/white">
+
+
+            <ImageView
+                android:layout_marginRight="2mm"
+                android:layout_gravity="right"
+                android:id="@+id/iv_done"
+                android:layout_width="4mm"
+                android:layout_height="4mm"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_done"
+                android:contentDescription="TODO"
+                android:focusable="true" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5mm"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="Имя: ">
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:backgroundTint="@color/app_main_color"
+               android:layout_width="55mm"
+               android:inputType="textCapWords"
+               android:textColor="@color/app_main_color"
+               android:textColorHint="@color/app_main_color"
+               android:id="@+id/et_name_change"
+               android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/last_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_last_name_change"
+                android:layout_width="55mm"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/app_main_color"
+                android:inputType="textCapWords"
+                android:textColor="@color/app_main_color"
+                android:textColorHint="@color/app_main_color" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

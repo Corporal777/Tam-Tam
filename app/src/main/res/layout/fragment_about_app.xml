@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_main_color"
+        android:elevation="10dp"
+        app:elevation="10dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            app:titleTextColor="@color/white"
+            android:id="@+id/about_app_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/app_main_color"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2mm"
+                android:layout_marginTop="2mm"
+                android:layout_marginRight="2mm"
+                android:text="&quot;Tam Tam&quot; приложение объявлений по разным категориям для жителей города Москва."
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2mm"
+                android:layout_marginTop="1mm"
+                android:layout_marginRight="2mm"
+                android:text="В приложении есть свои особенности. Есть функция поиска по ключевому слову или станции метро, а также их совместный поиск. Вам нужно лишь написать слово в поле ввода для поиска, выбрать станцию метро(не обязательно)."
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2mm"
+                android:layout_marginTop="1mm"
+                android:layout_marginRight="2mm"
+                android:text="Вы можете напрямую, самостоятельно сделать объявление. Для этого вам нужно, в первую очередь создать аккаунт, а если аккаунт уже есть, то просто авторизоваться.
+Для создания или входа в аккаунт нажмите на иконку входа в правом верхнем углу в главном разделе."
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2mm"
+                android:layout_marginTop="1mm"
+                android:layout_marginRight="2mm"
+                android:text="Далее чтобы добавить объявление, нажмите на кнопку с надписью  &quot;+&quot;  в главном разделе. Заполните все поля, при желании добавьте фото к объявлению и нажмите &quot;Принять&quot;.
+Чтобы детально посмотреть объявление, нажмите на него и откроется детальное описание объявления. Нажав на кнопку  &quot;♡&quot;,  вы добавите объявление в избранное."
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2mm"
+                android:layout_marginTop="1mm"
+                android:layout_marginRight="2mm"
+                android:text="В меню снизу, нажав на кнопку  &quot;♡&quot;  вы можете посмотреть объявления, добавленные в избранное.
+ Чтобы удалить объявление из избранного, проведите пальцем влево и появится кнопка с корзиной, нажмите на него. "
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2mm"
+                android:layout_marginTop="1mm"
+                android:layout_marginRight="2mm"
+                android:text="Для получения дополнительной информации и связи с разработчиком нажмите в меню на значок WhatsApp."
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2mm"
+                android:layout_marginTop="1mm"
+                android:layout_marginRight="2mm"
+                android:text="Удачи!"
+                android:layout_marginBottom="2mm"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

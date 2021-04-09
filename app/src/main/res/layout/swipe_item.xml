@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipe_layout"
+    app:dragEdge="right"
+    app:mode="same_level">
+
+    <!-- Your secondary layout here -->
+    <LinearLayout
+        android:clickable="true"
+        android:layout_width="13mm"
+        android:layout_height="23mm"
+        android:focusable="true">
+
+        <androidx.cardview.widget.CardView
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:id="@+id/card_delete"
+            android:layout_width="9mm"
+            android:layout_height="11mm"
+            android:layout_marginLeft="2mm"
+            android:layout_marginTop="7mm"
+            android:elevation="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/iv_delete"
+                android:layout_width="5mm"
+                android:layout_height="7mm"
+                android:src="@drawable/ic_delete"
+                android:contentDescription="TODO" />
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <!-- Your main layout here -->
+    <LinearLayout
+        android:clickable="true"
+        android:id="@+id/ln_item"
+        android:layout_width="match_parent"
+        android:layout_height="27mm"
+        android:focusable="true">
+
+        <androidx.cardview.widget.CardView
+            app:cardElevation="3dp"
+            android:id="@+id/cv_swipe_item"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2mm"
+            android:layout_marginTop="1mm"
+            android:layout_marginRight="2mm"
+            android:layout_marginBottom="1mm"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="3dp"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_work_image"
+                    android:layout_width="17mm"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder"
+                    android:contentDescription="TODO"
+                    android:focusable="true" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Подработка / Халтура Москвада"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="7dp"
+                        android:background="#EAEAEA" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_salary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="0.2mm"
+                            android:text="1800"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <ImageView
+                            android:layout_width="1.4mm"
+                            android:layout_height="1.4mm"
+                            android:layout_marginLeft="0.7mm"
+                            android:layout_marginTop="1.2mm"
+                            android:src="@drawable/ic_ruble_currency_sign"
+                            android:contentDescription="TODO" />
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="7dp"
+                        android:background="#EAEAEA" />
+
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Подработка / Халтура Москвада"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="7dp"
+                        android:background="#EAEAEA" />
+
+
+                    <TextView
+                        android:id="@+id/tv_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="0.7mm"
+                        android:text="Эртенкиге 1 кыз керек уборкага метро некрасовкага 9дан 7го чейин акачасы 2000 наличка"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="7dp"
+                        android:background="#EAEAEA" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="2.5mm"
+                            android:layout_height="2.5mm"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginTop="0.3mm"
+                            android:src="@drawable/ic_location"
+                            android:contentDescription="TODO" />
+
+                        <TextView
+                            android:id="@+id/tv_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1mm"
+                            android:text=" м. Кантемировская"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="7dp"
+                        android:background="#EAEAEA" />
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+            <TextView
+
+                android:layout_gravity="bottom"
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18mm"
+                android:text="22.01.2021"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>
