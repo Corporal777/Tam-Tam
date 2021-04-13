@@ -38,14 +38,14 @@ class RegistrationFragment : Fragment() {
     private lateinit var mRefUsers: DatabaseReference
     private lateinit var mTextViewEnter: TextView
     private lateinit var mImageView: CircleImageView
-    private lateinit var userPhoto: Uri
+    private var userPhoto: Uri? = null
     private var imageUrl: String = ""
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         val view: View = inflater.inflate(R.layout.fragment_phone_reg, container, false)
@@ -60,7 +60,7 @@ class RegistrationFragment : Fragment() {
 
         mTextViewEnter.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.registration_container, EnterFragment())?.commit()
+                    ?.replace(R.id.registration_container, EnterFragment())?.commit()
         }
 
         mButtonAccept.setOnClickListener {
@@ -78,8 +78,10 @@ class RegistrationFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if (resultCode == RESULT_OK && data != null) {
-                userPhoto = data.data!!
-                mImageView.load(userPhoto)
+                mImageView.load(data.data)
+                userPhoto = data.data
+
+
 
             }
         }
@@ -92,14 +94,14 @@ class RegistrationFragment : Fragment() {
 
         AUTH = FirebaseAuth.getInstance()
         AUTH.createUserWithEmailAndPassword(mPhoneNumber, mPassword).addOnCompleteListener {}
-            .addOnSuccessListener {
-                addUser()
-                successToast("Добро пожаловать!", activity!!)
-                startActivity(Intent(activity, MainActivity::class.java))
-                activity!!.finish()
-            }.addOnFailureListener {
-                errorToast("Профиль не создан!", activity!!)
-            }
+                .addOnSuccessListener {
+                    addUser()
+                    successToast("Добро пожаловать!", activity!!)
+                    startActivity(Intent(activity, MainActivity::class.java))
+                    activity!!.finish()
+                }.addOnFailureListener {
+                    errorToast("Профиль не создан!", activity!!)
+                }
 
         AUTH.signInWithEmailAndPassword(mPhoneNumber, mPassword)
 
@@ -115,17 +117,27 @@ class RegistrationFragment : Fragment() {
         mLastName = mEditTextLastName.text.toString()
         val uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
         mRefUsers = FirebaseDatabase.getInstance().getReference()
+
+
         REF_STORAGE_ROOT = FirebaseStorage.getInstance().reference
         val path = REF_STORAGE_ROOT.child(FOLDER_USER_IMAGES).child(uid)
-        path.putFile(userPhoto).addOnCompleteListener {
-            if (it.isSuccessful) {
-                path.downloadUrl.addOnCompleteListener {
-                    imageUrl = it.result.toString()
-                    val user: User = User(uid, mName, mLastName, mPhoneNumber, mEmail, imageUrl)
-                    mRefUsers.child(NODE_USERS).child(uid).setValue(user)
+        if (userPhoto != null){
+            path.putFile(userPhoto!!).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    path.downloadUrl.addOnCompleteListener {task ->
+                        if (task.isSuccessful){
+                            imageUrl = task.result.toString()
+                            val user: User = User(uid, mName, mLastName, mPhoneNumber, mEmail, imageUrl)
+                            mRefUsers.child(NODE_USERS).child(uid).setValue(user)
+                        }
+                    }
                 }
             }
+        }else{
+            val user: User = User(uid, mName, mLastName, mPhoneNumber, mEmail, imageUrl)
+            mRefUsers.child(NODE_USERS).child(uid).setValue(user)
         }
+
 
     }
 }
