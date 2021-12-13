@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:935191350102:android:690fbae95f49a6262424f7",
+        "mobilesdk_app_id": "1:935191350102:android:302752e2895a40782424f7",
         "android_client_info": {
-          "package_name": "com.example.zuhaapp"
+          "package_name": "myapp.firstapp.tamtam"
         }
       },
       "oauth_client": [
         {
-          "client_id": "935191350102-fjq737jq9jqb1391np46taks0hvep6qd.apps.googleusercontent.com",
+          "client_id": "935191350102-9j80nabvjq1dn8bebnigs48an4s65l8s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.zuhaapp",
+            "package_name": "myapp.firstapp.tamtam",
             "certificate_hash": "ea096c35cec3a35f398bec13d7df9ce6494d284d"
           }
         },
@@ -45,12 +45,49 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:935191350102:android:302752e2895a40782424f7",
+        "mobilesdk_app_id": "1:935191350102:android:cdff7a5b8ab2aea32424f7",
         "android_client_info": {
-          "package_name": "myapp.firstapp.tamtam"
+          "package_name": "myapp.tamtam.zuhaapp"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "935191350102-mtisf0auajgkq95oehjo7d39u7f201ne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQUhGSSDgwKt7BXSFXRe6Q2MX9aodhtBM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935191350102-mtisf0auajgkq95oehjo7d39u7f201ne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935191350102:android:0a82a3abdb9bf49e2424f7",
+        "android_client_info": {
+          "package_name": "org.otunjargych.tamtam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935191350102-r9ml6206clbncs1vsajauaosnabe6sjf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.otunjargych.tamtam",
+            "certificate_hash": "b121766621a55cc068101b254ded8d636d96fff2"
+          }
+        },
         {
           "client_id": "935191350102-mtisf0auajgkq95oehjo7d39u7f201ne.apps.googleusercontent.com",
           "client_type": 3

@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/iv_back"
-                android:layout_width="4.5mm"
-                android:layout_height="4.5mm"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:src="@drawable/ic_back"
@@ -65,8 +65,8 @@
 
                 <TextView
                     android:id="@+id/tv_choose_category"
-                    android:layout_width="55mm"
-                    android:layout_height="10mm"
+                    android:layout_width="360dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:background="@drawable/textview_border"
                     android:clickable="true"
@@ -80,8 +80,8 @@
 
                 <TextView
                     android:id="@+id/tv_choose_metro"
-                    android:layout_width="55mm"
-                    android:layout_height="10mm"
+                    android:layout_width="360dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="1mm"
                     android:background="@drawable/textview_border"
@@ -106,8 +106,8 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/work_text"
-                        android:layout_width="55mm"
-                        android:layout_height="wrap_content"
+                        android:layout_width="360dp"
+                        android:layout_height="60dp"
                         android:backgroundTint="@color/app_main_color"
                         android:inputType="textMultiLine"
                         android:textColor="@color/app_main_color"
@@ -125,8 +125,8 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/work_title"
-                        android:layout_width="55mm"
-                        android:layout_height="wrap_content"
+                        android:layout_width="360dp"
+                        android:layout_height="60dp"
                         android:backgroundTint="@color/app_main_color"
                         android:inputType="textCapSentences"
                         android:textColor="@color/app_main_color"
@@ -145,8 +145,8 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/work_salary"
-                        android:layout_width="55mm"
-                        android:layout_height="wrap_content"
+                        android:layout_width="360dp"
+                        android:layout_height="60dp"
                         android:backgroundTint="@color/app_main_color"
                         android:inputType="number"
                         android:textColor="@color/app_main_color"
@@ -165,8 +165,8 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/work_phone_number"
-                        android:layout_width="55mm"
-                        android:layout_height="wrap_content"
+                        android:layout_width="360dp"
+                        android:layout_height="60dp"
                         android:backgroundTint="@color/app_main_color"
                         android:inputType="phone"
                         android:textColor="@color/app_main_color"
@@ -192,8 +192,8 @@
 
                     <ImageView
                         android:id="@+id/iv_photo_of_work"
-                        android:layout_width="30mm"
-                        android:layout_height="30mm"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:layout_gravity="center"
                         android:clickable="true"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -291,15 +291,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center">
 
-                <com.google.android.material.button.MaterialButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_add_new_ad"
-                    android:layout_width="55mm"
-                    android:layout_height="10mm"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginBottom="1mm"
-                    android:backgroundTint="#471F8E"
-                    android:text="Принять"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/btn_back_shadow"
+                    android:fontFamily="@font/opensans_bold"
+                    android:text="@string/publicate"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp" />

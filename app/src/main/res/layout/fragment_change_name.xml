@@ -26,11 +26,11 @@
 
 
             <ImageView
-                android:layout_marginRight="2mm"
+                android:layout_marginRight="15dp"
                 android:layout_gravity="right"
                 android:id="@+id/iv_done"
-                android:layout_width="4mm"
-                android:layout_height="4mm"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:src="@drawable/ic_done"

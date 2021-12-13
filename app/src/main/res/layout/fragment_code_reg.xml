@@ -13,36 +13,34 @@
         android:background="@color/app_main_color">
 
         <com.google.android.material.appbar.MaterialToolbar
-            app:titleTextColor="@color/white"
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/app_main_color"
             android:elevation="10dp"
             app:layout_collapseMode="parallax"
-            app:title="@string/authorization" />
+            app:title="@string/authorization"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="15mm"
-        android:layout_height="15mm"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_gravity="center"
-        android:layout_marginTop="61dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_write"
-        android:contentDescription="TODO" />
+        android:layout_marginTop="50dp"
+        android:src="@drawable/app_icon" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:text="Введите номер телефона"
         android:textColor="@color/black"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
@@ -51,7 +49,7 @@
         android:layout_gravity="center"
         android:text="и пароль"
         android:textColor="@color/black"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
 
@@ -65,7 +63,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_number_phone_auth"
-            android:layout_width="40mm"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/app_main_color"
             android:inputType="phone"
@@ -75,17 +73,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        app:endIconMode="password_toggle"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="1mm"
-        android:hint="@string/password">
+        android:hint="@string/password"
+        app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_password_auth"
-            android:layout_width="40mm"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/app_main_color"
             android:inputType="textPassword"
@@ -94,29 +92,31 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_enter"
-        android:layout_width="40mm"
-        android:layout_height="10mm"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#471F8E"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_back_shadow"
+        android:fontFamily="@font/opensans_bold"
         android:text="@string/enter_auth"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
         android:id="@+id/tv_registration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="1mm"
-        android:textColor="@color/app_main_color"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/registration"
-        android:textSize="14sp"
-        android:focusable="true" />
+        android:textColor="@color/app_main_color"
+        android:textSize="14sp" />
 
 </LinearLayout>

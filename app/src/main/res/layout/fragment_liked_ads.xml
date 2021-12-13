@@ -13,17 +13,7 @@
         android:elevation="10dp"
         app:elevation="10dp">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            app:titleTextColor="@color/white"
-            android:id="@+id/liked_ads_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/app_main_color"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-
-
-        </com.google.android.material.appbar.MaterialToolbar>
+        <include layout="@layout/custom_toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
@@ -32,26 +22,25 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:layout_alignParentBottom="true"
-            android:visibility="gone"
             android:id="@+id/ln_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="10mm"
                 android:layout_height="10mm"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_cardboard"
-                android:contentDescription="TODO" />
+                android:src="@drawable/ic_cardboard" />
 
             <TextView
-                android:textColor="#BDBDBD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="В избранном пусто"
+                android:textColor="#BDBDBD"
                 android:textSize="18sp" />
 
         </LinearLayout>

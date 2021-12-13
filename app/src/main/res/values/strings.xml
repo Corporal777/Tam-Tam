@@ -20,7 +20,6 @@
     <string name="find">Найти</string>
     <string name="need_in_work">Нужна подработка</string>
     <string name="looking_for_work">Ищу работу</string>
-    <string name="haltura">Подработка, Халтура</string>
     <string name="authorization">Авторизация</string>
     <string name="last_name">Фамилия:</string>
     <string name="phone_number">Номер телефона:</string>
@@ -33,9 +32,12 @@
     <string name="polyclinic">Поликлиники</string>
     <string name="enter_auth">Войти</string>
     <string name="registration">Зарегистрироваться</string>
-    <string name="long_time_work">Постоянная работа</string>
     <string name="account">Аккаунт</string>
     <string name="change_name">Изменить имя</string>
+    <string name="success">Успешно!</string>
+    <string name="empty_fields">Заполните все поля!</string>
+    <string name="full_work">Постоянная работа</string>
+    <string name="publicate">Опубликовать</string>
 
     <integer-array name="img_id_arr">
         <item>@drawable/splash_test</item>

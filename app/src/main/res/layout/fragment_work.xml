@@ -3,7 +3,8 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -14,40 +15,9 @@
         android:elevation="10dp"
         app:elevation="10dp">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/main_work_activity_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/app_main_color"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="4.5mm"
-                android:layout_height="4.5mm"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_back"
-                android:contentDescription="TODO"
-                android:focusable="true" />
-
-
-            <ImageView
-                android:layout_marginRight="3mm"
-                android:id="@+id/iv_add"
-                android:layout_width="5mm"
-                android:layout_height="5mm"
-                android:layout_gravity="right"
-                android:layout_marginLeft="28mm"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_add"
-                android:contentDescription="TODO"
-                android:focusable="true" />
-
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
+        <include
+            android:id="@+id/work_toolbar"
+            layout="@layout/custom_toolbar_back" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -60,78 +30,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
-
-            <LinearLayout
-                android:layout_marginLeft="0.5mm"
-                android:layout_width="match_parent"
-                android:layout_height="11mm">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btn_search"
-                    style="@style/MyCardViewStyle"
-                    android:layout_width="47mm"
-                    android:layout_height="8mm"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:clickable="true"
-                    app:cardElevation="5dp"
-                    android:focusable="true">
-
-                    <EditText
-                        android:id="@+id/et_search_work"
-                        android:layout_width="43mm"
-                        android:layout_height="8mm"
-                        android:layout_marginLeft="1mm"
-                        android:background="@android:color/transparent"
-                        android:backgroundTint="@color/app_main_color"
-                        android:drawableLeft="@drawable/ic_search"
-                        android:hint="  Поиск"
-                        android:imeOptions="actionSearch"
-                        android:inputType="textCapWords"
-                        android:textColor="@color/black"
-                        android:textCursorDrawable="@drawable/cursor_color"
-                        android:textSize="16sp" />
-
-
-                    <ImageView
-                        android:id="@+id/iv_clear"
-                        android:layout_width="3mm"
-                        android:layout_height="3mm"
-                        android:layout_gravity="right"
-                        android:layout_marginTop="2.5mm"
-                        android:layout_marginRight="1mm"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:src="@drawable/ic_clear"
-                        android:contentDescription="TODO"
-                        android:focusable="true" />
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_metro"
-                    style="@style/MyCardViewStyle"
-                    android:layout_width="8mm"
-                    android:layout_height="8mm"
-                    android:layout_marginLeft="3mm"
-                    android:layout_marginTop="10dp"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardElevation="4dp"
-                    android:focusable="true">
-
-                    <ImageView
-                        android:layout_width="5mm"
-                        android:layout_height="5mm"
-                        android:layout_gravity="center"
-                        android:clickable="false"
-                        android:src="@drawable/metro"
-                        android:contentDescription="TODO" />
-
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
 
             <HorizontalScrollView
                 android:layout_width="wrap_content"
@@ -145,96 +46,57 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card_work_first"
-                            android:layout_width="20mm"
-                            android:layout_height="7mm"
-                            android:layout_marginLeft="2mm"
-                            android:layout_marginTop="0.7mm"
-                            android:layout_marginBottom="1mm"
-                            android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="6dp"
-                            android:focusable="true">
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_tag_first"
+                            android:layout_width="130dp"
+                            android:layout_height="35dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/ic_btn_back_short"
+                            android:fontFamily="@font/opensans_bold"
+                            android:text="@string/short_time_work"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp" />
 
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/first_cat"
-                                android:contentDescription="TODO" />
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_tag_second"
+                            android:layout_width="130dp"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/ic_btn_back_short"
+                            android:fontFamily="@font/opensans_bold"
+                            android:text="Халтура"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Подработки"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_tag_third"
+                            android:layout_width="200dp"
+                            android:layout_height="35dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/ic_btn_back"
+                            android:fontFamily="@font/opensans_bold"
+                            android:text="@string/full_work"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp" />
 
-                        </androidx.cardview.widget.CardView>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_tag_fourth"
+                            android:layout_width="130dp"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/ic_btn_back_short"
+                            android:fontFamily="@font/opensans_bold"
+                            android:text="@string/looking_for_work"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp" />
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card_work_second"
-                            android:layout_width="30mm"
-                            android:layout_height="7mm"
-                            android:layout_marginLeft="2mm"
-                            android:layout_marginTop="0.7mm"
-                            android:layout_marginBottom="1mm"
-                            android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="6dp"
-                            android:focusable="true">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/first_cat"
-                                android:contentDescription="TODO" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Постоянная работа"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_marginRight="2mm"
-                            android:id="@+id/card_work_third"
-                            android:layout_width="20mm"
-                            android:layout_height="7mm"
-                            android:layout_marginLeft="2mm"
-                            android:layout_marginTop="0.7mm"
-                            android:layout_marginBottom="1mm"
-                            android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="6dp"
-                            android:focusable="true">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/first_cat"
-                                android:contentDescription="TODO" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Ищу работу"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
-
-                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
                 </ScrollView>
             </HorizontalScrollView>
@@ -244,22 +106,22 @@
                 android:layout_height="wrap_content">
 
                 <ProgressBar
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentBottom="true"
                     android:id="@+id/progressbar"
                     style="@style/CircularProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
                     android:indeterminateTint="#411E80" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginLeft="0.5mm"
-                    android:layout_marginRight="0.6mm"
-                    android:id="@+id/recycler_view_first_page"
+                    android:id="@+id/rv_work"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="2mm" />
+                    android:layout_marginLeft="0.5mm"
+                    android:layout_marginTop="2mm"
+                    android:layout_marginRight="0.6mm" />
 
             </RelativeLayout>
         </LinearLayout>

@@ -1,54 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/swipe_layout"
     app:dragEdge="right"
     app:mode="same_level">
 
     <!-- Your secondary layout here -->
     <LinearLayout
-        android:clickable="true"
         android:layout_width="13mm"
         android:layout_height="23mm"
+        android:clickable="true"
+        android:gravity="center"
         android:focusable="true">
 
-        <androidx.cardview.widget.CardView
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/card_delete"
-            android:layout_width="9mm"
-            android:layout_height="11mm"
-            android:layout_marginLeft="2mm"
-            android:layout_marginTop="7mm"
-            android:elevation="10dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="10dp"
-            android:focusable="true">
-
-            <ImageView
-                android:layout_gravity="center"
-                android:id="@+id/iv_delete"
-                android:layout_width="5mm"
-                android:layout_height="7mm"
-                android:src="@drawable/ic_delete"
-                android:contentDescription="TODO" />
-
-        </androidx.cardview.widget.CardView>
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_delete"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground" />
     </LinearLayout>
 
     <!-- Your main layout here -->
     <LinearLayout
-        android:clickable="true"
         android:id="@+id/ln_item"
         android:layout_width="match_parent"
         android:layout_height="27mm"
+        android:clickable="true"
         android:focusable="true">
 
         <androidx.cardview.widget.CardView
-            app:cardElevation="3dp"
             android:id="@+id/cv_swipe_item"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -57,9 +43,10 @@
             android:layout_marginRight="2mm"
             android:layout_marginBottom="1mm"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="3dp"
-            android:focusable="true">
+            app:cardElevation="3dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,10 +58,10 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:clickable="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/placeholder"
                     android:contentDescription="TODO"
-                    android:focusable="true" />
+                    android:focusable="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -86,10 +73,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/opensans_bold"
                         android:text="Подработка / Халтура Москвада"
                         android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="wrap_content"
@@ -117,8 +104,8 @@
                             android:layout_height="1.4mm"
                             android:layout_marginLeft="0.7mm"
                             android:layout_marginTop="1.2mm"
-                            android:src="@drawable/ic_ruble_currency_sign"
-                            android:contentDescription="TODO" />
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_ruble_currency_sign" />
 
                     </LinearLayout>
 
@@ -175,8 +162,8 @@
                             android:layout_height="2.5mm"
                             android:layout_marginLeft="2dp"
                             android:layout_marginTop="0.3mm"
-                            android:src="@drawable/ic_location"
-                            android:contentDescription="TODO" />
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_location" />
 
                         <TextView
                             android:id="@+id/tv_location"
@@ -197,21 +184,15 @@
                         android:background="#EAEAEA" />
 
 
-
                 </LinearLayout>
 
             </LinearLayout>
 
-
-
-
-
             <TextView
-
-                android:layout_gravity="bottom"
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_marginLeft="18mm"
                 android:text="22.01.2021"
                 android:textColor="@color/black"

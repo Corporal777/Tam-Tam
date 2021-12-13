@@ -14,16 +14,8 @@
         android:elevation="10dp"
         app:elevation="10dp">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            app:titleTextColor="@color/white"
-            android:id="@+id/about_app_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/app_main_color"
-            app:layout_scrollFlags="scroll|enterAlways">
+        <include layout="@layout/custom_toolbar" />
 
-
-        </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -108,8 +100,8 @@
                 android:layout_marginLeft="2mm"
                 android:layout_marginTop="1mm"
                 android:layout_marginRight="2mm"
-                android:text="Удачи!"
                 android:layout_marginBottom="2mm"
+                android:text="Удачи!"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

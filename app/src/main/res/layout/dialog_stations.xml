@@ -6,19 +6,19 @@
 
 
     <TextView
-        android:layout_marginTop="2mm"
-        android:textStyle="bold"
-        android:layout_marginLeft="3mm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="3mm"
+        android:layout_marginTop="2mm"
+        android:fontFamily="@font/opensans_bold"
         android:text="Выберите станцию:"
         android:textColor="@color/app_main_color"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stations_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2mm" />
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

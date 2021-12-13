@@ -4,15 +4,23 @@
 
     <item
         android:title="Избранное"
+        android:id="@+id/main"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="always"
+        />
+
+
+    <item
+        android:title="Избранное"
         android:id="@+id/liked_ads"
         android:icon="@drawable/ic_liked_ads"
         app:showAsAction="always"
         />
 
     <item
-        android:icon="@drawable/ic_about"
+        android:icon="@drawable/ic_settings"
         android:id="@+id/about_app"
-        android:title="О программе"
+        android:title="Настройки"
         app:showAsAction="always"
         />
 
