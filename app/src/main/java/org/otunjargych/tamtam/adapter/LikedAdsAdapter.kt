@@ -4,10 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.chauthai.swipereveallayout.SwipeRevealLayout
 import com.chauthai.swipereveallayout.ViewBinderHelper
-import kotlinx.android.synthetic.main.list_item.view.iv_work_image
 import kotlinx.android.synthetic.main.list_item.view.tv_category
 import kotlinx.android.synthetic.main.list_item.view.tv_date
 import kotlinx.android.synthetic.main.list_item.view.tv_location
@@ -77,9 +75,6 @@ class LikedAdsAdapter : RecyclerView.Adapter<LikedAdsAdapter.AdOneViewHolder>() 
             tv_date.text = likedAds.timeStamp.toString().asTime()
             tv_location.text = "м. " + likedAds.station
             tv_category.text = likedAds.category
-            if (likedAds.firstImageURL != "") {
-                iv_work_image.load(likedAds.firstImageURL)
-            } else iv_work_image.load(R.drawable.placeholder)
 
             cv_swipe_item.setOnClickListener {
                 onClickListener.onAdClick(likedAds, position)

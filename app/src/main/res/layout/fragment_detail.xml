@@ -14,7 +14,7 @@
         app:elevation="10dp">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/main_toolbar_detail"
+            android:id="@+id/toolbar_detail"
             style="@style/Widget.MaterialComponents.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -26,13 +26,14 @@
 
 
             <ImageView
-                android:id="@+id/iv_like"
+                android:id="@+id/btn_like"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="right"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="17dp"
                 android:clickable="true"
-                android:src="@drawable/ic_like" />
+                android:src="@drawable/ic_like"
+                android:focusable="true" />
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -52,19 +53,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="2mm"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/view_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="50mm" />
+                    android:layout_height="350dp" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab_dots"
                     android:layout_width="match_parent"
-                    android:layout_height="5mm"
+                    android:layout_height="25dp"
                     app:tabBackground="@drawable/tab_selector"
                     app:tabGravity="center"
                     app:tabIndicatorHeight="0dp" />
@@ -73,53 +73,55 @@
 
 
             <LinearLayout
-                android:layout_marginBottom="1mm"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1mm"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1mm">
+                    android:layout_marginStart="6dp">
 
                     <ImageView
-                        android:layout_width="3.5mm"
-                        android:layout_height="3.5mm"
-                        android:layout_marginLeft="0.5mm"
-                        android:layout_marginTop="0.6mm"
-                        android:src="@drawable/ic_seen_counter"
-                        android:contentDescription="TODO" />
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="3.5dp"
+                        android:src="@drawable/ic_seen_counter" />
 
                     <TextView
+                        android:fontFamily="@font/commons_demi_bold"
                         android:id="@+id/tv_viewings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="0.7mm"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="5dp"
                         android:text="12"
                         android:textColor="@color/black"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
 
                     <ImageView
-                        android:layout_width="3mm"
-                        android:layout_height="3mm"
-                        android:layout_marginLeft="1mm"
-                        android:layout_marginTop="0.7mm"
-                        android:src="@drawable/ic_like_counter"
-                        android:contentDescription="TODO" />
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="3.5dp"
+                        android:src="@drawable/ic_liked_ads" />
 
                     <TextView
+                        android:fontFamily="@font/commons_demi_bold"
                         android:id="@+id/tv_likes"
                         android:layout_width="wrap_content"
+                        android:layout_marginStart="5dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="0.7mm"
+                        android:layout_marginTop="2dp"
                         android:text="12"
                         android:textColor="@color/black"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
 
@@ -128,38 +130,38 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="0.5dp"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="7dp"
                     android:background="#EAEAEA" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0.5mm">
+                    android:layout_marginStart="5dp">
 
                     <TextView
-                        android:id="@+id/tv_salary_detail"
+                        android:fontFamily="@font/commons_demi_bold"
+                        android:id="@+id/tv_salary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="1.5mm"
-                        android:layout_marginTop="1mm"
-                        android:text="1800"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Договорная"
                         android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textSize="22sp" />
 
                     <ImageView
-                        android:layout_width="2mm"
-                        android:layout_height="2mm"
-                        android:layout_marginLeft="1mm"
-                        android:layout_marginTop="2.7mm"
-                        android:src="@drawable/ic_ruble_currency_sign"
-                        android:contentDescription="TODO" />
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="12dp"
+                        android:src="@drawable/ic_ruble_currency_sign" />
                 </LinearLayout>
 
 
                 <TextView
+                    android:fontFamily="@font/commons_demi_bold"
                     android:id="@+id/tv_category_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -167,11 +169,12 @@
                     android:layout_marginTop="1mm"
                     android:text="Медицина, Красота"
                     android:textColor="@color/app_main_color"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_title_detail"
+                    android:fontFamily="@font/commons_demi_bold"
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1.9mm"
@@ -179,20 +182,20 @@
                     android:layout_marginRight="2mm"
                     android:text="Салон красоты"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="0.5dp"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="7dp"
                     android:background="#EAEAEA" />
 
 
                 <TextView
-                    android:id="@+id/tv_text_detail"
+                    android:fontFamily="@font/commons_regular"
+                    android:id="@+id/tv_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1.9mm"
@@ -205,9 +208,9 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="0.5dp"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="7dp"
                     android:background="#EAEAEA" />
 
                 <LinearLayout
@@ -225,11 +228,12 @@
                         android:contentDescription="TODO" />
 
                     <TextView
-                        android:id="@+id/tv_location_detail"
+                        android:fontFamily="@font/commons_demi_bold"
+                        android:id="@+id/tv_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="1mm"
-                        android:text="м. Перово"
+                        android:text="Не указано"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -244,12 +248,13 @@
                     <ImageView
                         android:layout_width="3.5mm"
                         android:layout_height="3.5mm"
-                        android:layout_marginTop="0.6mm"
+                        android:layout_marginTop="2dp"
                         android:src="@drawable/ic_date"
                         android:contentDescription="TODO" />
 
                     <TextView
-                        android:id="@+id/tv_date_detail"
+                        android:fontFamily="@font/commons_demi_bold"
+                        android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="1mm"
@@ -264,9 +269,9 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="0.5dp"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="7dp"
                     android:background="#EAEAEA" />
 
                 <LinearLayout
@@ -282,6 +287,7 @@
                         android:src="@drawable/empty_avatar" />
 
                     <TextView
+                        android:fontFamily="@font/commons_demi_bold"
                         android:id="@+id/tv_detail_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -297,9 +303,9 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="0.5dp"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="2mm"
-                    android:layout_marginRight="2mm"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="7dp"
                     android:background="#EAEAEA" />
 
                 <androidx.cardview.widget.CardView
@@ -325,12 +331,13 @@
                         android:contentDescription="TODO" />
 
                     <TextView
+                        android:fontFamily="@font/commons_demi_bold"
                         android:id="@+id/tv_detail_phone_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="1mm"
-                        android:text="+79267806176"
+                        android:text="Не указано"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -360,12 +367,13 @@
                         android:contentDescription="TODO" />
 
                     <TextView
+                        android:fontFamily="@font/commons_demi_bold"
                         android:id="@+id/tv_detail_phone_number_whatsapp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="1mm"
-                        android:text="+79267806176"
+                        android:text="Не указано"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />

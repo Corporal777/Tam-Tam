@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.extensions.DiffUtilCallbackBS
@@ -67,9 +66,9 @@ class BuySellAdapter : RecyclerView.Adapter<BuySellAdapter.BuySellViewHolder>() 
                 tv_location.text = "м. " + buySell.station
 
             tv_category.text = buySell.category
-            if (buySell.firstImageURL != "") {
-                iv_work_image.load(buySell.firstImageURL)
-            } else iv_work_image.load(R.drawable.placeholder)
+//            if (buySell.firstImageURL != "") {
+//                iv_work_image.load(buySell.firstImageURL)
+//            } else iv_work_image.load(R.drawable.placeholder)
 
             cv_item.setOnClickListener {
                 onClickListener.onAdClick(buySell, position)

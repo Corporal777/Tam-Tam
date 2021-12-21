@@ -61,7 +61,6 @@ class BeautyFragment : Fragment() {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_beauty, container, false)
         mRecyclerView = view.findViewById(R.id.rv_beauty_list)
-        mImageViewBack = view.findViewById(R.id.iv_back)
         mImageViewAdd = view.findViewById(R.id.iv_add)
         mImageViewClear = view.findViewById(R.id.iv_clear)
         mProgressBar = view.findViewById(R.id.progressbar)
@@ -82,9 +81,6 @@ class BeautyFragment : Fragment() {
                 dialog = MyDialogFragment()
                 dialog.show(manager!!, "metro2")
             }
-        }
-        mImageViewBack.setOnClickListener {
-            fragmentManager?.popBackStack()
         }
         mImageViewAdd.setOnClickListener {
             initCurrentUser()

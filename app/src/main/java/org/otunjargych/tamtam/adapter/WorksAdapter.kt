@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.extensions.DiffUtilCallbackW
@@ -52,9 +51,9 @@ class WorksAdapter : RecyclerView.Adapter<WorksAdapter.ViewHolder>() {
         fun bind(work: Work) = with(itemView) {
 
 
-            if (work.text.length > 56) {
+            if (work.text.length > 80) {
                 tv_text.text =
-                    StringBuilder(work.text.substring(0, 55).replace("\n", " ").toLowerCase()).append("...")
+                    StringBuilder(work.text.substring(0, 79).replace("\n", " ").toLowerCase()).append("...")
                         .toString()
             } else
                 tv_text.text = work.text
@@ -70,9 +69,9 @@ class WorksAdapter : RecyclerView.Adapter<WorksAdapter.ViewHolder>() {
             } else
                 tv_location.text = "м. " + work.station
             tv_category.text = work.category
-            if (work.imageURL != "") {
-                iv_work_image.load(work.imageURL)
-            } else iv_work_image.load(R.drawable.placeholder)
+//            if (work.imageURL != "") {
+//                iv_work_image.load(work.imageURL)
+//            } else iv_work_image.load(R.drawable.placeholder)
 
             cv_item.setOnClickListener {
                 onClickListener.onAdClick(work, position)
@@ -82,7 +81,7 @@ class WorksAdapter : RecyclerView.Adapter<WorksAdapter.ViewHolder>() {
     }
 }
 
-private fun String.asTime(): String {
+fun String.asTime(): String {
     val time = Date(this.toLong())
     val timeFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     return timeFormat.format(time)

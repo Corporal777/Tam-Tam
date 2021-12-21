@@ -3,51 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_background"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout"
-        style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
+    <include
+        android:id="@+id/auth_toolbar"
+        layout="@layout/custom_toolbar_auth" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_main_color">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/app_main_color"
-            android:elevation="10dp"
-            app:layout_collapseMode="parallax"
-            app:title="@string/authorization"
-            app:titleTextColor="@color/white" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:src="@drawable/app_icon" />
+        android:gravity="center">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/btn_background" />
+
+        <ImageView
+            android:id="@+id/custom_image"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/ic_name_app" />
+
+
+    </RelativeLayout>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="Введите номер телефона"
+        android:layout_marginTop="20dp"
         android:textColor="@color/black"
+        android:fontFamily="@font/circular_std_bold"
+        android:text="@string/enter_your_phone_number"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="и пароль"
+        android:fontFamily="@font/circular_std_bold"
+        android:text="@string/and_password"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -58,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="5mm"
+        android:layout_marginTop="20dp"
         android:hint="@string/phone_number">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -66,6 +69,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/app_main_color"
+            android:fontFamily="@font/encore_font_circular_book"
             android:inputType="phone"
             android:textColor="@color/app_main_color"
             android:textColorHint="@color/app_main_color" />
@@ -77,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="1mm"
+        android:layout_marginTop="5dp"
         android:hint="@string/password"
         app:endIconMode="password_toggle">
 
@@ -86,6 +90,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/app_main_color"
+            android:fontFamily="@font/encore_font_circular_book"
             android:inputType="textPassword"
             android:textColor="@color/app_main_color"
             android:textColorHint="@color/app_main_color" />
@@ -94,26 +99,27 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_enter"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:background="@drawable/btn_back_shadow"
-        android:fontFamily="@font/opensans_bold"
+        android:background="@drawable/btn_background"
+        android:fontFamily="@font/encore_font_circular_book"
         android:text="@string/enter_auth"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_registration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="1mm"
+        android:layout_marginTop="10dp"
         android:clickable="true"
         android:focusable="true"
+        android:fontFamily="@font/encore_font_circular_book"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/registration"
         android:textColor="@color/app_main_color"

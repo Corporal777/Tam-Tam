@@ -1,40 +1,58 @@
 package org.otunjargych.tamtam.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import org.otunjargych.tamtam.R
-import org.otunjargych.tamtam.adapter.WorksAdapter
+import org.otunjargych.tamtam.adapter.NotesAdapter
 import org.otunjargych.tamtam.databinding.FragmentMainBinding
 import org.otunjargych.tamtam.extensions.*
-import org.otunjargych.tamtam.model.Work
+import org.otunjargych.tamtam.model.Note
 import org.otunjargych.tamtam.viewmodel.DataViewModel
 
 
 class MainFragment : Fragment() {
 
-    private lateinit var adapter: WorksAdapter
+    private lateinit var adapter: NotesAdapter
     private var mCountAds = 10
+
+    private var listener: OnBottomAppBarStateChangeListener? = null
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private val mViewModel: DataViewModel by activityViewModels()
 
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = try {
+            context as OnBottomAppBarStateChangeListener
+        } catch (e: Exception) {
+            throw ClassCastException("Activity not attached!")
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.material_motion_duration_medium_1).toLong()
-        }
+//        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+//            duration = resources.getInteger(R.integer.tam_tam_motion_duration_medium).toLong()
+//        }
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-            duration = resources.getInteger(R.integer.material_motion_duration_medium_1).toLong()
+            duration = resources.getInteger(R.integer.tam_tam_motion_duration_medium).toLong()
         }
+//        enterTransition = MaterialFadeThrough().apply {
+//            duration = resources.getInteger().toLong()
+//        }
 
     }
 
@@ -52,7 +70,8 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
         if (!hasConnection(requireContext())) {
             errorConnection(view)
         }
@@ -91,24 +110,14 @@ class MainFragment : Fragment() {
 
 
     private fun initFirebaseData() {
-        adapter = WorksAdapter()
-        val itemClickListener: WorksAdapter.OnItemAdClickListener =
-            object : WorksAdapter.OnItemAdClickListener {
-                override fun onAdClick(work: Work, position: Int) {
-                    if (work != null) {
+        adapter = NotesAdapter()
+        val itemClickListener: NotesAdapter.OnItemAdClickListener =
+            object : NotesAdapter.OnItemAdClickListener {
+                override fun onAdClick(note: Note, position: Int) {
+                    if (note != null) {
                         val bundle: Bundle = Bundle()
                         with(bundle) {
-                            putSerializable("image_first", work.imageURL)
-                            putSerializable("text", work.text)
-                            putSerializable("category", work.category)
-                            putSerializable("date", work.timeStamp.toString())
-                            putSerializable("title", work.title)
-                            putSerializable("station", work.station)
-                            putSerializable("salary", work.salary)
-                            putSerializable("phone", work.phone_number)
-                            putSerializable("likes", work.likes)
-                            putSerializable("viewings", work.viewings)
-                            putSerializable("id", work.id)
+                            putParcelable("note", note)
                         }
                         val fragment: DetailFragment = DetailFragment()
                         replaceFragment(fragment)
@@ -124,9 +133,14 @@ class MainFragment : Fragment() {
         })
     }
 
+    private fun stateShowBottomAppBar() {
+        listener?.onShow()
+    }
+
     override fun onResume() {
         super.onResume()
         mViewModel.loadWorkDataForMain(mCountAds)
+        stateShowBottomAppBar()
     }
 
 

@@ -17,4 +17,5 @@
     <color name="error_toast_color">#A00000</color>
     <color name="color_of_textview_border">#878787</color>
     <color name="color_of_text_fragment_new_ad">#646464</color>
+    <color name="trans">#00000000 </color>
 </resources>

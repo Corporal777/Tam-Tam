@@ -11,10 +11,14 @@ abstract class BaseFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.material_motion_duration_long_1).toLong()
+            duration = resources.getInteger(R.integer.tam_tam_motion_duration_medium).toLong()
         }
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-            duration = resources.getInteger(R.integer.material_motion_duration_long_1).toLong()
+//        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+//            duration = resources.getInteger(R.integer.tam_tam_motion_duration_medium).toLong()
+//        }
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(R.integer.tam_tam_motion_duration_medium).toLong()
         }
+
     }
 }

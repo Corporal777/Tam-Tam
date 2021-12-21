@@ -60,7 +60,6 @@ class BuySellFragment : Fragment() {
         mRecyclerView = view.findViewById(R.id.recycler_view_buy_sell)
         mRecyclerView.layoutManager = GridLayoutManager(activity, 2)
         mCardView = view.findViewById(R.id.card_metro)
-        mImageViewBack = view.findViewById(R.id.iv_back)
         mImageViewAdd = view.findViewById(R.id.iv_add)
         mImageViewClear = view.findViewById(R.id.iv_clear)
         mEditTextSearch = view.findViewById(R.id.et_search_buy_sell)

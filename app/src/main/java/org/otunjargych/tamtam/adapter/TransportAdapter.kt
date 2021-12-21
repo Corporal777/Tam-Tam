@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.extensions.DiffUtilCallbackT
@@ -75,9 +74,9 @@ class TransportAdapter : RecyclerView.Adapter<TransportAdapter.ViewHolder>() {
             } else
                 tv_location.text = "м. " + transport.station
             tv_category.text = transport.category
-            if (transport.imageURL != "") {
-                iv_work_image.load(transport.imageURL)
-            } else iv_work_image.load(R.drawable.placeholder)
+//            if (transport.imageURL != "") {
+//                iv_work_image.load(transport.imageURL)
+//            } else iv_work_image.load(R.drawable.placeholder)
 
             cv_item.setOnClickListener {
                 onClickListener.onAdClick(transport, position)

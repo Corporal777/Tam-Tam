@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.StorageReference
 
 lateinit var AUTH: FirebaseAuth
+lateinit var UUID: String
 lateinit var REF_STORAGE_ROOT: StorageReference
 lateinit var USER : FirebaseAuth
 

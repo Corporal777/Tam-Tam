@@ -12,16 +12,46 @@ import kotlinx.coroutines.launch
 import org.otunjargych.tamtam.api.EventResponse
 import org.otunjargych.tamtam.api.FireBaseHelper.valueEventFlow
 import org.otunjargych.tamtam.extensions.NODE_WORKS
+import org.otunjargych.tamtam.model.Note
 import org.otunjargych.tamtam.model.Work
 
 class DataViewModel : ViewModel() {
 
 
     private lateinit var mRefAds: DatabaseReference
-    private val _data: MutableLiveData<List<Work>> = MutableLiveData()
-    val data: LiveData<List<Work>> = _data
+    private val _data: MutableLiveData<List<Note>> = MutableLiveData()
+    val data: LiveData<List<Note>> = _data
+
+    private val _work: MutableLiveData<List<Work>> = MutableLiveData()
+    val work: LiveData<List<Work>> = _work
 
     fun loadWorkDataForMain(count : Int) {
+        val workList: MutableList<Note> = ArrayList()
+        viewModelScope.launch {
+            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_WORKS)
+            mRefAds.valueEventFlow().collect { result ->
+                when (result) {
+                    is EventResponse.Changed -> {
+                        val snapshot = result.snapshot
+                        for (dataSnapshot: DataSnapshot in snapshot.children) {
+                            var note = dataSnapshot.getValue(Note::class.java)!!
+                            if (!workList.contains(note)) {
+                                workList.add(0, note)
+                                _data.value = workList
+                            }
+
+                        }
+
+                    }
+                    is EventResponse.Cancelled -> {
+                        val exception = result.error
+                    }
+                }
+            }
+        }
+    }
+
+    fun loadWorkData() {
         val workList: MutableList<Work> = ArrayList()
         viewModelScope.launch {
             mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_WORKS)
@@ -33,7 +63,7 @@ class DataViewModel : ViewModel() {
                             var work: Work = dataSnapshot.getValue(Work::class.java)!!
                             if (!workList.contains(work)) {
                                 workList.add(0, work)
-                                _data.value = workList
+                                _work.value = workList
                             }
 
                         }

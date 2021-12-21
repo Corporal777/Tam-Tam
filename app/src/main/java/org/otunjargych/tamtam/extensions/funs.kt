@@ -12,12 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import org.otunjargych.tamtam.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun Fragment.replaceFragment(fragment: Fragment) {
     requireActivity().supportFragmentManager.commit {
-
-        //setReorderingAllowed(true)
+        setReorderingAllowed(true)
         replace(R.id.fragment_container, fragment)
         addToBackStack(null)
     }
@@ -25,9 +26,11 @@ fun Fragment.replaceFragment(fragment: Fragment) {
 
 
 fun AppCompatActivity.replaceFragment(fragment: Fragment) {
-    supportFragmentManager.beginTransaction()
-        ?.replace(R.id.fragment_container, fragment)?.addToBackStack(null)?.commit()
-
+    supportFragmentManager.commit {
+        setReorderingAllowed(true)
+        replace(R.id.fragment_container, fragment)
+        addToBackStack(null)
+    }
 }
 
 fun hasConnection(context: Context): Boolean {
@@ -72,4 +75,24 @@ fun errorConnection(view: View) {
     Snackbar.make(view, "Нет интернет соединения!", Snackbar.LENGTH_LONG)
         .setBackgroundTint(R.color.app_main_color).show()
 }
+
+@SuppressLint("ResourceAsColor")
+fun snackMessage(view: View?, message: String) {
+
+    Snackbar.make(view!!, message, Snackbar.LENGTH_LONG)
+        .setBackgroundTint(R.color.app_main_color).show()
+
+}
+
+fun toastMessage(context: Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+}
+
+fun String.asTime(): String {
+    val time = Date(this.toLong())
+    val timeFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    return timeFormat.format(time)
+}
+
+
 

@@ -2,18 +2,21 @@
     <!-- Base application theme. -->
     <style name="Theme.TamTam" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorAccent">@color/white</item>
         <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar</item>
-        <item name="colorPrimary">@color/main_background</item>
-        <item name="colorPrimaryVariant">@color/main_background</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/main_background</item>
-        <item name="colorSecondaryVariant">@color/main_background</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="colorPrimary">@color/app_main_color</item>
+        <item name="colorPrimaryDark">@color/app_main_color</item>
+        <item name="colorPrimaryVariant">@color/purple_200</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!--  Secondary brand color.  -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/app_main_color</item>
         <item name="android:windowBackground">@color/app_main_color</item>
+
 
     </style>
 
@@ -29,13 +32,10 @@
         <item name="cardBackgroundColor">#FFFFFF</item>
     </style>
 
-    <style name="MyCardViewStyle2" parent="ThemeOverlay.AppCompat.Light">
-        <item name="cardCornerRadius">8dp</item>
-        <item name="background">@drawable/first_cat</item>
-    </style>
 
     <style name="CircularProgress" parent="Theme.MaterialComponents.Light">
         <item name="colorAccent">@color/app_main_color</item>
     </style>
+
 
 </resources>

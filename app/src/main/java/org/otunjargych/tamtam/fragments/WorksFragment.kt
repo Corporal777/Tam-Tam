@@ -107,7 +107,7 @@ class WorksFragment : BaseFragment() {
                         bundle.putSerializable("phone", work.phone_number)
                         bundle.putSerializable("likes", work.likes)
                         bundle.putSerializable("viewings", work.viewings)
-                        bundle.putSerializable("id", work.id)
+                        bundle.putSerializable("id", work.userId)
 
                         val fragment: DetailFragment = DetailFragment()
                         replaceFragment(fragment)

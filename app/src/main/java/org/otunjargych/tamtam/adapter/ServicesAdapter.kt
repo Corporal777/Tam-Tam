@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.extensions.DiffUtilCallbackS
@@ -77,9 +76,9 @@ class ServicesAdapter : RecyclerView.Adapter<ServicesAdapter.ViewHolder>() {
                 tv_location.text = "м. " + services.station
 
             tv_category.text = services.category
-            if (services.imageURL != "") {
-                iv_work_image.load(services.imageURL)
-            } else iv_work_image.load(R.drawable.placeholder)
+//            if (services.imageURL != "") {
+//                iv_work_image.load(services.imageURL)
+//            } else iv_work_image.load(R.drawable.placeholder)
 
             cv_item.setOnClickListener {
                 onClickListener.onAdClick(services, position)

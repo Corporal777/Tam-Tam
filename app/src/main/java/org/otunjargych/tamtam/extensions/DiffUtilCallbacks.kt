@@ -21,6 +21,24 @@ class DiffUtilCallbackW(
         oldList[oldItemPosition] == newList[newItemPosition]
 }
 
+class DiffUtilCallbackN(
+    private val oldList: List<Note>,
+    private val newList: List<Note>
+) : DiffUtil.Callback() {
+
+    override fun getOldListSize(): Int = oldList.size
+
+    override fun getNewListSize(): Int = newList.size
+
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+        oldList[oldItemPosition].uuid == newList[newItemPosition].uuid
+
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+        oldList[oldItemPosition] == newList[newItemPosition]
+}
+
 class DiffUtilCallbackT(
     private val oldList: List<Transportation>,
     private val newList: List<Transportation>

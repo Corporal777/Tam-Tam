@@ -1,7 +1,7 @@
 package org.otunjargych.tamtam.model
 
 data class Work(
-    var id: String = "",
+    var userId: String = "",
     var title: String = "",
     var text: String = "",
     var salary: String = "",
@@ -25,10 +25,7 @@ data class LikedAds(
     val category: String = "",
     var likes: Int = 0,
     var viewings : Int = 0,
-    val firstImageURL: String = "",
-    val secondImageURL: String = "",
-    val thirdImageURL: String = "",
-    val fourthImageURL: String = "",
+    val list : List<String>,
     val phone_number: String = ""
 )
 

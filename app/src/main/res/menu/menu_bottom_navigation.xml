@@ -24,12 +24,6 @@
         app:showAsAction="always"
         />
 
-    <item
-        android:title="@string/app_main_name"
-        android:icon="@drawable/ic_acc"
-        android:id="@+id/own_acc"
-        app:showAsAction="always"
-        />
 
     <item
         android:title="@string/app_main_name"

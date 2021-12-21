@@ -62,10 +62,6 @@ class LikedAdsFragment : Fragment() {
                 override fun onAdClick(likedAds: LikedAds, position: Int) {
                     if (likedAds != null) {
                         val bundle: Bundle = Bundle()
-                        bundle.putSerializable("image_first", likedAds.firstImageURL)
-                        bundle.putSerializable("image_second", likedAds.secondImageURL)
-                        bundle.putSerializable("image_third", likedAds.thirdImageURL)
-                        bundle.putSerializable("image_fourth", likedAds.fourthImageURL)
                         bundle.putSerializable("text", likedAds.text)
                         bundle.putSerializable("category", likedAds.category)
                         bundle.putSerializable("date", likedAds.timeStamp.toString())

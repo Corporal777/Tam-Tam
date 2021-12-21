@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.model.Flats
@@ -62,9 +61,9 @@ class FlatsAdapter : RecyclerView.Adapter<FlatsAdapter.FlatsViewHolder>() {
             } else
                 tv_location.text = "м. " + flats.station
             tv_category.text = flats.category
-            if (flats.imageURL != "") {
-                iv_work_image.load(flats.imageURL)
-            } else iv_work_image.load(R.drawable.placeholder)
+//            if (flats.imageURL != "") {
+//                iv_work_image.load(flats.imageURL)
+//            } else iv_work_image.load(R.drawable.placeholder)
 
             cv_item.setOnClickListener {
                 onClickListener.onAdClick(flats, position)

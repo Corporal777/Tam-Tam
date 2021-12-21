@@ -1,0 +1,20 @@
+package org.otunjargych.tamtam.model
+
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Note(
+    var userId: String = "",
+    var uuid: String = "",
+    var title: String = "",
+    var text: String = "",
+    var salary: String = "",
+    var timeStamp: Long = 0,
+    var station: String = "",
+    var category: String = "",
+    var likes: Int = 0,
+    var viewings: Int = 0,
+    var images: ArrayList<String> = ArrayList(),
+    val phone_number: String = ""
+): Parcelable

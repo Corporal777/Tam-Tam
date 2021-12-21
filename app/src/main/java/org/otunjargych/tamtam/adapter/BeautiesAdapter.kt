@@ -66,8 +66,8 @@ class BeautiesAdapter : RecyclerView.Adapter<BeautiesAdapter.BeautyViewHolder>()
             tv_category.text = beauty.category
             tv_date.text = beauty.timeStamp.toString().asTime()
             if (beauty.firstImageURL != "") {
-                iv_work_image.load(beauty.firstImageURL)
-            } else iv_work_image.load(R.drawable.placeholder)
+                iv_note_image.load(beauty.firstImageURL)
+            } else iv_note_image.load(R.drawable.placeholder)
             cv_item.setOnClickListener {
                 onClickListener.onItemClick(beauty, position)
 

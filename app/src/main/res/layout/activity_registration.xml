@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEFEF"
     tools:context="org.otunjargych.tamtam.activities.RegistrationActivity">
 
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/registration_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
