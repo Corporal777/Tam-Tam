@@ -12,9 +12,11 @@ data class Note(
     var salary: String = "",
     var timeStamp: Long = 0,
     var station: String = "",
+    var addres: String = "",
     var category: String = "",
     var likes: Int = 0,
     var viewings: Int = 0,
-    var images: ArrayList<String> = ArrayList(),
-    val phone_number: String = ""
+    var images: List<String> = ArrayList(),
+    val phone_number: String = "",
+    val whatsapp_number: String = ""
 ): Parcelable

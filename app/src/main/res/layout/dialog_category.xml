@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="2mm"
         android:layout_marginTop="1.5mm"
-        android:fontFamily="@font/work_sans_bold"
+        android:fontFamily="@font/commons_medium"
         android:text="Выберите категорию:"
         android:textColor="@color/app_main_color"
         android:textSize="20sp" />

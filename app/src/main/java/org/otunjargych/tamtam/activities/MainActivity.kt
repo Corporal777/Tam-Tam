@@ -17,6 +17,7 @@ import org.otunjargych.tamtam.databinding.ActivityMainBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.fragments.*
 import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataListener,
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
         setContentView(binding.root)
 
         AUTH = FirebaseAuth.getInstance()
+        USER_ID = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
 
     override fun onSendData(data: String?) {
         val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        if (fragment is AdFragment) {
+        if (fragment is NewAdFragment) {
             fragment.setSelectedItem(data)
         }
 //        if (fragment is WorksFragment) {
@@ -74,7 +76,7 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
             setHideMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
                 if (AUTH.currentUser != null) {
-                    replaceFragment(AdFragment())
+                    replaceFragment(NewAdFragment())
                 } else {
                     startActivity(Intent(this@MainActivity, RegistrationActivity::class.java))
                     finish()

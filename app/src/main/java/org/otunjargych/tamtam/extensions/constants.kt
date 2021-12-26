@@ -4,9 +4,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.StorageReference
 
 lateinit var AUTH: FirebaseAuth
-lateinit var UUID: String
+lateinit var USER_ID: String
 lateinit var REF_STORAGE_ROOT: StorageReference
 lateinit var USER : FirebaseAuth
+
+internal const val EXTRA_SETUP = "extra.setup"
+internal const val EXTRA_IMAGE = "extra.image"
+internal const val RESULT_NAME = "images"
 
 const val NODE_USERS = "users"
 const val NODE_WORKS = "works"
@@ -19,6 +23,7 @@ const val FOLDER_USER_IMAGES = "users_profile_images"
 const val FOLDER_WORKS_IMAGE = "works_images"
 const val FOLDER_TRANSPORT_IMAGE = "transport_images"
 const val FOLDER_BEAUTY_AND_MEDICINE_IMAGES = "beauty_and_medicine_images"
+const val FOLDER_NOTES_IMAGES = "notes_images"
 const val FOLDER_BUY_SELL_IMAGES = "buy_sell_images"
 const val FOLDER_FLATS_IMAGES = "flats_images"
 const val FOLDER_SERVICES_IMAGES = "services_images"

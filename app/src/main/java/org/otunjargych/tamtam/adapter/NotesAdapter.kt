@@ -14,7 +14,7 @@ import java.util.*
 
 class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
-    private var listAds = mutableListOf<Note>()
+    private var listNotes = mutableListOf<Note>()
     private lateinit var onClickListener: NotesAdapter.OnItemAdClickListener
     private lateinit var mDiffResult: DiffUtil.DiffResult
 
@@ -23,9 +23,10 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
     }
 
     fun update(list: List<Note>, onClickListener: NotesAdapter.OnItemAdClickListener) {
-        this.listAds = list as MutableList<Note>
+        listNotes.clear()
+        listNotes.addAll(list)
         this.onClickListener = onClickListener
-        mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listAds, list))
+        mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNotes, list))
         mDiffResult.dispatchUpdatesTo(this)
 
     }
@@ -38,12 +39,12 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            bind(listAds[position])
+            bind(listNotes[position])
         }
     }
 
     override fun getItemCount(): Int {
-        return listAds.size
+        return listNotes.size
     }
 
     inner class ViewHolder(private val binding: ListItemBinding) :
@@ -75,7 +76,7 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
                 onClickListener.onAdClick(note, position)
 
             }
-            if (!note.images[0].isNullOrEmpty()){
+            if (note.images.size > 0){
                 Picasso.get().load(note.images[0]).into(ivNoteImage)
             }
 

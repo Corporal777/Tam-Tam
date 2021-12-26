@@ -2,6 +2,7 @@ package org.otunjargych.tamtam.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Typeface
 import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import android.view.View
@@ -77,10 +78,17 @@ fun errorConnection(view: View) {
 }
 
 @SuppressLint("ResourceAsColor")
-fun snackMessage(view: View?, message: String) {
+fun snackMessage(context: Context, view: View?, message: String) {
 
-    Snackbar.make(view!!, message, Snackbar.LENGTH_LONG)
-        .setBackgroundTint(R.color.app_main_color).show()
+    Snackbar.make(view!!, message, Snackbar.LENGTH_SHORT).also { snackbar ->
+        snackbar.setBackgroundTint(context.resources.getColor(R.color.app_main_color))
+        snackbar.setActionTextColor(context.resources.getColor(R.color.white))
+        val textview =
+            snackbar.view.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+        textview.textSize = 16F
+        val font = Typeface.createFromAsset(context.assets, "commons_medium.ttf")
+        textview.typeface = font
+    }.show()
 
 }
 
@@ -92,6 +100,17 @@ fun String.asTime(): String {
     val time = Date(this.toLong())
     val timeFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     return timeFormat.format(time)
+}
+
+fun getCategoriesList(): List<String> {
+    val categoriesList = ArrayList<String>()
+    categoriesList.add("Работа, Подработки")
+    categoriesList.add("Транспорт, Перевозки")
+    categoriesList.add("Медицина, Красота")
+    categoriesList.add("Продажа, Покупка")
+    categoriesList.add("Квартиры, Гостиницы")
+    categoriesList.add("Обучение, Услуги")
+    return categoriesList
 }
 
 

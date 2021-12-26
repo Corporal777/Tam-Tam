@@ -123,7 +123,7 @@ class BeautyFragment : Fragment() {
         AUTH = FirebaseAuth.getInstance()
         if (hasConnection(context!!)) {
             if (AUTH.currentUser != null) {
-                replaceFragment(AdFragment())
+                replaceFragment(NewAdFragment())
             } else {
                 errorToast("Войдите в аккаунт!", activity!!)
             }

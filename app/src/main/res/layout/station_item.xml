@@ -33,7 +33,7 @@
                 android:contentDescription="TODO" />
 
             <TextView
-                android:fontFamily="@font/work_sans"
+                android:fontFamily="@font/commons_medium"
                 android:layout_marginTop="1mm"
                 android:id="@+id/tv_name_stations"
                 android:layout_width="wrap_content"

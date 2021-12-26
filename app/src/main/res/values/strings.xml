@@ -15,7 +15,8 @@
     <string name="choose_category">Выберите категорию:</string>
     <string name="title">Заголовок:</string>
     <string name="salary">Оплата:</string>
-    <string name="text_of_work">Текст объявления:</string>
+    <string name="text_of_work">Описание:</string>
+    <string name="address">Улица, дом:</string>
     <string name="add">Добавить</string>
     <string name="find">Найти</string>
     <string name="need_in_work">Нужна подработка</string>
@@ -23,6 +24,8 @@
     <string name="authorization">Авторизация</string>
     <string name="last_name">Фамилия:</string>
     <string name="phone_number">Номер телефона:</string>
+    <string name="whatsapp_number">Номер телефона для WhatsApp:</string>
+    <string name="number">Номер:</string>
     <string name="fields_cannot_be_empty">Поля не могут быть пустыми!</string>
     <string name="login">Логин:</string>
     <string name="password">Пароль:</string>
@@ -38,6 +41,7 @@
     <string name="empty_fields">Заполните все поля!</string>
     <string name="full_work">Постоянная работа</string>
     <string name="publicate">Опубликовать</string>
+    <string name="ad_was_publicated">Объявление опубликовано</string>
     <string name="enter_your_phone_number">Введите номер телефона</string>
     <string name="and_password">и пароль</string>
     <string name="accept">Принять</string>
@@ -48,5 +52,19 @@
         <item>@drawable/splash_test</item>
         <item>@drawable/splash_test</item>
     </integer-array>
+
+
+    <string name="menu_done">Выбрано</string>
+    <string name="select_max_toast">You can only select %d items in the list.</string>
+    <string name="select_limit_title">(%d/%d)</string>
+    <string name="subway">Метро:</string>
+    <string name="choose_station_of_subway">Выбор станции метро:</string>
+    <string name="category">Категория:</string>
+    <string name="category_of_ad">Категория объявления:</string>
+    <string name="name_of_ad">Название объявления:</string>
+    <string name="description_of_ad">Описание объявления:</string>
+    <string name="pay_for_work">Оплата, цена или вознаграждение:</string>
+    <string name="detail_addres">Точный адрес (Улица, дом):</string>
+
 
 </resources>

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/main_background"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -26,7 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1mm"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
 
@@ -42,14 +41,19 @@
 
 
             <HorizontalScrollView
+                android:scrollbarThumbVertical="@null"
+                android:scrollbarThumbHorizontal="@null"
                 android:layout_width="wrap_content"
-                android:layout_height="160dp"
+                android:layout_height="140dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <ScrollView
+                    android:scrollbarThumbVertical="@null"
+                    android:scrollbarThumbHorizontal="@null"
                     android:id="@+id/nestedScrollView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scrollIndicators="none">
 
                     <include
                         android:id="@+id/category"
@@ -61,7 +65,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/commons_bold"
                 android:text="Недавние объявления:"
@@ -86,7 +89,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp" />
+                    android:layout_marginRight="5dp"
+                    android:scrollbars="none" />
             </RelativeLayout>
 
         </LinearLayout>

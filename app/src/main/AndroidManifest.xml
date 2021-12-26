@@ -32,6 +32,10 @@
             android:exported="true"
             android:name="org.otunjargych.tamtam.activities.RegistrationActivity">
         </activity>
+        <activity
+            android:exported="true"
+            android:name=".extensions.imagepicker.ui.Gallery">
+        </activity>
 
     </application>
 

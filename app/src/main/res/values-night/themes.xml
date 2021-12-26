@@ -19,4 +19,10 @@
 
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="GalleryStyle" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorPrimary">@color/trans</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
 </resources>

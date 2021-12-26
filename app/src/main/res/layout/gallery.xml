@@ -10,12 +10,11 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_main_color"
-        android:theme="@style/ToolbarStyle">
+        android:background="@color/app_main_color">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/tool_bar"
-            style="@style/ToolbarStyle"
+            style="@style/GalleryStyle"
             android:background="@color/app_main_color"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"

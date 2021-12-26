@@ -62,19 +62,18 @@ class DetailFragment : BaseFragment() {
     private fun initFields() {
         adapter = ViewPagerAdapter()
 
-        val onImageClick: ViewPagerAdapter.OnImageClickListener = object : ViewPagerAdapter.OnImageClickListener{
-            override fun onImageClick() {
-            }
+        val onImageClick: ViewPagerAdapter.OnImageClickListener =
+            object : ViewPagerAdapter.OnImageClickListener {
+                override fun onImageClick() {
+                }
 
-        }
+            }
         adapter.update(imagesList, onImageClick)
         binding.viewPager.adapter = adapter
         binding.viewPager.setPageTransformer(DepthPageTransformer())
         TabLayoutMediator(binding.tabDots, binding.viewPager) { tab, position ->
         }.attach()
 
-        AUTH = FirebaseAuth.getInstance()
-        UUID = FirebaseAuth.getInstance().currentUser?.uid.toString()
         binding.apply {
             tvCategoryDetail.text = mDetailCategory
             tvTitle.text = mDetailTitle
@@ -101,7 +100,7 @@ class DetailFragment : BaseFragment() {
 //                    val animScale: Animation =
 //                        AnimationUtils.loadAnimation(requireContext(), R.anim.scale)
 //                    btnLike.startAnimation(animScale)
-                    snackMessage(view, "Добавлено в избранное")
+                    snackMessage(requireContext(), view, "Добавлено в избранное")
                 } else {
                     toastMessage(requireContext(), "Необходимо авторизоваться!")
                 }
@@ -137,7 +136,7 @@ class DetailFragment : BaseFragment() {
     private fun initLikes() {
 
         val mRefUserAds =
-            FirebaseDatabase.getInstance().getReference(NODE_USERS).child(UUID)
+            FirebaseDatabase.getInstance().getReference(NODE_USERS).child(USER_ID)
                 .child(NODE_LIKED_ADS)
 
         if (category == "Работа, Подработки") {
@@ -352,7 +351,7 @@ class DetailFragment : BaseFragment() {
                 mDetailLikes = note.likes.toString()
                 mDetailViewings = note.viewings.toString()
                 mDetailId = note.uuid
-                if (!note.images.isNullOrEmpty()){
+                if (!note.images.isNullOrEmpty()) {
                     imagesList.addAll(note.images)
                 }
                 initFields()
