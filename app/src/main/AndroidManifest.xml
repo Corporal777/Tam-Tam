@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TamTam">
         <activity
+            android:screenOrientation="fullSensor"
             android:name="org.otunjargych.tamtam.activities.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -26,13 +27,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="fullSensor"
             android:name="org.otunjargych.tamtam.activities.MainActivity">
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:exported="true"
             android:name="org.otunjargych.tamtam.activities.RegistrationActivity">
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:exported="true"
             android:name=".extensions.imagepicker.ui.Gallery">
         </activity>

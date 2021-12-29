@@ -41,7 +41,7 @@
     <string name="empty_fields">Заполните все поля!</string>
     <string name="full_work">Постоянная работа</string>
     <string name="publicate">Опубликовать</string>
-    <string name="ad_was_publicated">Объявление опубликовано</string>
+    <string name="ad_was_pushed">Объявление опубликовано</string>
     <string name="enter_your_phone_number">Введите номер телефона</string>
     <string name="and_password">и пароль</string>
     <string name="accept">Принять</string>

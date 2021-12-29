@@ -23,8 +23,7 @@ object FireBaseHelper {
     private val imagesUrlList = ArrayList<String>()
 
     private lateinit var mRefAds: DatabaseReference
-    suspend fun DatabaseReference.valueEventFlow(): Flow<EventResponse> = callbackFlow {
-
+    suspend fun DatabaseReference.valuesEventFlow(): Flow<EventResponse> = callbackFlow {
         val valueEventListener = object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot): Unit =
@@ -34,6 +33,21 @@ object FireBaseHelper {
                 sendBlocking(EventResponse.Cancelled(error))
         }
         addListenerForSingleValueEvent(valueEventListener)
+        awaitClose {
+            removeEventListener(valueEventListener)
+        }
+    }
+
+    suspend fun DatabaseReference.lastValuesEventFlow(count : Int): Flow<EventResponse> = callbackFlow {
+        val valueEventListener = object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot): Unit =
+                sendBlocking(EventResponse.Changed(snapshot))
+
+            override fun onCancelled(error: DatabaseError): Unit =
+                sendBlocking(EventResponse.Cancelled(error))
+        }
+        limitToLast(count).addListenerForSingleValueEvent(valueEventListener)
         awaitClose {
             removeEventListener(valueEventListener)
         }
@@ -49,7 +63,6 @@ object FireBaseHelper {
                     .setValue(note)
             }
             workCategory -> {
-
                 mRefAds.child(NODE_WORKS).child(Date().time.toString())
                     .setValue(note)
             }
@@ -83,7 +96,6 @@ object FireBaseHelper {
             path.putFile(it).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     path.downloadUrl.addOnCompleteListener { result ->
-
                         if (result.isSuccessful) {
                             imagesUrlList.add(result.result.toString())
                         }

@@ -29,12 +29,12 @@
             android:id="@+id/tv_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2mm"
-            android:layout_marginTop="1mm"
-            android:fontFamily="@font/commons_demi_bold"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/commons_medium"
             android:text="Не указано"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
 </LinearLayout>

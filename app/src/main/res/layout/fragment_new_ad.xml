@@ -14,10 +14,10 @@
         android:layout_height="wrap_content"
         android:background="@color/app_main_color">
 
-        <com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:background="@color/app_main_color"
             android:elevation="6dp"
             app:contentInsetStart="0dp"
@@ -47,6 +47,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -71,7 +72,6 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:paddingEnd="10dp"
                     android:id="@+id/tv_category"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -86,6 +86,7 @@
                     android:gravity="center_vertical"
                     android:hint="@string/category"
                     android:paddingStart="15dp"
+                    android:paddingEnd="10dp"
                     android:textColor="@color/app_main_color"
                     android:textColorHint="@color/color_of_text_fragment_new_ad"
                     android:textSize="16sp" />
@@ -212,7 +213,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tv_salary"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="wrap_content"
                         android:backgroundTint="@color/app_main_color"
                         android:fontFamily="@font/commons_regular"
                         android:inputType="number"
@@ -349,10 +350,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center">
 
                 <androidx.appcompat.widget.AppCompatButton

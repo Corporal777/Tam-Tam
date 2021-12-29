@@ -11,22 +11,17 @@ import org.otunjargych.tamtam.model.Station
 
 class StationsAdapter : RecyclerView.Adapter<StationsAdapter.StationsHolder>() {
 
-    private var stationsList: List<Station> = ArrayList()
-    private lateinit var onClickListener: OnStationClickListener
+    private var stationsList = ArrayList<Station>()
 
-
-    interface OnStationClickListener {
-        fun onStationClick(station: Station, position: Int)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StationsHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.station_item, parent, false)
         return StationsHolder(view)
     }
 
-    fun addStations(list: List<Station>, onClickListener: OnStationClickListener) {
-        stationsList = list
-        this.onClickListener = onClickListener
+    fun addStations(list: List<Station>) {
+        stationsList.clear()
+        stationsList.addAll(list)
         notifyDataSetChanged()
     }
 
@@ -41,12 +36,7 @@ class StationsAdapter : RecyclerView.Adapter<StationsAdapter.StationsHolder>() {
     inner class StationsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(station: Station) = with(itemView) {
-            tv_name_stations.text = station.title
-
-            chosen_station.setOnClickListener {
-                iv_chosen_icon.visibility = View.VISIBLE
-                onClickListener.onStationClick(station, position)
-            }
+            tv_station.text = station.title
         }
     }
 }

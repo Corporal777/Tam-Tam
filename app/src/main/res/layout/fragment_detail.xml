@@ -17,7 +17,7 @@
             android:id="@+id/toolbar_detail"
             style="@style/Widget.MaterialComponents.Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="50dp"
             android:background="@color/app_main_color"
             android:elevation="10dp"
             app:navigationIcon="@drawable/ic_back"
@@ -40,6 +40,7 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -154,7 +155,7 @@
                     <ImageView
                         android:layout_width="10dp"
                         android:layout_height="10dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_marginTop="12dp"
                         android:src="@drawable/ic_ruble_currency_sign" />
                 </LinearLayout>
@@ -165,8 +166,8 @@
                     android:id="@+id/tv_category_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="5dp"
                     android:text="Медицина, Красота"
                     android:textColor="@color/app_main_color"
                     android:textSize="20sp"
@@ -177,9 +178,9 @@
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1.9mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
                     android:text="Салон красоты"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
@@ -198,9 +199,9 @@
                     android:id="@+id/tv_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1.9mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="10dp"
                     android:text="Нарашивание ресниц БААРДЫК объем 1000р МАНИКЮР шелак 500р метрого ЖАКЫН"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -216,23 +217,21 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0.5mm"
-                    android:layout_marginTop="1mm">
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="5dp">
 
                     <ImageView
-                        android:layout_width="3mm"
-                        android:layout_height="3mm"
-                        android:layout_marginLeft="1.2mm"
-                        android:layout_marginTop="0.5mm"
-                        android:src="@drawable/detail_location"
-                        android:contentDescription="TODO" />
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="3dp"
+                        android:src="@drawable/detail_location" />
 
                     <TextView
                         android:fontFamily="@font/commons_demi_bold"
                         android:id="@+id/tv_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="1mm"
+                        android:layout_marginStart="7dp"
                         android:text="Не указано"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
@@ -241,24 +240,48 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1.5mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm">
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="5dp">
 
                     <ImageView
-                        android:layout_width="3.5mm"
-                        android:layout_height="3.5mm"
-                        android:layout_marginTop="2dp"
-                        android:src="@drawable/ic_date"
-                        android:contentDescription="TODO" />
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="4dp"
+                        android:src="@drawable/ic_street" />
+
+                    <TextView
+                        android:fontFamily="@font/commons_demi_bold"
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="9dp"
+                        android:text="Не указано"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="10dp">
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_time" />
 
                     <TextView
                         android:fontFamily="@font/commons_demi_bold"
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="1mm"
-                        android:layout_marginTop="0.5mm"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="3.5dp"
                         android:text="13.03.2021"
                         android:textColor="@color/black"
                         android:textSize="16sp"
@@ -310,25 +333,23 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btn_detail_phone_number"
-                    android:layout_width="45mm"
-                    android:layout_height="8mm"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="2mm"
-                    android:layout_marginBottom="1mm"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
                     android:background="#EFEFEF"
                     android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
                     android:focusable="true">
 
                     <ImageView
-                        android:layout_width="4mm"
-                        android:layout_height="4mm"
-                        android:layout_marginLeft="3mm"
-                        android:layout_marginTop="2mm"
-                        android:src="@drawable/ic_phone"
-                        android:contentDescription="TODO" />
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="13dp"
+                        android:src="@drawable/ic_call" />
 
                     <TextView
                         android:fontFamily="@font/commons_demi_bold"
@@ -336,7 +357,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="1mm"
+                        android:layout_marginLeft="5dp"
                         android:text="Не указано"
                         android:textColor="@color/black"
                         android:textSize="20sp"
@@ -346,25 +367,23 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btn_detail_whatsapp_number"
-                    android:layout_width="45mm"
-                    android:layout_height="8mm"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginBottom="1mm"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="30dp"
                     android:background="#EFEFEF"
                     android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
                     android:focusable="true">
 
                     <ImageView
-                        android:layout_width="3.7mm"
-                        android:layout_height="3.7mm"
-                        android:layout_marginLeft="3mm"
-                        android:layout_marginTop="2mm"
-                        android:src="@drawable/ic__whatsapp"
-                        android:contentDescription="TODO" />
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="13dp"
+                        android:src="@drawable/ic__whatsapp" />
 
                     <TextView
                         android:fontFamily="@font/commons_demi_bold"
@@ -372,7 +391,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="1mm"
+                        android:layout_marginLeft="5dp"
                         android:text="Не указано"
                         android:textColor="@color/black"
                         android:textSize="20sp"

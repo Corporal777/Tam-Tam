@@ -6,10 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.otunjargych.tamtam.R
@@ -61,21 +58,6 @@ class MyDialogFragment : DialogFragment() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
-        viewModel.metroStationsList.observe(activity!!, Observer {
-
-            val stateClickListener: StationsAdapter.OnStationClickListener =
-                object : StationsAdapter.OnStationClickListener {
-                    override fun onStationClick(station: Station, position: Int) {
-                        if (station != null) {
-                            fragmentSendDataListener?.onSendData(station.title)
-                        }
-                    }
-                }
-            if (it != null) {
-                adapter.addStations(it.stations, stateClickListener)
-            } else Toast.makeText(activity, "No internet", Toast.LENGTH_LONG).show()
-        })
     }
 
     override fun onResume() {

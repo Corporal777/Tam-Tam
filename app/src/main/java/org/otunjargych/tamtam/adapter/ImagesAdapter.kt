@@ -39,8 +39,17 @@ class ImagesAdapter : RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(url: Uri) = with(binding) {
             Glide.with(binding.root).load(url).into(image)
+            ivDelete.setOnClickListener {
+                removeAt(adapterPosition)
+            }
         }
+
     }
 
+    fun removeAt(position: Int) {
+        listImages.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, listImages.size)
+    }
 
 }

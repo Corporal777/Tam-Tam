@@ -1,5 +1,7 @@
 package org.otunjargych.tamtam.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.ViewPagerAdapter
 import org.otunjargych.tamtam.databinding.FragmentDetailBinding
 import org.otunjargych.tamtam.extensions.*
+import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.*
 import java.util.*
 
@@ -30,6 +33,7 @@ class DetailFragment : BaseFragment() {
     private var mDetailStation: String = ""
     private var mDetailDate: String = ""
     private var mDetailPhone: String = ""
+    private var mDetailWhatsapp: String = ""
     private var mDetailLikes: String = ""
     private var mDetailViewings: String = ""
     private var mDetailId: String = ""
@@ -88,9 +92,31 @@ class DetailFragment : BaseFragment() {
             if (!mDetailStation.isNullOrEmpty()) {
                 tvLocation.text = "м. $mDetailStation"
             }
+            Boom(btnDetailPhoneNumber)
+            Boom(btnDetailWhatsappNumber)
             if (!mDetailPhone.isNullOrEmpty()) {
                 tvDetailPhoneNumber.text = mDetailPhone
-                tvDetailPhoneNumberWhatsapp.text = mDetailPhone
+                btnDetailPhoneNumber.setOnClickListener {
+                    val url: String = "tel:$mDetailPhone"
+                    val inn: Intent = Intent(Intent.ACTION_DIAL)
+                    inn.data = Uri.parse(url)
+                    startActivity(inn)
+                }
+            }
+            if (!mDetailWhatsapp.isNullOrEmpty()) {
+                tvDetailPhoneNumberWhatsapp.text = mDetailWhatsapp
+                btnDetailWhatsappNumber.setOnClickListener {
+                    val firstNum = StringBuilder(mDetailWhatsapp.toString())[0]
+                    if (firstNum == '8') {
+                        mDetailWhatsapp =
+                            StringBuilder(mDetailWhatsapp.toString()).deleteCharAt(0).toString()
+                        mDetailWhatsapp = "+7$mDetailWhatsapp"
+                    }
+                    val url: String = "https://api.whatsapp.com/send?phone=" + mDetailWhatsapp
+                    val i: Intent = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
             }
             btnLike.setOnClickListener {
                 if (AUTH.currentUser != null) {
@@ -348,6 +374,7 @@ class DetailFragment : BaseFragment() {
                 mDetailStation = note.station
                 mDetailDate = note.timeStamp.toString()
                 mDetailPhone = note.phone_number
+                mDetailWhatsapp = note.whatsapp_number
                 mDetailLikes = note.likes.toString()
                 mDetailViewings = note.viewings.toString()
                 mDetailId = note.uuid

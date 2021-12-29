@@ -11,17 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
-import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.firebase.auth.FirebaseAuth
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.ImagesAdapter
 import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentNewAdBinding
 import org.otunjargych.tamtam.extensions.*
-import org.otunjargych.tamtam.extensions.imagepicker.ui.ImagePickerView
 import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
 import org.otunjargych.tamtam.model.Note
+import org.otunjargych.tamtam.model.Station
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -35,8 +33,7 @@ class NewAdFragment : BaseFragment() {
     private var mRunnable: Runnable? = null
 
     private var mImageList = ArrayList<Uri>()
-
-    private lateinit var userId: String
+    private var mStationsList = ArrayList<Station>()
 
     private var listener: OnBottomAppBarStateChangeListener? = null
 
@@ -72,19 +69,20 @@ class NewAdFragment : BaseFragment() {
         }
     }
 
-    private fun changeStateBottomAppBar() {
+    private fun hideBottomAppBar() {
         listener?.onHide()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        changeStateBottomAppBar()
+
         initRVListChosenImages()
-        binding.run {
+
+        binding.apply {
+            customTitle.text = "Объявление"
             toolbar.setNavigationOnClickListener {
                 requireActivity().supportFragmentManager.popBackStack()
             }
-            customTitle.text = "Объявление"
             tvCategory.setOnClickListener {
                 showCategoryList()
             }
@@ -94,40 +92,23 @@ class NewAdFragment : BaseFragment() {
             layoutChoosePhoto.btnSelectPhoto.setOnClickListener {
                 openImagePicker()
             }
-
         }
 
-
         binding.btnAddNewAd.setOnClickListener {
-            FireBaseHelper.addImagesToStorage(mImageList)
-
-            showSnackMessage()
-
-
-//            Toast.makeText(
-//                requireContext(),
-//                FireBaseHelper.getImagesUrlList().size.toString(),
-//                Toast.LENGTH_LONG
-//            ).show()
-//            if (binding.tvCategory.text.isNullOrEmpty()) {
-//                binding.tvCategory.error = ""
-//                toastMessage(requireContext(), getString(R.string.empty_fields))
-//            }
-//            if (binding.tvText.text.isNullOrEmpty()) {
-//                binding.tvText.error = ""
-//                toastMessage(requireContext(), getString(R.string.empty_fields))
-//            }
-//            if (binding.tvTitle.text.isNullOrEmpty()) {
-//                binding.tvTitle.error = ""
-//                toastMessage(requireContext(), getString(R.string.empty_fields))
-//            }
-//            if (binding.tvMetro.text.isNullOrEmpty()) {
-//                binding.tvMetro.error = ""
-//                toastMessage(requireContext(), getString(R.string.empty_fields))
-//            } else {
-//                //addNoteDataToFB()
-//                showSnackMessage()
-//            }
+            if (binding.tvCategory.text.isNullOrEmpty()) {
+                binding.tvCategory.error = ""
+                toastMessage(requireContext(), getString(R.string.empty_fields))
+            }
+            if (binding.tvText.text.isNullOrEmpty()) {
+                binding.tvText.error = ""
+                toastMessage(requireContext(), getString(R.string.empty_fields))
+            }
+            if (binding.tvTitle.text.isNullOrEmpty()) {
+                binding.tvTitle.error = ""
+                toastMessage(requireContext(), getString(R.string.empty_fields))
+            } else {
+                showSnackMessage()
+            }
 
         }
     }
@@ -141,7 +122,7 @@ class NewAdFragment : BaseFragment() {
                 mImageList.addAll(it)
                 mAdapter.update(mImageList)
                 binding.listImages.adapter = mAdapter
-
+                FireBaseHelper.addImagesToStorage(mImageList)
             }
         }
     }
@@ -169,20 +150,10 @@ class NewAdFragment : BaseFragment() {
         mListPopupWindow.show()
 
     }
-
-    fun setSelectedItem(selectedItem: String?) {
-        val tvMetro: TextView = view!!.findViewById(R.id.tv_metro)
-        selectedStation = selectedItem
-        tvMetro.text = "    м. $selectedItem"
-        mHandler = Handler()
-        mRunnable = Runnable {
-            dialog.dismiss()
-        }
-        mHandler!!.postDelayed(mRunnable!!, 500)
+    private fun showStationsList(){
     }
 
     private fun addNoteDataToFB() {
-
         title = binding.tvTitle.text.toString()
         text = binding.tvText.text.toString()
         salary = binding.tvSalary.text.toString()
@@ -190,16 +161,12 @@ class NewAdFragment : BaseFragment() {
         address = binding.tvAddress.text.toString()
         whatsappNumber = binding.tvWhatsappNumber.text.toString()
 
-        userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
-
         val uuid = UUID.randomUUID().toString()
         val list = ArrayList<String>()
         list.addAll(FireBaseHelper.getImagesUrlList())
-
         val time = Date().time
-
         val note = Note(
-            userId,
+            USER_ID,
             uuid,
             title,
             text,
@@ -216,30 +183,16 @@ class NewAdFragment : BaseFragment() {
         )
 
         FireBaseHelper.addNewData(mSelectedCategory!!, note)
-
-
     }
 
     private fun initRVListChosenImages() {
-        binding.listImages.setHasFixedSize(true)
         binding.listImages.layoutManager =
             GridLayoutManager(requireContext(), 2)
         mAdapter = ImagesAdapter()
     }
 
-    private fun openImagePicker() {
-        ImagePickerView.Builder()
-            .setup {
-                name { RESULT_NAME }
-                max { 6 }
-                title { "Галлерея" }
-                single { false }
-            }
-            .start(this@NewAdFragment)
-    }
-
     private fun showSnackMessage() {
-//        snackMessage(requireContext(), view, getString(R.string.ad_was_publicated))
+        snackMessage(requireContext(), view, getString(R.string.ad_was_pushed))
         mHandler = Handler()
         mRunnable = Runnable {
             addNoteDataToFB()
@@ -249,6 +202,12 @@ class NewAdFragment : BaseFragment() {
 
     }
 
+
+
+    override fun onResume() {
+        super.onResume()
+        hideBottomAppBar()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -18,6 +18,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -41,6 +42,7 @@
 
 
             <HorizontalScrollView
+                android:overScrollMode="never"
                 android:scrollbarThumbVertical="@null"
                 android:scrollbarThumbHorizontal="@null"
                 android:layout_width="wrap_content"
@@ -48,6 +50,7 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <ScrollView
+                    android:overScrollMode="never"
                     android:scrollbarThumbVertical="@null"
                     android:scrollbarThumbHorizontal="@null"
                     android:id="@+id/nestedScrollView"
@@ -75,22 +78,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ProgressBar
-                    android:id="@+id/progressbar"
-                    style="@style/CircularProgress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
-                    android:indeterminateTint="#411E80" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginBottom="50dp"
+                    android:overScrollMode="never"
                     android:scrollbars="none" />
+
+                <ProgressBar
+                    android:id="@+id/progressbar"
+                    style="@style/CircularProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:indeterminateTint="#411E80" />
+
+
             </RelativeLayout>
 
         </LinearLayout>

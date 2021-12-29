@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import org.otunjargych.tamtam.databinding.ListItemBinding
 import org.otunjargych.tamtam.extensions.DiffUtilCallbackN
+import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.Note
 import java.text.SimpleDateFormat
 import java.util.*
@@ -15,14 +16,14 @@ import java.util.*
 class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     private var listNotes = mutableListOf<Note>()
-    private lateinit var onClickListener: NotesAdapter.OnItemAdClickListener
+    private lateinit var onClickListener: OnNoteClickListener
     private lateinit var mDiffResult: DiffUtil.DiffResult
 
-    interface OnItemAdClickListener {
-        fun onAdClick(note: Note, position: Int)
+    interface OnNoteClickListener {
+        fun onNoteClick(note: Note, position: Int)
     }
 
-    fun update(list: List<Note>, onClickListener: NotesAdapter.OnItemAdClickListener) {
+    fun update(list: List<Note>, onClickListener: NotesAdapter.OnNoteClickListener) {
         listNotes.clear()
         listNotes.addAll(list)
         this.onClickListener = onClickListener
@@ -71,13 +72,13 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
             } else
                 tvLocation.text = "м. " + note.station
             tvCategory.text = note.category
-
-            cvItem.setOnClickListener {
-                onClickListener.onAdClick(note, position)
-
-            }
             if (note.images.size > 0){
                 Picasso.get().load(note.images[0]).into(ivNoteImage)
+            }
+            Boom(cvItem)
+            cvItem.setOnClickListener {
+                onClickListener.onNoteClick(note, position)
+
             }
 
         }

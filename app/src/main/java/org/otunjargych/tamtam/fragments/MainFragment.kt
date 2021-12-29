@@ -11,18 +11,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.firebase.auth.FirebaseAuth
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.NotesAdapter
 import org.otunjargych.tamtam.databinding.FragmentMainBinding
-import org.otunjargych.tamtam.extensions.*
+import org.otunjargych.tamtam.extensions.NODE_WORKS
+import org.otunjargych.tamtam.extensions.boom.Boom
+import org.otunjargych.tamtam.extensions.replaceFragment
 import org.otunjargych.tamtam.model.Note
+import org.otunjargych.tamtam.model.State
 import org.otunjargych.tamtam.viewmodel.DataViewModel
 
 
 class MainFragment : Fragment() {
 
-    private lateinit var adapter: NotesAdapter
+    private lateinit var mAdapter: NotesAdapter
     private var mCountAds = 10
 
     private var listener: OnBottomAppBarStateChangeListener? = null
@@ -44,16 +46,9 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-//            duration = resources.getInteger(R.integer.tam_tam_motion_duration_medium).toLong()
-//        }
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
             duration = resources.getInteger(R.integer.tam_tam_motion_duration_medium).toLong()
         }
-//        enterTransition = MaterialFadeThrough().apply {
-//            duration = resources.getInteger().toLong()
-//        }
-
     }
 
     override fun onCreateView(
@@ -62,8 +57,8 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        USER = FirebaseAuth.getInstance()
-        AUTH = FirebaseAuth.getInstance()
+        initFirebaseData()
+
         return binding.root
     }
 
@@ -72,11 +67,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-        if (!hasConnection(requireContext())) {
-            errorConnection(view)
-        }
         initRecyclerView()
-        initFirebaseData()
+        boom()
         with(binding) {
             category.caseWork.setOnClickListener {
                 replaceFragment(WorksFragment())
@@ -101,6 +93,7 @@ class MainFragment : Fragment() {
 
 
     private fun initRecyclerView() {
+        mAdapter = NotesAdapter()
         binding.apply {
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -110,7 +103,6 @@ class MainFragment : Fragment() {
 
 
     private fun initFirebaseData() {
-        adapter = NotesAdapter()
         val itemClickListener: NotesAdapter.OnItemAdClickListener =
             object : NotesAdapter.OnItemAdClickListener {
                 override fun onAdClick(note: Note, position: Int) {
@@ -125,22 +117,44 @@ class MainFragment : Fragment() {
                     }
                 }
             }
+        mViewModel.data.observe(viewLifecycleOwner, { state ->
+            when (state) {
+                is State.Loading -> {
+                    binding.progressbar.visibility = ProgressBar.VISIBLE
+                }
+                is State.Success -> {
+                    state.data.let {
+                        if (it != null) {
+                            mAdapter.update(it, itemClickListener)
+                            binding.progressbar.visibility = ProgressBar.INVISIBLE
+                            binding.recyclerView.adapter = mAdapter
+                        }
+                    }
+                }
+            }
 
-        mViewModel.data.observe(viewLifecycleOwner, {
-            adapter.update(it, itemClickListener)
-            binding.progressbar.visibility = ProgressBar.INVISIBLE
-            binding.recyclerView.adapter = adapter
         })
     }
 
-    private fun stateShowBottomAppBar() {
+    private fun showBottomAppBar() {
         listener?.onShow()
     }
 
     override fun onResume() {
         super.onResume()
-        mViewModel.loadWorkDataForMain(mCountAds)
-        stateShowBottomAppBar()
+        mViewModel.loadNoteData(NODE_WORKS)
+        showBottomAppBar()
+    }
+
+    private fun boom() {
+        binding.apply {
+            Boom(category.caseBuy)
+            Boom(category.caseStudy)
+            Boom(category.caseMedicine)
+            Boom(category.caseFlats)
+            Boom(category.caseTransport)
+            Boom(category.caseWork)
+        }
     }
 
 

@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
@@ -29,9 +28,7 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        AUTH = FirebaseAuth.getInstance()
-        USER_ID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        initFields()
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
@@ -46,28 +43,7 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
     }
 
     override fun onSendData(data: String?) {
-        val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        if (fragment is NewAdFragment) {
-            fragment.setSelectedItem(data)
-        }
-//        if (fragment is WorksFragment) {
-//            fragment.setSelectedStation(data)
-//        }
-        if (fragment is TransportFragment) {
-            fragment.setSelectedStation(data)
-        }
-        if (fragment is BeautyFragment) {
-            fragment.setSelectedStation(data)
-        }
-        if (fragment is BuySellFragment) {
-            fragment.setSelectedStation(data)
-        }
-        if (fragment is FlatsFragment) {
-            fragment.setSelectedStation(data)
-        }
-        if (fragment is ServicesFragment) {
-            fragment.setSelectedStation(data)
-        }
+
     }
 
     private fun setBottomAppBarAndFab() {
@@ -168,4 +144,10 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
         showBottomAppBar()
     }
 
+    private fun initFields(){
+        AUTH = FirebaseAuth.getInstance()
+        if (AUTH.currentUser != null){
+            USER_ID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        }
+    }
 }

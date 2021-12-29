@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import org.otunjargych.tamtam.R
+import org.otunjargych.tamtam.extensions.imagepicker.ui.ImagePickerView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,11 +72,6 @@ fun successToast(message: String, context: Context) {
     toast.show()
 }
 
-@SuppressLint("ResourceAsColor")
-fun errorConnection(view: View) {
-    Snackbar.make(view, "Нет интернет соединения!", Snackbar.LENGTH_LONG)
-        .setBackgroundTint(R.color.app_main_color).show()
-}
 
 @SuppressLint("ResourceAsColor")
 fun snackMessage(context: Context, view: View?, message: String) {
@@ -111,6 +107,22 @@ fun getCategoriesList(): List<String> {
     categoriesList.add("Квартиры, Гостиницы")
     categoriesList.add("Обучение, Услуги")
     return categoriesList
+}
+
+fun Fragment.openImagePicker() {
+    ImagePickerView.Builder()
+        .setup {
+            name { RESULT_NAME }
+            max { 6 }
+            title { "Галлерея" }
+            single { false }
+        }
+        .start(this)
+}
+
+interface OnBottomAppBarStateChangeListener {
+    fun onHide()
+    fun onShow()
 }
 
 

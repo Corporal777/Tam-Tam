@@ -3,7 +3,8 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -14,7 +15,9 @@
         android:elevation="10dp"
         app:elevation="10dp">
 
-        <include layout="@layout/custom_toolbar_back" />
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/custom_toolbar_back" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -23,6 +26,7 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         ads:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -30,180 +34,62 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="11mm"
-                android:layout_marginLeft="0.5mm">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btn_search"
-                    style="@style/MyCardViewStyle"
-                    android:layout_width="47mm"
-                    android:layout_height="8mm"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardElevation="5dp">
-
-                    <EditText
-                        android:id="@+id/et_search_transport"
-                        android:layout_width="43mm"
-                        android:layout_height="8mm"
-                        android:layout_marginLeft="1mm"
-                        android:background="@android:color/transparent"
-                        android:backgroundTint="@color/app_main_color"
-                        android:drawableLeft="@drawable/ic_search"
-                        android:hint="  Поиск"
-                        android:imeOptions="actionSearch"
-                        android:inputType="textCapWords"
-                        android:textColor="@color/black"
-                        android:textCursorDrawable="@drawable/cursor_color"
-                        android:textSize="16sp" />
-
-
-                    <ImageView
-                        android:id="@+id/iv_clear"
-                        android:layout_width="3mm"
-                        android:layout_height="3mm"
-                        android:layout_gravity="right"
-                        android:layout_marginTop="2.5mm"
-                        android:layout_marginRight="1mm"
-                        android:clickable="true"
-                        android:contentDescription="TODO"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:src="@drawable/ic_clear" />
-
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_metro"
-                    style="@style/MyCardViewStyle"
-                    android:layout_width="8mm"
-                    android:layout_height="8mm"
-                    android:layout_marginLeft="3mm"
-                    android:layout_marginTop="10dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardElevation="4dp">
-
-                    <ImageView
-                        android:layout_width="5mm"
-                        android:layout_height="5mm"
-                        android:layout_gravity="center"
-                        android:clickable="false"
-                        android:contentDescription="TODO"
-                        android:src="@drawable/metro" />
-
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
             <HorizontalScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="10mm">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:scrollbarThumbHorizontal="@null"
+                android:scrollbarThumbVertical="@null">
 
                 <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:scrollbarThumbHorizontal="@null"
+                    android:scrollbarThumbVertical="@null">
 
                     <LinearLayout
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card_work_first"
-                            android:layout_width="25mm"
-                            android:layout_height="7mm"
-                            android:layout_marginLeft="2mm"
-                            android:layout_marginTop="0.7mm"
-                            android:layout_marginBottom="1mm"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="6dp">
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_tag_first"
+                            android:layout_width="150dp"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/tag_background"
+                            android:fontFamily="@font/commons_demi_bold"
+                            android:text="Грузоперевозки"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
 
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:contentDescription="TODO"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/first_cat" />
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_tag_second"
+                            android:layout_width="120dp"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/tag_background"
+                            android:fontFamily="@font/commons_demi_bold"
+                            android:text="Автомобиль"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Грузоперевозки"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card_work_second"
-                            android:layout_width="10mm"
-                            android:layout_height="7mm"
-                            android:layout_marginLeft="2mm"
-                            android:layout_marginTop="0.7mm"
-                            android:layout_marginBottom="1mm"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="6dp">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:contentDescription="TODO"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/first_cat" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Авто"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/card_work_third"
-                            android:layout_width="27mm"
-                            android:layout_height="7mm"
-                            android:layout_marginLeft="2mm"
-                            android:layout_marginTop="0.7mm"
-                            android:layout_marginRight="2mm"
-                            android:layout_marginBottom="1mm"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="6dp">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:contentDescription="TODO"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/first_cat" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Выезд за границу"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
-
-                        </androidx.cardview.widget.CardView>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_tag_third"
+                            android:layout_width="140dp"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/tag_background"
+                            android:fontFamily="@font/commons_demi_bold"
+                            android:text="Выезд / Заезд"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
                     </LinearLayout>
                 </ScrollView>
             </HorizontalScrollView>
@@ -222,12 +108,15 @@
                     android:indeterminateTint="#411E80" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_transport"
+                    android:id="@+id/rv_list_notes"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginBottom="50dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none" />
             </RelativeLayout>
 
 
