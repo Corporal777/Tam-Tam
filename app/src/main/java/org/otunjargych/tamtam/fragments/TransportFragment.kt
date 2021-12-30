@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import org.otunjargych.tamtam.adapter.NotesAdapter
 import org.otunjargych.tamtam.databinding.FragmentTransportBinding
 import org.otunjargych.tamtam.extensions.BaseFragment
-import org.otunjargych.tamtam.extensions.NODE_TRANSPORT
 import org.otunjargych.tamtam.extensions.replaceFragment
 import org.otunjargych.tamtam.model.Note
 import org.otunjargych.tamtam.model.State
@@ -58,7 +57,7 @@ class TransportFragment : BaseFragment() {
                 }
 
             }
-        mViewModel.data.observe(viewLifecycleOwner, { state ->
+        mViewModel.transport.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is State.Loading -> {
                     binding.progressbar.isVisible = true
@@ -95,7 +94,7 @@ class TransportFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        mViewModel.loadNoteData(NODE_TRANSPORT)
+        mViewModel.loadTransportData()
     }
 
 

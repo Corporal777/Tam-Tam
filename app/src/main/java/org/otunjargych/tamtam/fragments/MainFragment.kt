@@ -14,7 +14,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.NotesAdapter
 import org.otunjargych.tamtam.databinding.FragmentMainBinding
-import org.otunjargych.tamtam.extensions.NODE_WORKS
+import org.otunjargych.tamtam.extensions.OnBottomAppBarStateChangeListener
 import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.extensions.replaceFragment
 import org.otunjargych.tamtam.model.Note
@@ -103,9 +103,9 @@ class MainFragment : Fragment() {
 
 
     private fun initFirebaseData() {
-        val itemClickListener: NotesAdapter.OnItemAdClickListener =
-            object : NotesAdapter.OnItemAdClickListener {
-                override fun onAdClick(note: Note, position: Int) {
+        val itemClickListener: NotesAdapter.OnNoteClickListener =
+            object : NotesAdapter.OnNoteClickListener {
+                override fun onNoteClick(note: Note, position: Int) {
                     if (note != null) {
                         val bundle: Bundle = Bundle()
                         with(bundle) {
@@ -117,7 +117,7 @@ class MainFragment : Fragment() {
                     }
                 }
             }
-        mViewModel.data.observe(viewLifecycleOwner, { state ->
+        mViewModel.last.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is State.Loading -> {
                     binding.progressbar.visibility = ProgressBar.VISIBLE
@@ -142,7 +142,7 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mViewModel.loadNoteData(NODE_WORKS)
+        mViewModel.loadLastNoteData()
         showBottomAppBar()
     }
 

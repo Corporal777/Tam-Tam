@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -15,14 +17,33 @@
         app:elevation="10dp">
 
         <com.google.android.material.appbar.MaterialToolbar
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:id="@+id/account_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="50dp"
             android:background="@color/app_main_color"
-            android:elevation="10dp"
-            app:menu="@menu/account_menu"
-            app:titleTextColor="@color/white"/>
+            android:elevation="6dp"
+            app:contentInsetStart="0dp"
+            app:navigationIcon="@drawable/ic_back">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/custom_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/commons_bold"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Настройки" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,6 +51,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -40,23 +62,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5mm"
+                android:layout_marginTop="25dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_marginTop="1mm"
                     android:id="@+id/iv_user_photo"
-                    android:layout_width="25mm"
-                    android:layout_height="25mm"
-                    android:layout_marginBottom="1mm"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:clickable="true"
                     android:elevation="5dp"
+                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:src="@drawable/camera"
-                    android:focusable="true" />
-
+                    android:src="@drawable/empty_avatar" />
 
             </LinearLayout>
 
@@ -65,25 +86,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="2mm"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/commons_bold"
+                android:text="Ecio Auditore"
                 android:textColor="@color/app_main_color"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="24sp" />
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="0.5dp"
-                android:layout_marginLeft="2mm"
-                android:layout_marginTop="2mm"
-                android:layout_marginRight="2mm"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="#BDBDBD" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2mm"
-                android:layout_marginTop="2mm"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/commons_regular"
                 android:text="@string/phone_number"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -92,25 +115,27 @@
                 android:id="@+id/tv_user_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2mm"
-                android:layout_marginTop="1mm"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/commons_demi_bold"
+                android:text="+9267806176"
                 android:textColor="@color/app_main_color"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="0.5dp"
-                android:layout_marginLeft="2mm"
-                android:layout_marginTop="2mm"
-                android:layout_marginRight="2mm"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="#BDBDBD" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2mm"
-                android:layout_marginTop="2mm"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/commons_regular"
                 android:text="@string/email"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -120,11 +145,12 @@
                 android:id="@+id/tv_user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2mm"
-                android:layout_marginTop="1mm"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/commons_demi_bold"
+                android:text="baltaevrysbek@gmail.com"
                 android:textColor="@color/app_main_color"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="wrap_content"
@@ -133,133 +159,6 @@
                 android:layout_marginTop="2mm"
                 android:layout_marginRight="2mm"
                 android:background="#BDBDBD" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2mm"
-                android:layout_marginTop="2mm"
-                android:text="Политика конфиденциальности:"
-                android:textColor="@color/app_main_color"
-                android:textSize="18sp"
-                android:fontFamily="@font/opensans_bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
-                    android:text="Этот текст используется для информирования пользователя о политике в отношении сбора, использования и раскрытия Личной информации, если кто-либо решил использовать наше приложение.
-Если вы решите использовать наше приложение, то вы соглашаетесь на сбор и использование информации в отношении этой политики. Личная информация, которую Мы собираем, используется для предоставления и улучшения Сервиса. Мы не будем использовать или передавать вашу информацию кому-либо, кроме случаев, описанных в настоящей Политике конфиденциальности.
-Термины, используемые в настоящей Политике конфиденциальности, имеют то же значение, что и в наших Положениях и условиях, которые доступны по адресу, если иное не определено в настоящей Политике конфиденциальности."
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
-                    android:text="Для удобства использования нашего приложения может потребоваться от вас предоставления определенной личной информации, а именно : &quot;ФИО, номер телефона, электронная почта, личное фото(не обязательно)&quot;. Информация, которую вы предоставили, будет храниться в закрытой базе данных, к которой имеет доступ только разработчик и используется, как описано в этой политике конфиденциальности."
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
-                    android:text="Приложение использует сторонние сервисы, которые могут собирать информацию, используемую для вашей идентификации.
-Ссылка на политику конфиденциальности сторонних поставщиков услуг, используемых приложением:"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginRight="2mm"
-                    android:text="Сервисы Google Play"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginRight="2mm"
-                    android:text="Google Analytics для Firebase"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginRight="2mm"
-                    android:text="Firebase Crashlytics"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
-                    android:text="Мы можем нанимать сторонние компании и частных лиц по следующим причинам:
-Для облегчения нашего Сервиса;
-Для предоставления Сервиса от нашего имени;
-Для оказания услуг, связанных с Сервисом;
-Чтобы помочь нам в анализе использования нашего Сервиса."
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
-                    android:text="Мы ценим ваше доверие к предоставлению нам вашей личной информации, поэтому мы стремимся использовать коммерчески приемлемые средства ее защиты. Но помните, что ни один метод передачи через Интернет или метод электронного хранения не является на 100% безопасным и надежным, и Мы не можем гарантировать его абсолютную безопасность."
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
-                    android:text="Мы можем время от времени обновлять нашу Политику конфиденциальности. Таким образом, вам рекомендуется периодически просматривать эту страницу на предмет изменений. Мы уведомим вас о любых изменениях, разместив новую Политику конфиденциальности на этой странице."
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2mm"
-                    android:layout_marginTop="1mm"
-                    android:layout_marginRight="2mm"
-                    android:layout_marginBottom="2mm"
-                    android:text="Эта политика действует с 2021-04-04.
-Если у вас есть какие-либо вопросы или предложения относительно нашей Политики конфиденциальности, не стесняйтесь обращаться к нам. Способ обращения указан в разделе &quot;О программе&quot;, перейти к которой можно в главном экране.
-Спасибо."
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-
-            </LinearLayout>
 
 
         </LinearLayout>

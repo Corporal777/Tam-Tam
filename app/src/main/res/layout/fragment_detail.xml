@@ -156,7 +156,7 @@
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="13dp"
                         android:src="@drawable/ic_ruble_currency_sign" />
                 </LinearLayout>
 
@@ -227,7 +227,7 @@
                         android:src="@drawable/detail_location" />
 
                     <TextView
-                        android:fontFamily="@font/commons_demi_bold"
+                        android:fontFamily="@font/commons_medium"
                         android:id="@+id/tv_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -251,7 +251,7 @@
                         android:src="@drawable/ic_street" />
 
                     <TextView
-                        android:fontFamily="@font/commons_demi_bold"
+                        android:fontFamily="@font/commons_medium"
                         android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -276,7 +276,7 @@
                         android:src="@drawable/ic_time" />
 
                     <TextView
-                        android:fontFamily="@font/commons_demi_bold"
+                        android:fontFamily="@font/commons_medium"
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

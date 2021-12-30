@@ -11,7 +11,6 @@ import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.NotesAdapter
 import org.otunjargych.tamtam.databinding.FragmentWorkBinding
 import org.otunjargych.tamtam.extensions.BaseFragment
-import org.otunjargych.tamtam.extensions.NODE_WORKS
 import org.otunjargych.tamtam.extensions.replaceFragment
 import org.otunjargych.tamtam.model.Note
 import org.otunjargych.tamtam.model.State
@@ -105,7 +104,7 @@ class WorksFragment : BaseFragment() {
                 }
             }
 
-        mViewModel.data.observe(viewLifecycleOwner, { state ->
+        mViewModel.work.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is State.Loading -> {
                     binding.progressbar.visibility = ProgressBar.VISIBLE
@@ -127,7 +126,7 @@ class WorksFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        mViewModel.loadNoteData(NODE_WORKS)
+        mViewModel.loadWorkData()
     }
 
     override fun onPause() {

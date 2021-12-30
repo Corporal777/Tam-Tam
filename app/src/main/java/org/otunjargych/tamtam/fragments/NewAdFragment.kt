@@ -19,7 +19,6 @@ import org.otunjargych.tamtam.databinding.FragmentNewAdBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
 import org.otunjargych.tamtam.model.Note
-import org.otunjargych.tamtam.model.Station
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,8 +32,6 @@ class NewAdFragment : BaseFragment() {
     private var mRunnable: Runnable? = null
 
     private var mImageList = ArrayList<Uri>()
-    private var mStationsList = ArrayList<Station>()
-
     private var listener: OnBottomAppBarStateChangeListener? = null
 
     private var _binding: FragmentNewAdBinding? = null
@@ -47,8 +44,8 @@ class NewAdFragment : BaseFragment() {
     private var phoneNumber = ""
     private var whatsappNumber = ""
     private var address = ""
-    private var selectedStation: String? = ""
-    private var mSelectedCategory: String? = ""
+    private var mSelectedStation: String = ""
+    private var mSelectedCategory: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,7 +84,7 @@ class NewAdFragment : BaseFragment() {
                 showCategoryList()
             }
             tvMetro.setOnClickListener {
-
+                showMetroStationsList()
             }
             layoutChoosePhoto.btnSelectPhoto.setOnClickListener {
                 openImagePicker()
@@ -127,12 +124,35 @@ class NewAdFragment : BaseFragment() {
         }
     }
 
+    private fun showMetroStationsList() {
+        val list = LocalSourceMetroStations().getMetroStationsList()
+        mListPopupWindow = ListPopupWindow(requireContext())
+        mListPopupWindow.apply {
+            anchorView = binding.tvMetro
+            width = 640
+            height = 800
+            setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.station_item, R.id.tv_station, list
+                )
+            )
+            isModal = true
+            setOnItemClickListener { _, _, position, _ ->
+                binding.tvMetro.text = list[position]
+                mSelectedStation = list[position]
+                dismiss()
+            }
+        }
+        mListPopupWindow.show()
+    }
+
     private fun showCategoryList() {
         val list = getCategoriesList()
         mListPopupWindow = ListPopupWindow(requireContext())
         mListPopupWindow.apply {
             anchorView = binding.tvCategory
-            width = 600
+            width = 640
             height = 500
             setAdapter(
                 ArrayAdapter(
@@ -150,8 +170,7 @@ class NewAdFragment : BaseFragment() {
         mListPopupWindow.show()
 
     }
-    private fun showStationsList(){
-    }
+
 
     private fun addNoteDataToFB() {
         title = binding.tvTitle.text.toString()
@@ -172,9 +191,9 @@ class NewAdFragment : BaseFragment() {
             text,
             salary,
             time,
-            selectedStation!!,
+            mSelectedStation,
             address,
-            mSelectedCategory!!,
+            mSelectedCategory,
             0,
             0,
             list,
@@ -182,7 +201,7 @@ class NewAdFragment : BaseFragment() {
             whatsappNumber
         )
 
-        FireBaseHelper.addNewData(mSelectedCategory!!, note)
+        FireBaseHelper.addNewData(mSelectedCategory, note)
     }
 
     private fun initRVListChosenImages() {
@@ -201,7 +220,6 @@ class NewAdFragment : BaseFragment() {
         mHandler!!.postDelayed(mRunnable!!, 1500)
 
     }
-
 
 
     override fun onResume() {

@@ -37,6 +37,7 @@ class DetailFragment : BaseFragment() {
     private var mDetailLikes: String = ""
     private var mDetailViewings: String = ""
     private var mDetailId: String = ""
+    private var mDetailAddress: String = ""
     private var imagesList = ArrayList<String>()
 
     private lateinit var mRefAds: DatabaseReference
@@ -85,6 +86,7 @@ class DetailFragment : BaseFragment() {
             tvDate.text = mDetailDate.asTime()
             tvLikes.text = mDetailLikes
             tvViewings.text = mDetailViewings
+            tvAddress.text = mDetailAddress
 
             if (!mDetailSalary.isNullOrEmpty()) {
                 tvSalary.text = mDetailSalary
@@ -378,6 +380,7 @@ class DetailFragment : BaseFragment() {
                 mDetailLikes = note.likes.toString()
                 mDetailViewings = note.viewings.toString()
                 mDetailId = note.uuid
+                mDetailAddress = note.addres
                 if (!note.images.isNullOrEmpty()) {
                     imagesList.addAll(note.images)
                 }

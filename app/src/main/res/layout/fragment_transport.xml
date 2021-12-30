@@ -49,10 +49,11 @@
                     android:scrollbarThumbVertical="@null">
 
                     <LinearLayout
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp">
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_tag_first"
@@ -99,13 +100,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ProgressBar
-                    android:id="@+id/progressbar"
-                    style="@style/CircularProgress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:indeterminateTint="#411E80" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_list_notes"
@@ -117,6 +111,15 @@
                     android:layout_marginBottom="50dp"
                     android:overScrollMode="never"
                     android:scrollbars="none" />
+
+                <ProgressBar
+                    android:id="@+id/progressbar"
+                    style="@style/CircularProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:indeterminateTint="#411E80" />
             </RelativeLayout>
 
 

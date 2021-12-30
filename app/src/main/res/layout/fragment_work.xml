@@ -30,33 +30,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
 
             <HorizontalScrollView
-                android:scrollbarThumbVertical="@null"
-                android:scrollbarThumbHorizontal="@null"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:scrollbarThumbHorizontal="@null"
+                android:scrollbarThumbVertical="@null">
 
                 <ScrollView
-                    android:scrollbarThumbVertical="@null"
-                    android:scrollbarThumbHorizontal="@null"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:scrollbarThumbHorizontal="@null"
+                    android:scrollbarThumbVertical="@null">
 
                     <LinearLayout
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp">
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_tag_first"
                             android:layout_width="120dp"
                             android:layout_height="35dp"
-                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginStart="10dp"
                             android:background="@drawable/tag_background"
                             android:fontFamily="@font/commons_demi_bold"
                             android:text="@string/short_time_work"
@@ -68,6 +68,7 @@
                             android:id="@+id/btn_tag_second"
                             android:layout_width="110dp"
                             android:layout_height="35dp"
+                            android:layout_marginStart="10dp"
                             android:background="@drawable/tag_background"
                             android:fontFamily="@font/commons_demi_bold"
                             android:text="Халтура"
@@ -79,7 +80,7 @@
                             android:id="@+id/btn_tag_third"
                             android:layout_width="170dp"
                             android:layout_height="35dp"
-                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginStart="10dp"
                             android:background="@drawable/tag_background"
                             android:fontFamily="@font/commons_demi_bold"
                             android:text="@string/full_work"
@@ -91,6 +92,7 @@
                             android:id="@+id/btn_tag_fourth"
                             android:layout_width="115dp"
                             android:layout_height="35dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
                             android:background="@drawable/tag_background"
                             android:fontFamily="@font/commons_demi_bold"
@@ -113,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="50dp"
                     android:overScrollMode="never"
@@ -124,8 +126,8 @@
                     style="@style/CircularProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
                     android:indeterminateTint="#411E80" />
 
 
