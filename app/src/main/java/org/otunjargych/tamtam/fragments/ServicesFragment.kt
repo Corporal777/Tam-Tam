@@ -58,7 +58,6 @@ class ServicesFragment : Fragment() {
         val mCardViewSecond: CardView = view.findViewById(R.id.card_services_second)
         val mCardViewThird: CardView = view.findViewById(R.id.card_services_third)
         val mCardViewFourth: CardView = view.findViewById(R.id.card_services_fourth)
-        val mImageViewAdd: ImageView = view.findViewById(R.id.iv_add)
         val mImageViewClear: ImageView = view.findViewById(R.id.iv_clear)
         mEditTextSearch = view.findViewById(R.id.et_search_services)
         mProgressBar = view.findViewById(R.id.progressbar)
@@ -73,9 +72,7 @@ class ServicesFragment : Fragment() {
             servicesList.clear()
             initFB()
         }
-        mImageViewAdd.setOnClickListener {
-            initCurrentUser()
-        }
+
         mCardView.setOnClickListener {
 
             if (!hasConnection(context!!)) {

@@ -3,6 +3,7 @@
     <style name="Theme.TamTam" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar</item>
+        <item name="searchViewStyle">@style/CustomSearchViewStyle</item>
         <item name="colorAccent">@color/white</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="colorPrimary">@color/app_main_color</item>
@@ -42,5 +43,12 @@
         <item name="colorPrimary">@color/trans</item>
         <item name="titleTextColor">@color/white</item>
     </style>
+
+    <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
+
+        <item name="queryBackground">@drawable/search_background</item>
+        <item name="submitBackground">@drawable/search_background</item>
+    </style>
+
 
 </resources>

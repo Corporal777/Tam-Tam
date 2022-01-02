@@ -54,7 +54,7 @@
                         android:layout_marginLeft="1mm"
                         android:background="@android:color/transparent"
                         android:backgroundTint="@color/app_main_color"
-                        android:drawableLeft="@drawable/ic_search"
+                        android:drawableLeft="@drawable/icon_search"
                         android:hint="  Поиск"
                         android:imeOptions="actionSearch"
                         android:inputType="textCapWords"

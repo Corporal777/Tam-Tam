@@ -50,7 +50,6 @@ class DataViewModel : ViewModel() {
                                 list.add(0, note)
                                 _work.postValue(State.Success(list))
                             }
-
                         }
 
                     }
@@ -92,7 +91,7 @@ class DataViewModel : ViewModel() {
         }
     }
 
-    fun loadMedicineAndBeautyData(){
+    fun loadMedicineAndBeautyData() {
         val list: MutableList<Note> = ArrayList()
         _medicine.postValue(State.Loading())
         viewModelScope.launch {

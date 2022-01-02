@@ -1,11 +1,13 @@
 package org.otunjargych.tamtam.extensions
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -123,6 +125,17 @@ fun Fragment.openImagePicker() {
 interface OnBottomAppBarStateChangeListener {
     fun onHide()
     fun onShow()
+}
+
+fun Fragment.hideKeyboard(view: View) {
+    view.clearFocus()
+    val inn: InputMethodManager? =
+        requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+    inn?.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun onCompareText(note: String, word: String): Boolean {
+    return (note.contains(word, true) || note.contentEquals(word, true))
 }
 
 

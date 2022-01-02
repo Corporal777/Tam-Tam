@@ -60,7 +60,6 @@ class BuySellFragment : Fragment() {
         mRecyclerView = view.findViewById(R.id.recycler_view_buy_sell)
         mRecyclerView.layoutManager = GridLayoutManager(activity, 2)
         mCardView = view.findViewById(R.id.card_metro)
-        mImageViewAdd = view.findViewById(R.id.iv_add)
         mImageViewClear = view.findViewById(R.id.iv_clear)
         mEditTextSearch = view.findViewById(R.id.et_search_buy_sell)
         mCardViewFirst = view.findViewById(R.id.card_buy_sell_first)
@@ -78,9 +77,7 @@ class BuySellFragment : Fragment() {
         mImageViewBack.setOnClickListener {
             fragmentManager?.popBackStack()
         }
-        mImageViewAdd.setOnClickListener {
-            initCurrentUser()
-        }
+
         mCardView.setOnClickListener {
             if (!hasConnection(context!!)) {
                 errorToast("Нет интернета!", activity!!)

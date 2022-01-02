@@ -28,9 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="23mm"
                 android:adjustViewBounds="true"
-                android:clickable="true"
-                android:contentDescription="TODO"
-                android:focusable="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/placeholder" />
 

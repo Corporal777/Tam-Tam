@@ -17,7 +17,7 @@
         app:elevation="10dp">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/account_toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/app_main_color"

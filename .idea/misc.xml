@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/drawable/ic_choosen_station.xml" value="0.3182291666666667" />
         <entry key="app/src/main/res/drawable/ic_circle_fab.xml" value="0.3182291666666667" />
         <entry key="app/src/main/res/drawable/ic_delete_image.xml" value="0.3106253177427555" />
+        <entry key="app/src/main/res/drawable/ic_filter.xml" value="0.3106253177427555" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.29814814814814816" />
         <entry key="app/src/main/res/drawable/ic_like.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/ic_liked.xml" value="0.3182291666666667" />
@@ -38,9 +39,12 @@
         <entry key="app/src/main/res/drawable/ic_ruble.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/ic_ruble_currency_sign.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/ic_ruble_sick.xml" value="0.3037037037037037" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.3182291666666667" />
         <entry key="app/src/main/res/drawable/ic_seen_counter.xml" value="0.3106253177427555" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.3037037037037037" />
+        <entry key="app/src/main/res/drawable/icon_search.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/progress_bar.xml" value="0.3037037037037037" />
+        <entry key="app/src/main/res/drawable/search_background.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/tag_background.xml" value="0.3182291666666667" />
         <entry key="app/src/main/res/font/work_sans.xml" value="0.3309608540925267" />
         <entry key="app/src/main/res/font/work_sans_bold.xml" value="0.3309608540925267" />
@@ -57,6 +61,7 @@
         <entry key="app/src/main/res/layout/custom_toolbar.xml" value="0.264" />
         <entry key="app/src/main/res/layout/custom_toolbar_auth.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/custom_toolbar_back.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/custom_toolbar_search.xml" value="0.4" />
         <entry key="app/src/main/res/layout/detail.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/dialog_category.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/dialog_stations.xml" value="0.29322916666666665" />
@@ -78,9 +83,10 @@
         <entry key="app/src/main/res/layout/fragment_phone_reg.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_policy.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_services.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_transport.xml" value="0.264" />
-        <entry key="app/src/main/res/layout/fragment_work.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_work.xml" value="0.264" />
         <entry key="app/src/main/res/layout/gallery.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/item_category.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/item_chosen_images.xml" value="0.536" />
@@ -91,7 +97,9 @@
         <entry key="app/src/main/res/layout/swipe_item.xml" value="0.2" />
         <entry key="app/src/main/res/menu/account_menu.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/menu/gallery_toolbar_menu.xml" value="0.29322916666666665" />
+        <entry key="app/src/main/res/menu/main.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.4" />
+        <entry key="app/src/main/res/menu/menu_search.xml" value="0.536" />
       </map>
     </option>
   </component>
