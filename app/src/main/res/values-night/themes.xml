@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.ZuhaApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
@@ -22,6 +22,23 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!--   Primary brand color.   -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!--   Secondary brand color.   -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!--   Status bar color.   -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/main_background</item>
+        <item name="android:navigationBarColor" tools:targetApi="l">@color/main_background</item>
+        <!--   Customize your theme here.   -->
+    </style>
 
 
     <style name="RoundedCornerButton" parent="@style/Widget.AppCompat.Button.Colored">

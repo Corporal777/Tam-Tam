@@ -26,7 +26,7 @@
             <ImageView
                 android:id="@+id/iv_note_image"
                 android:layout_width="match_parent"
-                android:layout_height="23mm"
+                android:layout_height="140dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/placeholder" />

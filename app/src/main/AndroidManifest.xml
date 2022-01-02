@@ -20,6 +20,7 @@
         <activity
             android:name="org.otunjargych.tamtam.activities.SplashActivity"
             android:exported="true"
+            android:theme="@style/Theme.Splash"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

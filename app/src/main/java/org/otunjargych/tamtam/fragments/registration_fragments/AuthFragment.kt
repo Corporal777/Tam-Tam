@@ -5,15 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.activities.MainActivity
 import org.otunjargych.tamtam.databinding.FragmentAuthBinding
 import org.otunjargych.tamtam.extensions.AUTH
 import org.otunjargych.tamtam.extensions.BaseFragment
-import org.otunjargych.tamtam.extensions.errorToast
-import org.otunjargych.tamtam.extensions.successToast
+import org.otunjargych.tamtam.extensions.toastMessage
 
 class AuthFragment() : BaseFragment() {
 
@@ -48,10 +46,10 @@ class AuthFragment() : BaseFragment() {
         val password: String = binding.etPasswordAuth.text.toString()
 
         AUTH = FirebaseAuth.getInstance()
-        if (!phoneNumber.isNullOrEmpty() && !password.isNullOrEmpty()) {
+        if (!phoneNumber.isNullOrEmpty() || !password.isNullOrEmpty()) {
             AUTH.signInWithEmailAndPassword(phoneNumber, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    successToast("Добро пожаловать!", activity!!)
+                    toastMessage(requireContext(),"Добро пожаловать")
                     startActivity(
                         Intent(
                             requireActivity(),
@@ -61,10 +59,9 @@ class AuthFragment() : BaseFragment() {
                     requireActivity().finish()
                 }
             }.addOnFailureListener {
-                errorToast("Такого аккаунта не существует!", activity!!)
+                toastMessage(requireContext(), "Такого аккаунта не существует!")
             }
-        } else Toast.makeText(requireContext(), "Заполните все поля ввода!", Toast.LENGTH_SHORT)
-            .show()
+        } else toastMessage(requireContext(), "Заполните все поля ввода!")
 
     }
 

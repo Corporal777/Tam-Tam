@@ -3,7 +3,6 @@ package org.otunjargych.tamtam.activities
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initFields()
+        initFields(binding.root.rootView)
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
@@ -100,7 +99,10 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
         binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.main -> {
-                    replaceFragment(MainFragment())
+                    supportFragmentManager.commit {
+                        setReorderingAllowed(true)
+                        replace(R.id.fragment_container, MainFragment())
+                    }
                     clearBackStack()
                     true
                 }
@@ -111,16 +113,8 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
                     } else
                         false
                 }
-                R.id.about_app -> {
-                    replaceFragment(AboutAppFragment())
-                    true
-                }
-                R.id.net_with_dev -> {
-                    val url: String =
-                        "https://api.whatsapp.com/send?phone=" + "+79267806176"
-                    val i: Intent = Intent(Intent.ACTION_VIEW)
-                    i.setData(Uri.parse(url))
-                    startActivity(i)
+                R.id.settings -> {
+                    replaceFragment(SettingsFragment())
                     true
                 }
                 else -> false
@@ -130,7 +124,7 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
 
     private fun clearBackStack() {
         val manager: FragmentManager = supportFragmentManager
-        if (manager.getBackStackEntryCount() > 0) {
+        if (manager.backStackEntryCount > 0) {
             val first: FragmentManager.BackStackEntry = manager.getBackStackEntryAt(0)
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
@@ -144,9 +138,9 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
         showBottomAppBar()
     }
 
-    private fun initFields(){
+    private fun initFields(view: View) {
         AUTH = FirebaseAuth.getInstance()
-        if (AUTH.currentUser != null){
+        if (AUTH.currentUser != null) {
             USER_ID = FirebaseAuth.getInstance().currentUser?.uid.toString()
         }
     }

@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
+import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.PageItemBinding
 
 
@@ -34,12 +35,9 @@ class ViewPagerAdapter() :
     }
 
 
-
     override fun getItemCount(): Int {
         return imageList.size
     }
-
-
 
     override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
         holder.bind(imageList[position])
@@ -47,18 +45,15 @@ class ViewPagerAdapter() :
 
     inner class ViewPagerViewHolder(private val binding: PageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(url: String?) = with(binding) {
-//            if (url == "" || url == null) {
-//                Glide.with(context).load(R.drawable.placeholder).into(iv_paging_images)
-//            } else{
-//                Glide.with(context).load(url).into(iv_paging_images)
+        fun bind(url: String) = with(binding) {
+            if (url.isEmpty()) {
+                Glide.with(binding.root).load(R.drawable.placeholder).into(ivPagingImages)
+            } else {
+                Glide.with(binding.root).load(url).into(ivPagingImages)
 //                iv_paging_images.setOnClickListener {
 //                    onImageClickListener.onImageClick()
 //                }
-//            }
-            Picasso.get().load(url).into(binding.ivPagingImages)
-
-
+            }
         }
     }
 }

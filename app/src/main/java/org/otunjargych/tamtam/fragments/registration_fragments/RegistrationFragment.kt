@@ -85,7 +85,7 @@ class RegistrationFragment : BaseFragment() {
         AUTH.createUserWithEmailAndPassword(mPhoneNumber, mPassword).addOnCompleteListener {}
             .addOnSuccessListener {
                 addUser()
-                successToast("Добро пожаловать!", activity!!)
+                snackMessage(requireContext(),view,"Добро пожаловать")
                 startActivity(
                     Intent(
                         requireActivity(),
@@ -94,7 +94,7 @@ class RegistrationFragment : BaseFragment() {
                 )
                 requireActivity().finish()
             }.addOnFailureListener {
-                errorToast("Профиль не создан!", activity!!)
+                toastMessage(requireContext(), "Профиль не создан!")
             }
 
         AUTH.signInWithEmailAndPassword(mPhoneNumber, mPassword)

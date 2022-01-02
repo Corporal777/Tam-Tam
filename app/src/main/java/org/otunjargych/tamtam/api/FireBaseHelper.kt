@@ -38,25 +38,24 @@ object FireBaseHelper {
         }
     }
 
-    suspend fun DatabaseReference.lastValuesEventFlow(count : Int): Flow<EventResponse> = callbackFlow {
-        val valueEventListener = object : ValueEventListener {
+    suspend fun DatabaseReference.lastValuesEventFlow(count: Int): Flow<EventResponse> =
+        callbackFlow {
+            val valueEventListener = object : ValueEventListener {
 
-            override fun onDataChange(snapshot: DataSnapshot): Unit =
-                sendBlocking(EventResponse.Changed(snapshot))
+                override fun onDataChange(snapshot: DataSnapshot): Unit =
+                    sendBlocking(EventResponse.Changed(snapshot))
 
-            override fun onCancelled(error: DatabaseError): Unit =
-                sendBlocking(EventResponse.Cancelled(error))
+                override fun onCancelled(error: DatabaseError): Unit =
+                    sendBlocking(EventResponse.Cancelled(error))
+            }
+            limitToLast(count).addListenerForSingleValueEvent(valueEventListener)
+            awaitClose {
+                removeEventListener(valueEventListener)
+            }
         }
-        limitToLast(count).addListenerForSingleValueEvent(valueEventListener)
-        awaitClose {
-            removeEventListener(valueEventListener)
-        }
-    }
 
     fun addNewData(category: String, note: Note) {
-
         mRefAds = FirebaseDatabase.getInstance().reference
-
         when (category) {
             medicineCategory -> {
                 mRefAds.child(NODE_BEAUTY).child(Date().time.toString())
@@ -102,6 +101,33 @@ object FireBaseHelper {
                     }
                 }
             }
+        }
+    }
+
+
+    fun changeUserPhoto(url: Uri, snapShot: DataSnapshot) {
+        val path =
+            FirebaseStorage.getInstance().reference.child(FOLDER_USER_IMAGES).child(USER_ID)
+        path.putFile(url).addOnCompleteListener {
+            if (it.isSuccessful) {
+                path.downloadUrl.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        if (snapShot != null) {
+                            val image: DatabaseReference = snapShot.ref.child("image")
+                            image.setValue(task.result.toString())
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun changeUserName(changedName: String, changedLastName: String, snapShot: DataSnapshot) {
+        if (snapShot != null) {
+            val name: DatabaseReference = snapShot.ref.child("name")
+            val lastName: DatabaseReference = snapShot.ref.child("last_name")
+            name.setValue(changedName)
+            lastName.setValue(changedLastName)
         }
     }
 

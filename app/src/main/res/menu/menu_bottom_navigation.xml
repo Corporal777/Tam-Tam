@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Избранное"
+        android:title="Главная"
         android:id="@+id/main"
         android:icon="@drawable/ic_home"
         app:showAsAction="always"
@@ -19,16 +19,8 @@
 
     <item
         android:icon="@drawable/ic_settings"
-        android:id="@+id/about_app"
+        android:id="@+id/settings"
         android:title="Настройки"
-        app:showAsAction="always"
-        />
-
-
-    <item
-        android:title="@string/app_main_name"
-        android:icon="@drawable/ic_whats"
-        android:id="@+id/net_with_dev"
         app:showAsAction="always"
         />
 </menu>

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Tam Tam</string>
+    <string name="no_connection">Нет Интернет соединения!</string>
     <string name="search">   Поиск ...</string>
     <string name="metro_stations">   Станции метро:</string>
     <string name="app_main_name">Tam Tam</string>
@@ -65,6 +66,9 @@
     <string name="description_of_ad">Описание объявления:</string>
     <string name="pay_for_work">Оплата, цена или вознаграждение:</string>
     <string name="detail_addres">Точный адрес (Улица, дом):</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="not_accepted">Не указано</string>
+    <string name="about_user">О пользователе</string>
 
 
 </resources>

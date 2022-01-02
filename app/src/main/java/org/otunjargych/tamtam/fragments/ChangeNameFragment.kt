@@ -4,98 +4,87 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-
-import org.otunjargych.tamtam.R
-import org.otunjargych.tamtam.extensions.AppValueEventListener
-import org.otunjargych.tamtam.extensions.NODE_USERS
-import org.otunjargych.tamtam.extensions.errorToast
-import org.otunjargych.tamtam.extensions.successToast
+import androidx.fragment.app.activityViewModels
+import com.google.firebase.database.DataSnapshot
+import org.otunjargych.tamtam.api.FireBaseHelper
+import org.otunjargych.tamtam.databinding.FragmentChangeNameBinding
+import org.otunjargych.tamtam.extensions.BaseFragment
+import org.otunjargych.tamtam.extensions.USER_ID
+import org.otunjargych.tamtam.extensions.toastMessage
+import org.otunjargych.tamtam.model.State
+import org.otunjargych.tamtam.viewmodel.UserViewModel
 
 
-class ChangeNameFragment : Fragment() {
+class ChangeNameFragment : BaseFragment() {
 
-    private lateinit var mRefUser: DatabaseReference
-    private lateinit var mRefListener: AppValueEventListener
-    private var mapListeners = hashMapOf<DatabaseReference, AppValueEventListener>()
-    private var uid = FirebaseAuth.getInstance().currentUser?.uid
+    private var _binding: FragmentChangeNameBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var mImageViewDone: ImageView
-    private lateinit var mEditTextName: EditText
-    private lateinit var mEditTextLastName: EditText
-
+    private val mViewModel: UserViewModel by activityViewModels()
+    private lateinit var mSnapshot: DataSnapshot
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val view: View = inflater.inflate(R.layout.fragment_change_name, container, false)
-
-        mImageViewDone = view.findViewById(R.id.iv_done)
-        mEditTextName = view.findViewById(R.id.et_name_change)
-        mEditTextLastName = view.findViewById(R.id.et_last_name_change)
-        val mToolBar: MaterialToolbar = view.findViewById(R.id.change_name_toolbar)
-        var name = mEditTextName.getText()
-        var last_name = mEditTextLastName.getText()
-
-        if (mEditTextName.text.isNullOrEmpty()) {
-            mEditTextName.requestFocus()
-
-        }
-
-        (activity as AppCompatActivity?)!!.setSupportActionBar(mToolBar)
-        mToolBar.setNavigationIcon(R.drawable.ic_back)
-        mToolBar.setTitle("Изменить имя")
-        mToolBar.setNavigationOnClickListener {
-            fragmentManager?.popBackStack()
-        }
-
-        mImageViewDone.setOnClickListener {
-            if (name.isNullOrEmpty() || last_name.isNullOrEmpty()) {
-                errorToast("Поля не могут быть пусты!", activity!!)
-            } else {
-                changeName(name.toString(), last_name.toString())
-                successToast("Изменено!", activity!!)
-                fragmentManager?.popBackStack()
-            }
-        }
-
-        return view
+        _binding = FragmentChangeNameBinding.inflate(inflater, container, false)
+        initData()
+        return binding.root
 
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (binding.etLastName.text.isNullOrEmpty()) {
+            binding.etLastName.requestFocus()
+
+        }
+        binding.ivDone.setOnClickListener {
+            if (binding.etName.text.isNullOrEmpty() || binding.etLastName.text.isNullOrEmpty()) {
+                toastMessage(requireContext(), "Поля не могут быть пусты!")
+            } else {
+                changeName(binding.etName.text.toString(), binding.etLastName.text.toString())
+                toastMessage(requireContext(), "Имя изменено!")
+                requireActivity().supportFragmentManager.popBackStack()
+            }
+        }
+        binding.customTitle.text = "Изменить имя"
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+    }
+
+    private fun initData() {
+        mViewModel.user.observe(viewLifecycleOwner, { state ->
+            when (state) {
+                is State.Loading -> {
+
+                }
+                is State.Success -> {
+                    state.data.let {
+                        if (it != null) {
+                            mSnapshot = it
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun changeName(changedName: String, changedLastName: String) {
-        mRefUser = FirebaseDatabase.getInstance().getReference(NODE_USERS).child(uid.toString())
-        mRefListener = AppValueEventListener { snapShot ->
-            if (snapShot != null) {
-                val name: DatabaseReference = snapShot.ref.child("name")
-                val last_name: DatabaseReference = snapShot.ref.child("last_name")
-                name.setValue(changedName)
-                last_name.setValue(changedLastName)
-            }
-
+        if (mSnapshot != null){
+            FireBaseHelper.changeUserName(changedName, changedLastName, mSnapshot)
         }
-        mRefUser.addListenerForSingleValueEvent(mRefListener)
-        mapListeners[mRefUser] = mRefListener
     }
 
-    override fun onPause() {
-        super.onPause()
-        mapListeners.forEach {
-            it.key.removeEventListener(it.value)
-        }
+    override fun onResume() {
+        super.onResume()
+        mViewModel.loadUserData(USER_ID)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

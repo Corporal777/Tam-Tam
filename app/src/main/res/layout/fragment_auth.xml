@@ -11,23 +11,25 @@
         layout="@layout/custom_toolbar_auth" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:gravity="center">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/btn_background" />
 
         <ImageView
             android:id="@+id/custom_image"
-            android:layout_width="130dp"
+            android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="5dp"
             android:src="@drawable/ic_name_app" />
 
 
@@ -40,20 +42,18 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:textColor="@color/black"
-        android:fontFamily="@font/circular_std_bold"
+        android:fontFamily="@font/commons_demi_bold"
         android:text="@string/enter_your_phone_number"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@font/circular_std_bold"
+        android:fontFamily="@font/commons_demi_bold"
         android:text="@string/and_password"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textSize="20sp" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -69,8 +69,9 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/app_main_color"
-            android:fontFamily="@font/encore_font_circular_book"
+            android:fontFamily="@font/commons_regular"
             android:inputType="phone"
+            android:textSize="16sp"
             android:textColor="@color/app_main_color"
             android:textColorHint="@color/app_main_color" />
 
@@ -90,8 +91,9 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/app_main_color"
-            android:fontFamily="@font/encore_font_circular_book"
+            android:fontFamily="@font/commons_regular"
             android:inputType="textPassword"
+            android:textSize="16sp"
             android:textColor="@color/app_main_color"
             android:textColorHint="@color/app_main_color" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -104,12 +106,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_background"
-        android:fontFamily="@font/encore_font_circular_book"
+        android:fontFamily="@font/commons_bold"
         android:text="@string/enter_auth"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tv_registration"
@@ -119,10 +120,10 @@
         android:layout_marginTop="10dp"
         android:clickable="true"
         android:focusable="true"
-        android:fontFamily="@font/encore_font_circular_book"
+        android:fontFamily="@font/commons_regular"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/registration"
         android:textColor="@color/app_main_color"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>

@@ -58,6 +58,7 @@
                 android:orientation="vertical">
 
                 <androidx.viewpager2.widget.ViewPager2
+                    android:overScrollMode="never"
                     android:id="@+id/view_pager"
                     android:layout_width="match_parent"
                     android:layout_height="350dp" />
@@ -300,13 +301,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2mm">
+                    android:layout_marginTop="10dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/iv_detail_user_photo"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginLeft="2mm"
+                        android:layout_marginStart="12dp"
                         android:src="@drawable/empty_avatar" />
 
                     <TextView
@@ -315,7 +316,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="2mm"
+                        android:layout_marginLeft="10dp"
                         android:text="Не указано"
                         android:textColor="@color/black"
                         android:textSize="18sp"
@@ -327,7 +328,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0.5dp"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="7dp"
                     android:background="#EAEAEA" />
 
@@ -383,7 +384,7 @@
                         android:layout_height="23dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="13dp"
-                        android:src="@drawable/ic__whatsapp" />
+                        android:src="@drawable/ic_whatsapp_colorful" />
 
                     <TextView
                         android:fontFamily="@font/commons_demi_bold"

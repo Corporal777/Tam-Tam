@@ -14,13 +14,9 @@
 
             <item
                 android:id="@+id/change_photo"
-                android:icon="@drawable/ic_choose_photo"
+                android:icon="@drawable/ic_change_photo"
                 android:title="Изменить фото" />
 
-            <item
-                android:id="@+id/exit"
-                android:icon="@drawable/ic_exit"
-                android:title="Выйти" />
         </menu>
     </item>
 </menu>

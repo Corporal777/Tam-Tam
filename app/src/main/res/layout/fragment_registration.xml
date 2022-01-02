@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/circular_std_bold"
+                    android:fontFamily="@font/commons_demi_bold"
                     android:text="Чтобы создать аккаунт"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
@@ -49,7 +49,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_std_bold"
+                    android:fontFamily="@font/commons_demi_bold"
                     android:text="Заполните все поля ввода"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -57,10 +57,10 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_photo"
-                    android:layout_width="20mm"
-                    android:layout_height="20mm"
-                    android:layout_marginTop="3mm"
-                    android:layout_marginBottom="1mm"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
                     android:clickable="true"
                     android:elevation="5dp"
                     android:focusable="true"
@@ -80,7 +80,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColorHint="@color/app_main_color"
                     android:hint="@string/last_name">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -88,8 +87,9 @@
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/app_main_color"
-                        android:fontFamily="@font/encore_font_circular_book"
-                        android:inputType="textCapWords"
+                        android:fontFamily="@font/commons_regular"
+                        android:inputType="textCapSentences"
+                        android:textSize="16sp"
                         android:textColor="@color/app_main_color"
                         android:textColorHint="@color/app_main_color" />
 
@@ -107,8 +107,9 @@
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/app_main_color"
-                        android:fontFamily="@font/encore_font_circular_book"
-                        android:inputType="textCapWords"
+                        android:fontFamily="@font/commons_regular"
+                        android:inputType="textCapSentences"
+                        android:textSize="16sp"
                         android:textColor="@color/app_main_color"
                         android:textColorHint="@color/app_main_color" />
 
@@ -128,7 +129,8 @@
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/app_main_color"
-                        android:fontFamily="@font/encore_font_circular_book"
+                        android:fontFamily="@font/commons_regular"
+                        android:textSize="16sp"
                         android:inputType="phone"
                         android:textColor="@color/app_main_color"
                         android:textColorHint="@color/app_main_color" />
@@ -148,8 +150,9 @@
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/app_main_color"
-                        android:fontFamily="@font/encore_font_circular_book"
+                        android:fontFamily="@font/commons_regular"
                         android:inputType="textPassword"
+                        android:textSize="16sp"
                         android:textColor="@color/app_main_color"
                         android:textColorHint="@color/app_main_color" />
 
@@ -167,8 +170,9 @@
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/app_main_color"
-                        android:fontFamily="@font/encore_font_circular_book"
+                        android:fontFamily="@font/commons_regular"
                         android:inputType="textEmailSubject"
+                        android:textSize="16sp"
                         android:textColor="@color/app_main_color"
                         android:textColorHint="@color/app_main_color" />
 
@@ -176,7 +180,7 @@
 
 
                 <TextView
-                    android:fontFamily="@font/encore_font_circular_book"
+                    android:fontFamily="@font/commons_regular"
                     android:id="@+id/tv_acc_already_exists"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -187,7 +191,7 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:text="У меня есть аккаунт"
                     android:textColor="@color/app_main_color"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_accept"
@@ -198,11 +202,10 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/btn_background"
                     android:text="@string/accept"
-                    android:fontFamily="@font/encore_font_circular_book"
+                    android:fontFamily="@font/commons_bold"
                     android:textAllCaps="false"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </LinearLayout>

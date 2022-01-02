@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import coil.load
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -17,6 +19,7 @@ import org.otunjargych.tamtam.databinding.FragmentDetailBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.*
+import org.otunjargych.tamtam.viewmodel.UserViewModel
 import java.util.*
 
 
@@ -37,12 +40,15 @@ class DetailFragment : BaseFragment() {
     private var mDetailLikes: String = ""
     private var mDetailViewings: String = ""
     private var mDetailId: String = ""
+    private var mDetailUserId: String = ""
     private var mDetailAddress: String = ""
     private var imagesList = ArrayList<String>()
 
     private lateinit var mRefAds: DatabaseReference
     private lateinit var mRefListener: AppValueEventListener
     private var mapListeners = hashMapOf<DatabaseReference, AppValueEventListener>()
+
+    private val mViewModel: UserViewModel by activityViewModels()
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -54,14 +60,13 @@ class DetailFragment : BaseFragment() {
     ): View? {
 
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getFields()
+        initAuthor()
     }
 
     private fun initFields() {
@@ -140,12 +145,36 @@ class DetailFragment : BaseFragment() {
         }
     }
 
+    private fun initAuthor() {
+        mViewModel.user.observe(viewLifecycleOwner, { state ->
+            when (state) {
+                is State.Loading -> {
+
+                }
+                is State.Success -> {
+                    state.data.let { snapShot ->
+                        if (snapShot != null) {
+                            val user: User? = snapShot.getValue(User::class.java)
+                            if (user != null) {
+                                binding.tvDetailUserName.text = user.name + " " + user.last_name
+                                binding.ivDetailUserPhoto.load(user.image)
+                            }
+
+                        }
+                    }
+                }
+            }
+        })
+    }
 
     override fun onResume() {
         super.onResume()
         //initViewings()
         if (AUTH.currentUser != null) {
             checkLikedAds()
+        }
+        if (hasConnection(requireContext())) {
+            mViewModel.loadUserData(mDetailUserId)
         }
     }
 
@@ -156,10 +185,6 @@ class DetailFragment : BaseFragment() {
         }
     }
 
-
-    private fun initAuthor() {
-
-    }
 
     private fun initLikes() {
 
@@ -365,6 +390,7 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun getFields() {
+        imagesList.add("https://firebasestorage.googleapis.com/v0/b/tam-tam-8b2a7.appspot.com/o/notes_images%2Fplaceholder.png?alt=media&token=c8c79ca4-a95c-465e-9b06-f0c7d6ed5c91")
         val bundle: Bundle? = this.arguments
         if (bundle != null) {
             val note: Note? = bundle.getParcelable("note")
@@ -381,7 +407,9 @@ class DetailFragment : BaseFragment() {
                 mDetailViewings = note.viewings.toString()
                 mDetailId = note.uuid
                 mDetailAddress = note.addres
-                if (!note.images.isNullOrEmpty()) {
+                mDetailUserId = note.userId
+                if (!note.images.isNullOrEmpty() && note.images.size > 0) {
+                    imagesList.clear()
                     imagesList.addAll(note.images)
                 }
                 initFields()
