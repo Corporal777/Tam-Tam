@@ -2,31 +2,30 @@ package org.otunjargych.tamtam.data
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
+import kotlinx.coroutines.tasks.await
 import org.otunjargych.tamtam.api.ApiService
 import org.otunjargych.tamtam.model.Note
 
-class NotesDataSource(private val api: ApiService) : PagingSource<Int, Note>() {
-    override fun getRefreshKey(state: PagingState<Int, Note>): Int? {
+class NotesDataSource(private val queryNotes: Query) : PagingSource<QuerySnapshot, Note>() {
+
+
+    override fun getRefreshKey(state: PagingState<QuerySnapshot, Note>): QuerySnapshot? {
         return null
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Note> {
+    override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, Note> {
         return try {
-            val limit = params.key ?: 5
-            val response = api.loadWorkNotes("\"text\"", limit)
+            val currentPage = params.key ?: queryNotes.get().await()
+            val lastVisibleProduct = currentPage.documents[currentPage.size() - 1]
+            val nextPage = queryNotes.startAfter(lastVisibleProduct).get().await()
 
-            val data = response.body()
-
-            val responseData = ArrayList<Note>()
-            if (data != null) {
-                responseData.add(data)
-            }
             LoadResult.Page(
-                responseData,
-                if (limit == 5) null else -1,
-                limit.plus(1)
+                data = currentPage.toObjects(Note::class.java),
+                prevKey = null,
+                nextKey = nextPage
             )
-
         } catch (e: Exception) {
             LoadResult.Error(e)
         }

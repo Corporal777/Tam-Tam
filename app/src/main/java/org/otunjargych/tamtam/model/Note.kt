@@ -11,6 +11,7 @@ data class Note(
     var text: String = "",
     var salary: String = "",
     var timeStamp: Long = 0,
+    var invertedTimeStamp: String = "",
     var station: String = "",
     var addres: String = "",
     var category: String = "",

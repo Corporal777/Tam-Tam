@@ -180,6 +180,7 @@ class NewAdFragment : BaseFragment() {
         address = binding.tvAddress.text.toString()
         whatsappNumber = binding.tvWhatsappNumber.text.toString()
 
+        val inverted = "-" + Date().time.toString()
         val uuid = UUID.randomUUID().toString()
         val list = ArrayList<String>()
         list.addAll(FireBaseHelper.getImagesUrlList())
@@ -191,6 +192,7 @@ class NewAdFragment : BaseFragment() {
             text,
             salary,
             time,
+            inverted,
             mSelectedStation,
             address,
             mSelectedCategory,
@@ -200,8 +202,8 @@ class NewAdFragment : BaseFragment() {
             phoneNumber,
             whatsappNumber
         )
-
-        FireBaseHelper.addNewData(mSelectedCategory, note)
+        FireBaseHelper.addToFireStore(note)
+        //FireBaseHelper.addNewData(mSelectedCategory, note)
     }
 
     private fun initRVListChosenImages() {
@@ -215,7 +217,7 @@ class NewAdFragment : BaseFragment() {
         mHandler = Handler()
         mRunnable = Runnable {
             addNoteDataToFB()
-            requireActivity().supportFragmentManager.popBackStack()
+            //requireActivity().supportFragmentManager.popBackStack()
         }
         mHandler!!.postDelayed(mRunnable!!, 1500)
 

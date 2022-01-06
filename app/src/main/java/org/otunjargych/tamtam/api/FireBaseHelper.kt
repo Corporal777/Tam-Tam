@@ -1,7 +1,10 @@
 package org.otunjargych.tamtam.api
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.database.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
@@ -134,5 +137,18 @@ object FireBaseHelper {
     fun getImagesUrlList(): ArrayList<String> {
         return imagesUrlList
 
+    }
+
+
+    fun addToFireStore(note: Note) {
+        val db = Firebase.firestore
+        db.collection("work_notes")
+            .add(note)
+            .addOnSuccessListener { documentReference ->
+                Log.d("Success", "DocumentSnapshot added with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w("Error", "Error adding document", e)
+            }
     }
 }

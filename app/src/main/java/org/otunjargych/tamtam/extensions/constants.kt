@@ -35,3 +35,7 @@ const val NODE_LIKED_ADS = "pref_ads"
 
 const val END_POINT= "works.json"
 const val FB_BASE_URL = "https://tam-tam-8b2a7-default-rtdb.firebaseio.com/"
+
+const val NOTES_COLLECTION = "work_notes"
+const val NAME_PROPERTY = "timeStamp"
+const val PAGE_SIZE = 5

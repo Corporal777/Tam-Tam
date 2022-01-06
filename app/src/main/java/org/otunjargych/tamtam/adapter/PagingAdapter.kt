@@ -10,7 +10,6 @@ import com.squareup.picasso.Picasso
 import org.otunjargych.tamtam.databinding.ListItemBinding
 import org.otunjargych.tamtam.extensions.asTime
 import org.otunjargych.tamtam.extensions.boom.Boom
-import org.otunjargych.tamtam.extensions.toastMessage
 import org.otunjargych.tamtam.model.Note
 
 class PagingAdapter : PagingDataAdapter<Note, PagingAdapter.PagingViewHolder>(diffUtil) {
@@ -40,7 +39,6 @@ class PagingAdapter : PagingDataAdapter<Note, PagingAdapter.PagingViewHolder>(di
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(note: Note) = with(binding) {
-            toastMessage(binding.root.context, note.uuid)
             if (note.text.length > 80) {
                 tvText.text =
                     StringBuilder(
@@ -73,7 +71,7 @@ class PagingAdapter : PagingDataAdapter<Note, PagingAdapter.PagingViewHolder>(di
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<Note>() {
             override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
-                return oldItem.text == newItem.text
+                return oldItem.timeStamp == newItem.timeStamp
             }
 
             override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
