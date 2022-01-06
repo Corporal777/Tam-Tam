@@ -308,7 +308,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="12dp"
-                        android:src="@drawable/empty_avatar" />
+                        android:src="@drawable/anonymous_user" />
 
                     <TextView
                         android:fontFamily="@font/commons_demi_bold"

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -48,20 +49,22 @@ class RegistrationFragment : BaseFragment() {
 
         binding.toolbarAuth.customTitle.text = getString(R.string.authorization)
 
-        binding.apply {
-            tvAccAlreadyExists.setOnClickListener {
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.registration_container, AuthFragment())?.commit()
-            }
-            btnAccept.setOnClickListener {
-                authUser()
-            }
-            userPhoto.setOnClickListener {
-                val intent: Intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
-                startActivityForResult(intent, 1)
+        binding.tvAccAlreadyExists.setOnClickListener {
+            requireActivity().supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(R.id.registration_container, AuthFragment())
             }
         }
+        binding.btnAccept.setOnClickListener {
+            authUser()
+
+        }
+        binding.userPhoto.setOnClickListener {
+            val intent: Intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 1)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -77,33 +80,24 @@ class RegistrationFragment : BaseFragment() {
     }
 
     private fun authUser() {
-
         mPhoneNumber = binding.etPhone.text.toString() + "@gmail.com"
         mPassword = binding.etPassword.text.toString()
 
         AUTH = FirebaseAuth.getInstance()
-        AUTH.createUserWithEmailAndPassword(mPhoneNumber, mPassword).addOnCompleteListener {}
+        AUTH.createUserWithEmailAndPassword(mPhoneNumber, mPassword)
             .addOnSuccessListener {
                 addUser()
-                snackMessage(requireContext(),view,"Добро пожаловать")
-                startActivity(
-                    Intent(
-                        requireActivity(),
-                        MainActivity::class.java
-                    )
-                )
-                requireActivity().finish()
+                toastMessage(requireContext(), "Добро пожаловать")
+                replaceActivity()
             }.addOnFailureListener {
                 toastMessage(requireContext(), "Профиль не создан!")
             }
-
         AUTH.signInWithEmailAndPassword(mPhoneNumber, mPassword)
 
     }
 
 
     private fun addUser() {
-
         mPhoneNumber = binding.etPhone.text.toString()
         mPassword = binding.etPassword.text.toString()
         mEmail = binding.etEmail.text.toString()
@@ -131,13 +125,22 @@ class RegistrationFragment : BaseFragment() {
             val user: User = User(uid, mName, mLastName, mPhoneNumber, mEmail, imageUrl)
             mRefUsers.child(NODE_USERS).child(uid).setValue(user)
         }
-
-
     }
 
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun replaceActivity() {
+        val intent = Intent(requireActivity(), MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        requireActivity().overridePendingTransition(
+            android.R.anim.fade_in,
+            android.R.anim.fade_out
+        )
     }
 }

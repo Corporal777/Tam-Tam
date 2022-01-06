@@ -74,12 +74,13 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="5dp"
+
                     android:layout_marginBottom="5dp"
                     android:clickable="true"
                     android:elevation="5dp"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:src="@drawable/empty_avatar" />
+                    android:src="@drawable/anonymous_user" />
 
             </LinearLayout>
 
@@ -365,7 +366,7 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="bottom"
                 android:fontFamily="@font/commons_demi_bold"
-                android:text="version 3.1"
+                android:text="@string/version_app"
                 android:textColor="#595959"
                 android:textSize="14sp" />
 

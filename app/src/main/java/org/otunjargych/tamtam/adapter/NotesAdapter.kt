@@ -12,10 +12,11 @@ import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.Note
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
-    private var listNotes = mutableListOf<Note>()
+    private var listNotes = ArrayList<Note>()
     private lateinit var onClickListener: OnNoteClickListener
     private lateinit var mDiffResult: DiffUtil.DiffResult
 
@@ -24,13 +25,34 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
     }
 
     fun update(list: List<Note>, onClickListener: NotesAdapter.OnNoteClickListener) {
-        listNotes.clear()
+
         listNotes.addAll(list)
+
+
         this.onClickListener = onClickListener
         mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNotes, list))
         mDiffResult.dispatchUpdatesTo(this)
 
     }
+
+    fun setList(list: List<Note>) {
+        mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNotes, list))
+        mDiffResult.dispatchUpdatesTo(this)
+        listNotes = list as ArrayList<Note>
+
+    }
+
+    fun addItem(note: Note) {
+        val newList = mutableListOf<Note>()
+        if (!newList.contains(note)){
+            newList.add(note)
+        }
+        mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNotes, newList))
+        mDiffResult.dispatchUpdatesTo(this)
+        listNotes = newList as ArrayList<Note>
+
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -47,6 +69,7 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return listNotes.size
     }
+
 
     inner class ViewHolder(private val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -72,7 +95,7 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
             } else
                 tvLocation.text = "м. " + note.station
             tvCategory.text = note.category
-            if (note.images.size > 0){
+            if (note.images.size > 0) {
                 Picasso.get().load(note.images[0]).into(ivNoteImage)
             }
             Boom(cvItem)

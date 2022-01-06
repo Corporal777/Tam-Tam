@@ -156,15 +156,21 @@ class DetailFragment : BaseFragment() {
                         if (snapShot != null) {
                             val user: User? = snapShot.getValue(User::class.java)
                             if (user != null) {
-                                binding.tvDetailUserName.text = user.name + " " + user.last_name
-                                binding.ivDetailUserPhoto.load(user.image)
-                            }
+                                if (!user.name.isNullOrEmpty() || !user.last_name.isNullOrEmpty()) {
+                                    binding.tvDetailUserName.text = user.name + " " + user.last_name
+                                } else binding.tvDetailUserName.text =
+                                    getString(R.string.not_accepted)
 
+                                if (!user.image.isEmpty()) {
+                                    binding.ivDetailUserPhoto.load(user.image)
+                                } else binding.ivDetailUserPhoto.load(R.drawable.anonymous_user)
+                            }
                         }
                     }
                 }
             }
         })
+
     }
 
     override fun onResume() {

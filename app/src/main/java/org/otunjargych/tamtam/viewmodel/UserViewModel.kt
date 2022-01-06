@@ -17,7 +17,10 @@ import org.otunjargych.tamtam.model.State
 class UserViewModel : ViewModel() {
     private lateinit var mRefAds: DatabaseReference
     private val _user: MutableLiveData<State<DataSnapshot>> = MutableLiveData()
-    val user: LiveData<State<DataSnapshot>> = _user
+    var user: LiveData<State<DataSnapshot>> = _user
+
+    private val _currentUser: MutableLiveData<State<DataSnapshot>> = MutableLiveData()
+    var currentUser: LiveData<State<DataSnapshot>> = _currentUser
 
     fun loadUserData(uuid : String) {
         _user.postValue(State.Loading())
@@ -31,6 +34,25 @@ class UserViewModel : ViewModel() {
                     }
                     is EventResponse.Cancelled -> {
                         _user.postValue(State.Error())
+                        val exception = result.error
+                    }
+                }
+            }
+        }
+    }
+
+    fun loadCurrentUserData(uuid : String){
+        _currentUser.postValue(State.Loading())
+        viewModelScope.launch {
+            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_USERS).child(uuid)
+            mRefAds.valuesEventFlow().collect { result ->
+                when (result) {
+                    is EventResponse.Changed -> {
+                        val snapshot = result.snapshot
+                        _currentUser.postValue(State.Success(snapshot))
+                    }
+                    is EventResponse.Cancelled -> {
+                        _currentUser.postValue(State.Error())
                         val exception = result.error
                     }
                 }

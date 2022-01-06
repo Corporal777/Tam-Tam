@@ -1,11 +1,13 @@
 package org.otunjargych.tamtam.extensions
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
 
 lateinit var AUTH: FirebaseAuth
 lateinit var USER_ID: String
 lateinit var REF_STORAGE_ROOT: StorageReference
+lateinit var REF_DATABASE_ROOT: DatabaseReference
 lateinit var USER : FirebaseAuth
 
 internal const val EXTRA_SETUP = "extra.setup"
@@ -28,3 +30,8 @@ const val FOLDER_BUY_SELL_IMAGES = "buy_sell_images"
 const val FOLDER_FLATS_IMAGES = "flats_images"
 const val FOLDER_SERVICES_IMAGES = "services_images"
 const val NODE_LIKED_ADS = "pref_ads"
+
+
+
+const val END_POINT= "works.json"
+const val FB_BASE_URL = "https://tam-tam-8b2a7-default-rtdb.firebaseio.com/"

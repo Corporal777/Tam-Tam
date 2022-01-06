@@ -10,12 +10,12 @@
             <item
                 android:id="@+id/change_name"
                 android:icon="@drawable/ic_edit"
-                android:title="Изменить имя" />
+                android:title="  Изменить имя" />
 
             <item
                 android:id="@+id/change_photo"
                 android:icon="@drawable/ic_change_photo"
-                android:title="Изменить фото" />
+                android:title="  Изменить фото" />
 
         </menu>
     </item>

@@ -6,33 +6,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import androidx.core.view.doOnPreDraw
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.database.*
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.NotesAdapter
 import org.otunjargych.tamtam.databinding.FragmentMainBinding
+import org.otunjargych.tamtam.extensions.NODE_WORKS
 import org.otunjargych.tamtam.extensions.OnBottomAppBarStateChangeListener
 import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.extensions.replaceFragment
 import org.otunjargych.tamtam.model.Note
-import org.otunjargych.tamtam.model.State
 import org.otunjargych.tamtam.viewmodel.DataViewModel
 
 
 class MainFragment : Fragment() {
 
     private lateinit var mAdapter: NotesAdapter
-    private var mCountAds = 10
-
+    private var mCountAds = 5
+    val noteList: MutableList<Note> = ArrayList()
     private var listener: OnBottomAppBarStateChangeListener? = null
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private val mViewModel: DataViewModel by activityViewModels()
 
+    private var mIsScrolling = false
+
+    private lateinit var mRefAds: DatabaseReference
+    private lateinit var mRefListener: ChildEventListener
+    private lateinit var mLayoutManager: GridLayoutManager
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -57,17 +64,23 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        initFirebaseData()
-
+        binding.apply {
+            //recyclerView.setHasFixedSize(true)
+            mLayoutManager = GridLayoutManager(requireContext(), 2)
+            recyclerView.layoutManager = mLayoutManager
+            recyclerView.isNestedScrollingEnabled = true
+        }
+        //initFirebaseData()
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-        initRecyclerView()
+
+//        postponeEnterTransition()
+//        view.doOnPreDraw { startPostponedEnterTransition() }
+
         boom()
         with(binding) {
             category.caseWork.setOnClickListener {
@@ -92,58 +105,15 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun initRecyclerView() {
-        mAdapter = NotesAdapter()
-        binding.apply {
-            recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        }
-
-    }
-
-
-    private fun initFirebaseData() {
-        val itemClickListener: NotesAdapter.OnNoteClickListener =
-            object : NotesAdapter.OnNoteClickListener {
-                override fun onNoteClick(note: Note, position: Int) {
-                    if (note != null) {
-                        val bundle: Bundle = Bundle()
-                        with(bundle) {
-                            putParcelable("note", note)
-                        }
-                        val fragment: DetailFragment = DetailFragment()
-                        replaceFragment(fragment)
-                        fragment.arguments = bundle
-                    }
-                }
-            }
-        mViewModel.last.observe(viewLifecycleOwner, { state ->
-            when (state) {
-                is State.Loading -> {
-                    binding.progressbar.visibility = ProgressBar.VISIBLE
-                }
-                is State.Success -> {
-                    state.data.let {
-                        if (it != null) {
-                            mAdapter.update(it, itemClickListener)
-                            binding.progressbar.visibility = ProgressBar.INVISIBLE
-                            binding.recyclerView.adapter = mAdapter
-                        }
-                    }
-                }
-            }
-
-        })
-    }
-
     private fun showBottomAppBar() {
         listener?.onShow()
     }
 
     override fun onResume() {
         super.onResume()
-        mViewModel.loadLastNoteData()
-        showBottomAppBar()
+        //mViewModel.loadLastNoteData(mCountAds)
+
+
     }
 
     private fun boom() {
@@ -162,5 +132,12 @@ class MainFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
+
+
+
+
+
 

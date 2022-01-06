@@ -32,11 +32,12 @@ class DiffUtilCallbackN(
 
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].uuid == newList[newItemPosition].uuid
+        oldList[oldItemPosition].text == newList[newItemPosition].text
 
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldList[oldItemPosition] == newList[newItemPosition]
+
 }
 
 class DiffUtilCallbackT(

@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ActivityMainBinding
 import org.otunjargych.tamtam.extensions.*
@@ -17,7 +19,7 @@ import org.otunjargych.tamtam.fragments.*
 import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
 import java.util.*
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataListener,
     OnBottomAppBarStateChangeListener {
 
@@ -27,11 +29,10 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initFields(binding.root.rootView)
+        initFields()
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 setReorderingAllowed(true)
                 add(R.id.fragment_container, MainFragment())
             }
@@ -53,8 +54,13 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
                 if (AUTH.currentUser != null) {
                     replaceFragment(NewAdFragment())
                 } else {
-                    startActivity(Intent(this@MainActivity, RegistrationActivity::class.java))
-                    finish()
+                    val intent = Intent(this@MainActivity, RegistrationActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(
+                        android.R.anim.slide_in_left,
+                        android.R.anim.slide_out_right
+                    )
+
                 }
             }
         }
@@ -138,10 +144,13 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
         showBottomAppBar()
     }
 
-    private fun initFields(view: View) {
+    private fun initFields() {
+        REF_STORAGE_ROOT = FirebaseStorage.getInstance().reference
+        REF_DATABASE_ROOT = FirebaseDatabase.getInstance().reference
         AUTH = FirebaseAuth.getInstance()
         if (AUTH.currentUser != null) {
             USER_ID = FirebaseAuth.getInstance().currentUser?.uid.toString()
         }
     }
+
 }

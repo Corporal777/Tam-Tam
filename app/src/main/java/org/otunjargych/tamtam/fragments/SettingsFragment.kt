@@ -51,7 +51,7 @@ class SettingsFragment : BaseFragment() {
     private fun initSettingsActions() {
         binding.apply {
             exit.setOnClickListener {
-                if (hasConnection(requireContext())) {
+                if (hasConnection(requireContext()) && AUTH.currentUser != null) {
                     FirebaseAuth.getInstance().signOut()
                     startActivity(Intent(activity, RegistrationActivity::class.java))
                     requireActivity().finish()
@@ -77,7 +77,7 @@ class SettingsFragment : BaseFragment() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.change_name -> {
-                    if (hasConnection(context!!)) {
+                    if (hasConnection(requireContext()) && AUTH.currentUser != null) {
                         replaceFragment(ChangeNameFragment())
                     } else {
                         toastMessage(requireContext(), getString(R.string.no_connection))
@@ -85,7 +85,7 @@ class SettingsFragment : BaseFragment() {
                 }
 
                 R.id.change_photo -> {
-                    if (hasConnection(context!!)) {
+                    if (hasConnection(requireContext()) && AUTH.currentUser != null) {
                         val intent: Intent = Intent(Intent.ACTION_PICK)
                         intent.type = "image/*"
                         startActivityForResult(intent, 1)
@@ -99,9 +99,8 @@ class SettingsFragment : BaseFragment() {
     }
 
 
-
     private fun initUserInfo() {
-        mViewModel.user.observe(viewLifecycleOwner, { state ->
+        mViewModel.currentUser.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is State.Loading -> {
 
@@ -130,7 +129,10 @@ class SettingsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        mViewModel.loadUserData(USER_ID)
+        if (hasConnection(requireContext()) && AUTH.currentUser != null) {
+            mViewModel.loadCurrentUserData(USER_ID)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -143,7 +145,6 @@ class SettingsFragment : BaseFragment() {
             }
         }
     }
-
 
 
     private fun changePhoto(url: Uri) {

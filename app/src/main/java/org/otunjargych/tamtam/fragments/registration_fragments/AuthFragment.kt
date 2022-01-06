@@ -49,14 +49,8 @@ class AuthFragment() : BaseFragment() {
         if (!phoneNumber.isNullOrEmpty() || !password.isNullOrEmpty()) {
             AUTH.signInWithEmailAndPassword(phoneNumber, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    toastMessage(requireContext(),"Добро пожаловать")
-                    startActivity(
-                        Intent(
-                            requireActivity(),
-                            MainActivity::class.java
-                        )
-                    )
-                    requireActivity().finish()
+                    toastMessage(requireContext(), "Добро пожаловать")
+                    replaceActivity()
                 }
             }.addOnFailureListener {
                 toastMessage(requireContext(), "Такого аккаунта не существует!")
@@ -68,6 +62,17 @@ class AuthFragment() : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun replaceActivity() {
+        val intent = Intent(requireActivity(), MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        requireActivity().overridePendingTransition(
+            android.R.anim.fade_in,
+            android.R.anim.fade_out
+        )
     }
 
 }

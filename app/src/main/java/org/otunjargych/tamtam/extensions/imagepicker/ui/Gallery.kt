@@ -145,7 +145,7 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (!isSingle) {
             menuInflater.inflate(R.menu.gallery_toolbar_menu, menu)
         }
