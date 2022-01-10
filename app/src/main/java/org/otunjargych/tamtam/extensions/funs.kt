@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.extensions.imagepicker.ui.ImagePickerView
+import org.otunjargych.tamtam.model.Node
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -191,6 +192,10 @@ class AppTextWatcher(val onSuccess: (CharSequence?) -> Unit) : TextWatcher {
     override fun afterTextChanged(s: Editable?) {
 
     }
+}
+
+interface OnNodeClickListener {
+    fun onNodeClick(node: Node, position: Int)
 }
 
 

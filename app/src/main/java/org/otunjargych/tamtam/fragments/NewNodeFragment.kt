@@ -23,7 +23,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class NewAdFragment : BaseFragment() {
+class NewNodeFragment : BaseFragment() {
 
 
     private lateinit var dialog: MyDialogFragment
@@ -172,7 +172,7 @@ class NewAdFragment : BaseFragment() {
     }
 
 
-    private fun addNoteDataToFB() {
+    private fun addNewNodeData() {
         title = binding.tvTitle.text.toString()
         text = binding.tvText.text.toString()
         salary = binding.tvSalary.text.toString()
@@ -216,7 +216,7 @@ class NewAdFragment : BaseFragment() {
         snackMessage(requireContext(), view, getString(R.string.ad_was_pushed))
         mHandler = Handler()
         mRunnable = Runnable {
-            addNoteDataToFB()
+            addNewNodeData()
             //requireActivity().supportFragmentManager.popBackStack()
         }
         mHandler!!.postDelayed(mRunnable!!, 1500)

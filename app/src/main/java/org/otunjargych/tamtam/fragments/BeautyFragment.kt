@@ -8,10 +8,8 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import org.otunjargych.tamtam.adapter.NotesAdapter
+import org.otunjargych.tamtam.adapter.NodesAdapter
 import org.otunjargych.tamtam.databinding.FragmentBeautyBinding
-import org.otunjargych.tamtam.extensions.replaceFragment
-import org.otunjargych.tamtam.model.Note
 import org.otunjargych.tamtam.model.State
 import org.otunjargych.tamtam.viewmodel.DataViewModel
 
@@ -21,7 +19,7 @@ class BeautyFragment : Fragment() {
     private val binding get() = _binding!!
     private val mViewModel: DataViewModel by activityViewModels()
 
-    private lateinit var mAdapter: NotesAdapter
+    private lateinit var mAdapter: NodesAdapter
 
 
     override fun onCreateView(
@@ -58,21 +56,8 @@ class BeautyFragment : Fragment() {
     }
 
     private fun initFirebaseData() {
-        mAdapter = NotesAdapter()
-        val itemClickListener: NotesAdapter.OnNoteClickListener =
-            object : NotesAdapter.OnNoteClickListener {
-                override fun onNoteClick(note: Note, position: Int) {
-                    if (note != null) {
-                        val bundle: Bundle = Bundle()
-                        with(bundle) {
-                            putParcelable("note", note)
-                        }
-                        val fragment: DetailFragment = DetailFragment()
-                        replaceFragment(fragment)
-                        fragment.arguments = bundle
-                    }
-                }
-            }
+        mAdapter = NodesAdapter()
+
 
         mViewModel.medicine.observe(viewLifecycleOwner, { state ->
             when (state) {
@@ -82,7 +67,6 @@ class BeautyFragment : Fragment() {
                 is State.Success -> {
                     state.data.let {
                         if (it != null) {
-                            mAdapter.update(it, itemClickListener)
                             binding.progressbar.visibility = ProgressBar.INVISIBLE
                             binding.rvListNotes.adapter = mAdapter
                         }

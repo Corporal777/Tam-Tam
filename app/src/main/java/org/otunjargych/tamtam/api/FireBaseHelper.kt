@@ -3,8 +3,7 @@ package org.otunjargych.tamtam.api
 import android.net.Uri
 import android.util.Log
 import com.google.firebase.database.*
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
@@ -41,6 +40,18 @@ object FireBaseHelper {
         }
     }
 
+    suspend fun FirebaseFirestore.getFirestoreData(collection: String): Flow<EventResponse> = callbackFlow {
+        val document = FirebaseFirestore
+            .getInstance().collection(collection)
+        val listener = document.addSnapshotListener { snapshot, _ ->
+            sendBlocking(EventResponse.Loaded(snapshot))
+        }
+        awaitClose {
+            listener.remove()
+        }
+    }
+
+
     suspend fun DatabaseReference.lastValuesEventFlow(count: Int): Flow<EventResponse> =
         callbackFlow {
             val valueEventListener = object : ValueEventListener {
@@ -61,7 +72,7 @@ object FireBaseHelper {
         mRefAds = FirebaseDatabase.getInstance().reference
         when (category) {
             medicineCategory -> {
-                mRefAds.child(NODE_BEAUTY).child(Date().time.toString())
+                mRefAds.child(NODE_HEALTH).child(Date().time.toString())
                     .setValue(note)
             }
             workCategory -> {
@@ -141,8 +152,7 @@ object FireBaseHelper {
 
 
     fun addToFireStore(note: Note) {
-        val db = Firebase.firestore
-        db.collection("work_notes")
+        FF_DATABASE_ROOT.collection("work_notes")
             .add(note)
             .addOnSuccessListener { documentReference ->
                 Log.d("Success", "DocumentSnapshot added with ID: ${documentReference.id}")

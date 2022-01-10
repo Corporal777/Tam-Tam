@@ -71,14 +71,14 @@ class DetailFragment : BaseFragment() {
 
     private fun initFields() {
         adapter = ViewPagerAdapter()
-
         val onImageClick: ViewPagerAdapter.OnImageClickListener =
             object : ViewPagerAdapter.OnImageClickListener {
                 override fun onImageClick() {
                 }
-
             }
-        adapter.update(imagesList, onImageClick)
+        if (!imagesList[0].isNullOrEmpty()) {
+            adapter.update(imagesList, onImageClick)
+        }
         binding.viewPager.adapter = adapter
         binding.viewPager.setPageTransformer(DepthPageTransformer())
         TabLayoutMediator(binding.tabDots, binding.viewPager) { tab, position ->
@@ -214,7 +214,7 @@ class DetailFragment : BaseFragment() {
         }
 
         if (category == "Медицина, Красота") {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_BEAUTY)
+            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_HEALTH)
             mRefListener = AppValueEventListener { snapShot ->
                 for (dataSnapshot: DataSnapshot in snapShot.children) {
                     val beauty: Beauty? = dataSnapshot.getValue(Beauty::class.java)
@@ -303,7 +303,7 @@ class DetailFragment : BaseFragment() {
             mRefAds.addListenerForSingleValueEvent(mRefListener)
         }
         if (category.contentEquals("Медицина, Красота")) {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_BEAUTY)
+            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_HEALTH)
             mRefListener = AppValueEventListener { snapShot ->
                 for (dataSnapshot: DataSnapshot in snapShot.children) {
                     val beauty: Beauty? = dataSnapshot.getValue(Beauty::class.java)
@@ -396,10 +396,9 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun getFields() {
-        imagesList.add("https://firebasestorage.googleapis.com/v0/b/tam-tam-8b2a7.appspot.com/o/notes_images%2Fplaceholder.png?alt=media&token=c8c79ca4-a95c-465e-9b06-f0c7d6ed5c91")
         val bundle: Bundle? = this.arguments
         if (bundle != null) {
-            val note: Note? = bundle.getParcelable("note")
+            val note: Node? = bundle.getParcelable("note")
             if (note != null) {
                 mDetailTitle = note.title
                 mDetailText = note.text
@@ -414,10 +413,10 @@ class DetailFragment : BaseFragment() {
                 mDetailId = note.uuid
                 mDetailAddress = note.addres
                 mDetailUserId = note.userId
-                if (!note.images.isNullOrEmpty() && note.images.size > 0) {
-                    imagesList.clear()
-                    imagesList.addAll(note.images)
-                }
+
+                imagesList.clear()
+                imagesList.addAll(note.images)
+
                 initFields()
             }
         }

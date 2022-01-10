@@ -8,51 +8,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import org.otunjargych.tamtam.databinding.ListItemBinding
 import org.otunjargych.tamtam.extensions.DiffUtilCallbackN
+import org.otunjargych.tamtam.extensions.OnNodeClickListener
 import org.otunjargych.tamtam.extensions.boom.Boom
-import org.otunjargych.tamtam.model.Note
+import org.otunjargych.tamtam.model.Node
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
+class NodesAdapter : RecyclerView.Adapter<NodesAdapter.ViewHolder>() {
 
-    private var listNotes = ArrayList<Note>()
-    private lateinit var onClickListener: OnNoteClickListener
+    private var listNotes = ArrayList<Node>()
+    private lateinit var onClickListener: OnNodeClickListener
     private lateinit var mDiffResult: DiffUtil.DiffResult
 
-    interface OnNoteClickListener {
-        fun onNoteClick(note: Note, position: Int)
-    }
 
-    fun update(list: List<Note>, onClickListener: NotesAdapter.OnNoteClickListener) {
-
+    fun update(list: List<Node>, onClickListener: OnNodeClickListener) {
+        listNotes.clear()
         listNotes.addAll(list)
-
-
         this.onClickListener = onClickListener
         mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNotes, list))
         mDiffResult.dispatchUpdatesTo(this)
 
     }
-
-    fun setList(list: List<Note>) {
-        mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNotes, list))
-        mDiffResult.dispatchUpdatesTo(this)
-        listNotes = list as ArrayList<Note>
-
-    }
-
-    fun addItem(note: Note) {
-        val newList = mutableListOf<Note>()
-        if (!newList.contains(note)){
-            newList.add(note)
-        }
-        mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNotes, newList))
-        mDiffResult.dispatchUpdatesTo(this)
-        listNotes = newList as ArrayList<Note>
-
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -73,34 +50,34 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(note: Note) = with(binding) {
+        fun bind(node: Node) = with(binding) {
 
-            if (note.text.length > 80) {
+            if (node.text.length > 80) {
                 tvText.text =
                     StringBuilder(
-                        note.text.substring(0, 79).replace("\n", " ").toLowerCase()
+                        node.text.substring(0, 79).replace("\n", " ").toLowerCase()
                     ).append("...")
                         .toString()
             } else
-                tvText.text = note.text
-            if (note.salary == "" || note.salary == null) {
+                tvText.text = node.text
+            if (node.salary == "" || node.salary == null) {
                 tvSalary.text = "Договорная"
                 ivCurrency.visibility = View.GONE
             } else
-                tvSalary.text = note.salary
+                tvSalary.text = node.salary
 
-            tvDate.text = note.timeStamp.toString().asTime()
-            if (note.station == null || note.station == "") {
+            tvDate.text = node.timeStamp.toString().asTime()
+            if (node.station == null || node.station == "") {
                 tvLocation.text = "Не указано"
             } else
-                tvLocation.text = "м. " + note.station
-            tvCategory.text = note.category
-            if (note.images.size > 0) {
-                Picasso.get().load(note.images[0]).into(ivNoteImage)
+                tvLocation.text = "м. " + node.station
+            tvCategory.text = node.category
+            if (node.images.size > 0) {
+                Picasso.get().load(node.images[0]).into(ivNoteImage)
             }
             Boom(cvItem)
             cvItem.setOnClickListener {
-                onClickListener.onNoteClick(note, position)
+                onClickListener.onNodeClick(node, position)
 
             }
 

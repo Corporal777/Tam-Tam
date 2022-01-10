@@ -10,8 +10,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import dagger.hilt.android.AndroidEntryPoint
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ActivityMainBinding
 import org.otunjargych.tamtam.extensions.*
@@ -19,7 +20,7 @@ import org.otunjargych.tamtam.fragments.*
 import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
 import java.util.*
 
-@AndroidEntryPoint
+
 class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataListener,
     OnBottomAppBarStateChangeListener {
 
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
             setHideMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
                 if (AUTH.currentUser != null) {
-                    replaceFragment(NewAdFragment())
+                    replaceFragment(NewNodeFragment())
                 } else {
                     val intent = Intent(this@MainActivity, RegistrationActivity::class.java)
                     startActivity(intent)
@@ -145,6 +146,7 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
     }
 
     private fun initFields() {
+        FF_DATABASE_ROOT = Firebase.firestore
         REF_STORAGE_ROOT = FirebaseStorage.getInstance().reference
         REF_DATABASE_ROOT = FirebaseDatabase.getInstance().reference
         AUTH = FirebaseAuth.getInstance()

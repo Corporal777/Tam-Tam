@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import org.otunjargych.tamtam.R
-@AndroidEntryPoint
+
 abstract class BaseFragment : Fragment() {
 
 

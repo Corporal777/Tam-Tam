@@ -5,18 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.database.*
 import org.otunjargych.tamtam.R
-import org.otunjargych.tamtam.adapter.NotesAdapter
+import org.otunjargych.tamtam.adapter.NodesAdapter
 import org.otunjargych.tamtam.databinding.FragmentMainBinding
-import org.otunjargych.tamtam.extensions.NODE_WORKS
 import org.otunjargych.tamtam.extensions.OnBottomAppBarStateChangeListener
 import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.extensions.replaceFragment
@@ -26,7 +22,7 @@ import org.otunjargych.tamtam.viewmodel.DataViewModel
 
 class MainFragment : Fragment() {
 
-    private lateinit var mAdapter: NotesAdapter
+    private lateinit var mAdapter: NodesAdapter
     private var mCountAds = 5
     val noteList: MutableList<Note> = ArrayList()
     private var listener: OnBottomAppBarStateChangeListener? = null

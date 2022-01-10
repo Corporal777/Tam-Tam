@@ -22,8 +22,8 @@ class DiffUtilCallbackW(
 }
 
 class DiffUtilCallbackN(
-    private val oldList: List<Note>,
-    private val newList: List<Note>
+    private val oldList: List<Node>,
+    private val newList: List<Node>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size

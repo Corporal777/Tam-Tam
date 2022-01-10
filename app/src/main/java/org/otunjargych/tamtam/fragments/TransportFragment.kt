@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import org.otunjargych.tamtam.adapter.NotesAdapter
+import org.otunjargych.tamtam.adapter.NodesAdapter
 import org.otunjargych.tamtam.databinding.FragmentTransportBinding
 import org.otunjargych.tamtam.extensions.BaseFragment
-import org.otunjargych.tamtam.extensions.replaceFragment
-import org.otunjargych.tamtam.model.Note
 import org.otunjargych.tamtam.model.State
 import org.otunjargych.tamtam.viewmodel.DataViewModel
 
@@ -22,7 +20,7 @@ class TransportFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val mViewModel: DataViewModel by activityViewModels()
-    private lateinit var mAdapter: NotesAdapter
+    private lateinit var mAdapter: NodesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,21 +40,7 @@ class TransportFragment : BaseFragment() {
     }
 
     private fun initFirebaseData() {
-        val itemClick: NotesAdapter.OnNoteClickListener =
-            object : NotesAdapter.OnNoteClickListener {
-                override fun onNoteClick(note: Note, position: Int) {
-                    if (note != null) {
-                        val bundle: Bundle = Bundle()
-                        with(bundle) {
-                            putParcelable("note", note)
-                        }
-                        val fragment: DetailFragment = DetailFragment()
-                        replaceFragment(fragment)
-                        fragment.arguments = bundle
-                    }
-                }
 
-            }
         mViewModel.transport.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is State.Loading -> {
@@ -66,7 +50,6 @@ class TransportFragment : BaseFragment() {
                     state.data.let {
                         if (it != null) {
                             binding.progressbar.isVisible = false
-                            mAdapter.update(it, itemClick)
                             binding.rvListNotes.adapter = mAdapter
 
                         }
@@ -78,7 +61,7 @@ class TransportFragment : BaseFragment() {
     }
 
     private fun initRecyclerView() {
-        mAdapter = NotesAdapter()
+        mAdapter = NodesAdapter()
         binding.rvListNotes.apply {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(requireContext(), 2)
@@ -96,6 +79,8 @@ class TransportFragment : BaseFragment() {
         super.onResume()
         mViewModel.loadTransportData()
     }
+
+
 
 
     override fun onDestroyView() {

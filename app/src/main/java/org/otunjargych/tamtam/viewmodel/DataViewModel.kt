@@ -41,6 +41,7 @@ class DataViewModel : ViewModel() {
     private val _medicine: MutableLiveData<State<List<Note>>> = MutableLiveData()
     val medicine: LiveData<State<List<Note>>> = _medicine
 
+
     fun loadWorkData() {
         val list: MutableList<Note> = ArrayList()
         _work.postValue(State.Loading())
@@ -101,7 +102,7 @@ class DataViewModel : ViewModel() {
         _medicine.postValue(State.Loading())
         viewModelScope.launch {
             delay(1000)
-            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_BEAUTY)
+            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_HEALTH)
             mRefAds.valuesEventFlow().collect { result ->
                 when (result) {
                     is EventResponse.Changed -> {
@@ -165,9 +166,8 @@ class DataViewModel : ViewModel() {
                         for (dataSnapshot: DataSnapshot in snapshot.children) {
                             var note = dataSnapshot.getValue(Note::class.java)!!
 
-                                list.add(0, note)
-                                _note.value = list
-
+                            list.add(0, note)
+                            _note.value = list
 
 
                         }

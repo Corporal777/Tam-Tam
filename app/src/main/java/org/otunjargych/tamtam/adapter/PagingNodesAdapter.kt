@@ -8,73 +8,79 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import org.otunjargych.tamtam.databinding.ListItemBinding
+import org.otunjargych.tamtam.extensions.OnNodeClickListener
 import org.otunjargych.tamtam.extensions.asTime
 import org.otunjargych.tamtam.extensions.boom.Boom
-import org.otunjargych.tamtam.model.Note
+import org.otunjargych.tamtam.model.Node
 
-class PagingAdapter : PagingDataAdapter<Note, PagingAdapter.PagingViewHolder>(diffUtil) {
+class PagingNodesAdapter(private val listener: OnNodeClickListener) :
+    PagingDataAdapter<Node, PagingNodesAdapter.PagingViewHolder>(diffUtil) {
 
+    private lateinit var onClickListener: OnNodeClickListener
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PagingAdapter.PagingViewHolder {
+    ): PagingNodesAdapter.PagingViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ListItemBinding.inflate(inflater, parent, false)
         return PagingViewHolder(binding)
     }
 
 
-    override fun onBindViewHolder(holder: PagingAdapter.PagingViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PagingNodesAdapter.PagingViewHolder, position: Int) {
+        this.onClickListener = listener
         val node = getItem(position)
         with(holder) {
-            binding.tvText.text = node?.text
             bind(node!!)
         }
     }
 
 
-
     inner class PagingViewHolder(val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(note: Note) = with(binding) {
-            if (note.text.length > 80) {
+        fun bind(node: Node) = with(binding) {
+            if (node.text.length > 80) {
                 tvText.text =
                     StringBuilder(
-                        note.text.substring(0, 79).replace("\n", " ").toLowerCase()
+                        node.text.substring(0, 79).replace("\n", " ").toLowerCase()
                     ).append("...")
                         .toString()
             } else
-                tvText.text = note.text
-            if (note.salary == "" || note.salary == null) {
+                tvText.text = node.text
+            if (node.salary == "" || node.salary == null) {
                 tvSalary.text = "Договорная"
                 ivCurrency.visibility = View.GONE
             } else
-                tvSalary.text = note.salary
+                tvSalary.text = node.salary
 
-            tvDate.text = note.timeStamp.toString().asTime()
-            if (note.station == null || note.station == "") {
+            tvDate.text = node.timeStamp.toString().asTime()
+            if (node.station == null || node.station == "") {
                 tvLocation.text = "Не указано"
             } else
-                tvLocation.text = "м. " + note.station
-            tvCategory.text = note.category
-            if (note.images.size > 0) {
-                Picasso.get().load(note.images[0]).into(ivNoteImage)
+                tvLocation.text = "м. " + node.station
+            tvCategory.text = node.category
+            if (node.images.size > 0) {
+                Picasso.get().load(node.images[0]).into(ivNoteImage)
             }
             Boom(cvItem)
+            cvItem.setOnClickListener {
+                onClickListener.onNodeClick(node, position)
+
+            }
         }
 
 
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<Note>() {
-            override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
+        val diffUtil = object : DiffUtil.ItemCallback<Node>() {
+            override fun areItemsTheSame(oldItem: Node, newItem: Node): Boolean {
                 return oldItem.timeStamp == newItem.timeStamp
             }
 
-            override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
+            override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
                 return oldItem == newItem
             }
 

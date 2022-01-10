@@ -2,12 +2,14 @@ package org.otunjargych.tamtam.extensions
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 
 lateinit var AUTH: FirebaseAuth
 lateinit var USER_ID: String
 lateinit var REF_STORAGE_ROOT: StorageReference
 lateinit var REF_DATABASE_ROOT: DatabaseReference
+lateinit var FF_DATABASE_ROOT: FirebaseFirestore
 lateinit var USER : FirebaseAuth
 
 internal const val EXTRA_SETUP = "extra.setup"
@@ -15,9 +17,9 @@ internal const val EXTRA_IMAGE = "extra.image"
 internal const val RESULT_NAME = "images"
 
 const val NODE_USERS = "users"
-const val NODE_WORKS = "works"
+const val NODE_WORKS = "work_notes"
 const val NODE_TRANSPORT = "transport"
-const val NODE_BEAUTY = "beauty"
+const val NODE_HEALTH = "health_notes"
 const val NODE_BUY_SELL = "buy_sell"
 const val NODE_HOUSE = "house_room"
 const val NODE_SERVICES = "services"
@@ -37,5 +39,6 @@ const val END_POINT= "works.json"
 const val FB_BASE_URL = "https://tam-tam-8b2a7-default-rtdb.firebaseio.com/"
 
 const val NOTES_COLLECTION = "work_notes"
-const val NAME_PROPERTY = "timeStamp"
+const val TIME_PROPERTY = "timeStamp"
+const val TEXT_PROPERTY = "text"
 const val PAGE_SIZE = 5
