@@ -4,60 +4,61 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.otunjargych.tamtam.api.EventResponse
-import org.otunjargych.tamtam.api.FireBaseHelper.valuesEventFlow
 import org.otunjargych.tamtam.extensions.NODE_USERS
-import org.otunjargych.tamtam.model.State
+import org.otunjargych.tamtam.model.User
 
 class UserViewModel : ViewModel() {
-    private lateinit var mRefAds: DatabaseReference
-    private val _user: MutableLiveData<State<DataSnapshot>> = MutableLiveData()
-    var user: LiveData<State<DataSnapshot>> = _user
 
-    private val _currentUser: MutableLiveData<State<DataSnapshot>> = MutableLiveData()
-    var currentUser: LiveData<State<DataSnapshot>> = _currentUser
+    private val _user: MutableLiveData<User> = MutableLiveData()
+    var user: LiveData<User> = _user
 
-    fun loadUserData(uuid : String) {
-        _user.postValue(State.Loading())
+    private val _currentUser: MutableLiveData<User> = MutableLiveData()
+    var currentUser: LiveData<User> = _currentUser
+
+    fun loadUserData(uuid: String) {
         viewModelScope.launch {
-            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_USERS).child(uuid)
-            mRefAds.valuesEventFlow().collect { result ->
-                when (result) {
-                    is EventResponse.Changed -> {
-                        val snapshot = result.snapshot
-                        _user.postValue(State.Success(snapshot))
-                    }
-                    is EventResponse.Cancelled -> {
-                        _user.postValue(State.Error())
-                        val exception = result.error
-                    }
+            getUser(uuid).collect {user->
+                if (user != null) {
+                    _user.postValue(user)
                 }
             }
         }
     }
 
-    fun loadCurrentUserData(uuid : String){
-        _currentUser.postValue(State.Loading())
+    fun loadCurrentUserData(uuid: String) {
         viewModelScope.launch {
-            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_USERS).child(uuid)
-            mRefAds.valuesEventFlow().collect { result ->
-                when (result) {
-                    is EventResponse.Changed -> {
-                        val snapshot = result.snapshot
-                        _currentUser.postValue(State.Success(snapshot))
-                    }
-                    is EventResponse.Cancelled -> {
-                        _currentUser.postValue(State.Error())
-                        val exception = result.error
-                    }
+            getUser(uuid).collect {
+                if (it != null) {
+                    _currentUser.value = it
                 }
             }
         }
     }
+
+
+    private suspend fun getUser(uuid: String): Flow<User> =
+        callbackFlow {
+            val eventDocument = FirebaseFirestore
+                .getInstance()
+                .collection(NODE_USERS)
+                .document(uuid)
+
+            val subscription = eventDocument.addSnapshotListener { value, error ->
+                if (value?.exists()!! && value != null) {
+                    val user = value.toObject(User::class.java)
+                    if (user != null) {
+                        offer(user)
+                    }
+                }
+            }
+            awaitClose { subscription }
+        }
+
 
 }

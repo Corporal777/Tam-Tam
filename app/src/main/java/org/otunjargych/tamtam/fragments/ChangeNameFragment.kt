@@ -4,15 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import com.google.firebase.database.DataSnapshot
 import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentChangeNameBinding
 import org.otunjargych.tamtam.extensions.BaseFragment
 import org.otunjargych.tamtam.extensions.USER_ID
 import org.otunjargych.tamtam.extensions.toastMessage
-import org.otunjargych.tamtam.model.State
-import org.otunjargych.tamtam.viewmodel.UserViewModel
 
 
 class ChangeNameFragment : BaseFragment() {
@@ -20,8 +16,6 @@ class ChangeNameFragment : BaseFragment() {
     private var _binding: FragmentChangeNameBinding? = null
     private val binding get() = _binding!!
 
-    private val mViewModel: UserViewModel by activityViewModels()
-    private lateinit var mSnapshot: DataSnapshot
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +23,6 @@ class ChangeNameFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentChangeNameBinding.inflate(inflater, container, false)
-        initData()
         return binding.root
 
     }
@@ -55,33 +48,11 @@ class ChangeNameFragment : BaseFragment() {
         }
     }
 
-    private fun initData() {
-        mViewModel.user.observe(viewLifecycleOwner, { state ->
-            when (state) {
-                is State.Loading -> {
-
-                }
-                is State.Success -> {
-                    state.data.let {
-                        if (it != null) {
-                            mSnapshot = it
-                        }
-                    }
-                }
-            }
-        })
-    }
 
     private fun changeName(changedName: String, changedLastName: String) {
-        if (mSnapshot != null){
-            FireBaseHelper.changeUserName(changedName, changedLastName, mSnapshot)
-        }
+        FireBaseHelper.changeUserName(USER_ID, changedName, changedLastName)
     }
 
-    override fun onResume() {
-        super.onResume()
-        mViewModel.loadUserData(USER_ID)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

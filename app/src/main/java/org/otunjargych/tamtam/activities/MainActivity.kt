@@ -17,12 +17,10 @@ import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ActivityMainBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.fragments.*
-import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataListener,
-    OnBottomAppBarStateChangeListener {
+class MainActivity : AppCompatActivity(), OnBottomAppBarStateChangeListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -41,10 +39,6 @@ class MainActivity : AppCompatActivity(), MyDialogFragment.OnFragmentSendDataLis
 
         setOnMenuItem()
         setBottomAppBarAndFab()
-    }
-
-    override fun onSendData(data: String?) {
-
     }
 
     private fun setBottomAppBarAndFab() {

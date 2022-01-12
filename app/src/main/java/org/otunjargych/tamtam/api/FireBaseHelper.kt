@@ -3,28 +3,30 @@ package org.otunjargych.tamtam.api
 import android.net.Uri
 import android.util.Log
 import com.google.firebase.database.*
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import org.otunjargych.tamtam.extensions.*
+import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.Note
+import org.otunjargych.tamtam.model.User
 import java.util.*
 import kotlin.collections.ArrayList
 
 object FireBaseHelper {
 
-    private const val workCategory = "Работа, Подработки"
+    private const val workCategory = "Работа, Вакансии"
     private const val transportCategory = "Транспорт, Перевозки"
     private const val medicineCategory = "Медицина, Красота"
     private const val buySellCategory = "Продажа, Покупка"
     private const val flatsCategory = "Квартиры, Гостиницы"
     private const val studyCategory = "Обучение, Услуги"
     private val imagesUrlList = ArrayList<String>()
-
     private lateinit var mRefAds: DatabaseReference
+
+
     suspend fun DatabaseReference.valuesEventFlow(): Flow<EventResponse> = callbackFlow {
         val valueEventListener = object : ValueEventListener {
 
@@ -37,17 +39,6 @@ object FireBaseHelper {
         addListenerForSingleValueEvent(valueEventListener)
         awaitClose {
             removeEventListener(valueEventListener)
-        }
-    }
-
-    suspend fun FirebaseFirestore.getFirestoreData(collection: String): Flow<EventResponse> = callbackFlow {
-        val document = FirebaseFirestore
-            .getInstance().collection(collection)
-        val listener = document.addSnapshotListener { snapshot, _ ->
-            sendBlocking(EventResponse.Loaded(snapshot))
-        }
-        awaitClose {
-            listener.remove()
         }
     }
 
@@ -119,30 +110,26 @@ object FireBaseHelper {
     }
 
 
-    fun changeUserPhoto(url: Uri, snapShot: DataSnapshot) {
+    fun changeUserPhoto(uuid: String, url: Uri) {
         val path =
             FirebaseStorage.getInstance().reference.child(FOLDER_USER_IMAGES).child(USER_ID)
         path.putFile(url).addOnCompleteListener {
             if (it.isSuccessful) {
                 path.downloadUrl.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        if (snapShot != null) {
-                            val image: DatabaseReference = snapShot.ref.child("image")
-                            image.setValue(task.result.toString())
-                        }
+                        FF_DATABASE_ROOT.collection(NODE_USERS)
+                            .document(uuid)
+                            .update("image", task.result.toString())
                     }
                 }
             }
         }
     }
 
-    fun changeUserName(changedName: String, changedLastName: String, snapShot: DataSnapshot) {
-        if (snapShot != null) {
-            val name: DatabaseReference = snapShot.ref.child("name")
-            val lastName: DatabaseReference = snapShot.ref.child("last_name")
-            name.setValue(changedName)
-            lastName.setValue(changedLastName)
-        }
+    fun changeUserName(uuid: String, changedName: String, changedLastName: String) {
+        FF_DATABASE_ROOT.collection(NODE_USERS)
+            .document(uuid)
+            .update("name", changedName, "last_name", changedLastName)
     }
 
     fun getImagesUrlList(): ArrayList<String> {
@@ -151,11 +138,42 @@ object FireBaseHelper {
     }
 
 
-    fun addToFireStore(note: Note) {
-        FF_DATABASE_ROOT.collection("work_notes")
-            .add(note)
+    fun addDataToFirestore(category: String, note: Node) {
+        when (category) {
+            medicineCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HEALTH)
+                    .add(note)
+            }
+            workCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_WORKS)
+                    .add(note)
+            }
+            studyCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_SERVICES)
+                    .add(note)
+            }
+            flatsCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HOUSE)
+                    .add(note)
+            }
+            transportCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_TRANSPORT)
+                    .add(note)
+            }
+            buySellCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_BUY_SELL)
+                    .add(note)
+            }
+        }
+    }
+
+
+    fun addNewUserProfile(user: User, uuid: String) {
+        FF_DATABASE_ROOT.collection(NODE_USERS)
+            .document(uuid)
+            .set(user)
             .addOnSuccessListener { documentReference ->
-                Log.d("Success", "DocumentSnapshot added with ID: ${documentReference.id}")
+                //Log.d("Success", "DocumentSnapshot added with ID: ${documentReference.id}")
             }
             .addOnFailureListener { e ->
                 Log.w("Error", "Error adding document", e)

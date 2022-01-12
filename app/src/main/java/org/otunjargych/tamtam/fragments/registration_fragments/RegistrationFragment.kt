@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
@@ -15,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.activities.MainActivity
+import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentRegistrationBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.model.User
@@ -56,6 +58,7 @@ class RegistrationFragment : BaseFragment() {
             }
         }
         binding.btnAccept.setOnClickListener {
+            binding.progressView.isVisible = true
             authUser()
 
         }
@@ -90,9 +93,13 @@ class RegistrationFragment : BaseFragment() {
                 toastMessage(requireContext(), "Добро пожаловать")
                 replaceActivity()
             }.addOnFailureListener {
-                toastMessage(requireContext(), "Профиль не создан!")
+                toastMessage(requireContext(), "Что-то пошло не так!")
             }
-        AUTH.signInWithEmailAndPassword(mPhoneNumber, mPassword)
+        AUTH.signInWithEmailAndPassword(mPhoneNumber, mPassword).addOnCompleteListener {
+            binding.progressView.isVisible = false
+        }.addOnFailureListener {
+            binding.progressView.isVisible = false
+        }
 
     }
 
@@ -116,14 +123,16 @@ class RegistrationFragment : BaseFragment() {
                             imageUrl = task.result.toString()
                             val user: User =
                                 User(uid, mName, mLastName, mPhoneNumber, mEmail, imageUrl)
-                            mRefUsers.child(NODE_USERS).child(uid).setValue(user)
+                            //mRefUsers.child(NODE_USERS).child(uid).setValue(user)
+                            FireBaseHelper.addNewUserProfile(user, uid)
                         }
                     }
                 }
             }
         } else {
             val user: User = User(uid, mName, mLastName, mPhoneNumber, mEmail, imageUrl)
-            mRefUsers.child(NODE_USERS).child(uid).setValue(user)
+            FireBaseHelper.addNewUserProfile(user, uid)
+            // mRefUsers.child(NODE_USERS).child(uid).setValue(user)
         }
     }
 

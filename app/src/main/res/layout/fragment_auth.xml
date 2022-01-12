@@ -26,10 +26,10 @@
 
         <ImageView
             android:id="@+id/custom_image"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/ic_name_app" />
 
 
@@ -54,6 +54,7 @@
         android:text="@string/and_password"
         android:textColor="@color/black"
         android:textSize="20sp" />
+
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -102,7 +103,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_enter"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_background"
@@ -110,7 +111,7 @@
         android:text="@string/enter_auth"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tv_registration"
@@ -125,5 +126,19 @@
         android:text="@string/registration"
         android:textColor="@color/app_main_color"
         android:textSize="16sp" />
+
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:visibility="invisible"
+        android:layout_marginTop="10dp"
+        android:id="@+id/progressView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/infinity_line_anim"
+        app:lottie_speed="2" />
 
 </LinearLayout>

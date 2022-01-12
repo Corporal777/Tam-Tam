@@ -3,7 +3,6 @@ package org.otunjargych.tamtam.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
-import dagger.hilt.android.AndroidEntryPoint
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ActivityRegistrationBinding
 import org.otunjargych.tamtam.fragments.registration_fragments.RegistrationFragment
@@ -18,6 +17,8 @@ class RegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
+
+
         setContentView(binding.root)
        if (savedInstanceState == null){
            supportFragmentManager.commit {

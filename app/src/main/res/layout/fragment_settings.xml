@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/main_background">
 
 
@@ -22,8 +22,8 @@
             android:layout_height="50dp"
             android:background="@color/app_main_color"
             android:elevation="6dp"
-            app:menu="@menu/account_menu"
             app:contentInsetStart="0dp"
+            app:menu="@menu/account_menu"
             app:navigationIcon="@drawable/ic_back">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,33 +56,26 @@
         android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:gravity="center"
-                android:orientation="vertical">
+            android:layout_height="wrap_content">
 
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_user_photo"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="5dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_user_photo"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="5dp"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/empty_avatar"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                    android:layout_marginBottom="5dp"
-                    android:clickable="true"
-                    android:elevation="5dp"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:src="@drawable/anonymous_user" />
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_user_name"
@@ -93,21 +86,30 @@
                 android:fontFamily="@font/commons_bold"
                 android:text="@string/not_accepted"
                 android:textColor="@color/app_main_color"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_user_photo" />
 
 
             <TextView
+                android:id="@+id/text1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/commons_bold"
                 android:text="@string/about_user"
                 android:textColor="@color/app_main_color"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
 
             <TextView
+                android:id="@+id/text2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -118,6 +120,8 @@
                 android:textSize="14sp" />
 
             <TextView
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text2"
                 android:id="@+id/tv_user_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,14 +133,21 @@
                 android:textSize="18sp" />
 
             <View
-                android:layout_width="wrap_content"
+                android:id="@+id/view1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_phone_number"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="12dp"
                 android:background="#BDBDBD" />
 
             <TextView
+                android:id="@+id/text3"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -148,6 +159,8 @@
 
 
             <TextView
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text3"
                 android:id="@+id/tv_user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,27 +172,40 @@
                 android:textSize="18sp" />
 
             <View
-                android:layout_width="wrap_content"
+                android:id="@+id/view2"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_email"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginRight="10dp"
                 android:background="#BDBDBD" />
 
             <TextView
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view2"
+                android:id="@+id/settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/commons_bold"
                 android:text="Настройки"
                 android:textColor="@color/app_main_color"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
 
             <LinearLayout
+                android:foreground="?android:attr/selectableItemBackground"
+                android:id="@+id/my_nodes"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical">
@@ -191,7 +217,6 @@
                     android:src="@drawable/ic_microphone" />
 
                 <TextView
-                    android:id="@+id/tv_my_ads"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -202,15 +227,25 @@
             </LinearLayout>
 
             <View
-                android:layout_width="wrap_content"
+                android:id="@+id/view3"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/my_nodes"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="45dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginEnd="10dp"
                 android:background="#BDBDBD" />
 
             <LinearLayout
+                android:foreground="?android:attr/selectableItemBackground"
+                android:id="@+id/about_app"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view3"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="5dp"
                 android:gravity="center_vertical">
 
@@ -221,7 +256,6 @@
                     android:src="@drawable/ic_about" />
 
                 <TextView
-                    android:id="@+id/tv_about_app"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -232,15 +266,24 @@
             </LinearLayout>
 
             <View
-                android:layout_width="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:id="@+id/view4"
+                app:layout_constraintTop_toBottomOf="@id/about_app"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="45dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginEnd="10dp"
                 android:background="#BDBDBD" />
 
             <LinearLayout
+                android:foreground="?android:attr/selectableItemBackground"
+                android:id="@+id/privacy_policy"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toBottomOf="@id/view4"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="5dp"
                 android:gravity="center_vertical">
 
@@ -251,7 +294,6 @@
                     android:src="@drawable/ic_privacy" />
 
                 <TextView
-                    android:id="@+id/tv_policy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -262,20 +304,25 @@
             </LinearLayout>
 
             <View
-                android:layout_width="wrap_content"
+                android:id="@+id/view5"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/privacy_policy"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="45dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginEnd="10dp"
                 android:background="#BDBDBD" />
 
             <LinearLayout
-                android:foreground="?android:attr/selectableItemBackground"
-                android:focusable="true"
-                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/view5"
                 android:id="@+id/write_to_dev"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -295,19 +342,26 @@
             </LinearLayout>
 
             <View
-                android:layout_width="wrap_content"
+                android:id="@+id/view6"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/write_to_dev"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="45dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginEnd="10dp"
                 android:background="#BDBDBD" />
 
             <LinearLayout
-                android:foreground="?android:attr/selectableItemBackground"
+                app:layout_constraintTop_toBottomOf="@id/view6"
                 android:id="@+id/share"
+                android:clickable="true"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="5dp"
-                android:gravity="center_vertical">
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -326,20 +380,25 @@
             </LinearLayout>
 
             <View
-                android:layout_width="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/share"
+                android:id="@+id/view7"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginStart="45dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginEnd="10dp"
                 android:background="#BDBDBD" />
 
             <LinearLayout
-                android:foreground="?android:attr/selectableItemBackground"
-                android:focusable="true"
-                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/view7"
                 android:id="@+id/exit"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -359,21 +418,23 @@
             </LinearLayout>
 
             <TextView
-                android:layout_gravity="center_horizontal"
+                app:layout_constraintTop_toBottomOf="@id/exit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="10dp"
-                android:gravity="bottom"
                 android:fontFamily="@font/commons_demi_bold"
+                android:gravity="bottom"
                 android:text="@string/version_app"
                 android:textColor="#595959"
                 android:textSize="14sp" />
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

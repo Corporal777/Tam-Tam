@@ -16,8 +16,6 @@ import org.otunjargych.tamtam.activities.RegistrationActivity
 import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentSettingsBinding
 import org.otunjargych.tamtam.extensions.*
-import org.otunjargych.tamtam.model.State
-import org.otunjargych.tamtam.model.User
 import org.otunjargych.tamtam.viewmodel.UserViewModel
 
 class SettingsFragment : BaseFragment() {
@@ -100,29 +98,16 @@ class SettingsFragment : BaseFragment() {
 
 
     private fun initUserInfo() {
-        mViewModel.currentUser.observe(viewLifecycleOwner, { state ->
-            when (state) {
-                is State.Loading -> {
-
-                }
-                is State.Success -> {
-                    state.data.let { snapShot ->
-                        if (snapShot != null) {
-                            mSnapShot = snapShot
-                            val user: User? = snapShot.getValue(User::class.java)
-                            if (user != null) {
-                                if (!user.name.isNullOrEmpty())
-                                    binding.tvUserName.text = user.name + " " + user.last_name
-                                if (!user.phone_number.isNullOrEmpty())
-                                    binding.tvUserPhoneNumber.text = user.phone_number
-                                if (!user.email.isNullOrEmpty())
-                                    binding.tvUserEmail.text = user.email
-                                if (!user.image.isNullOrEmpty())
-                                    binding.ivUserPhoto.load(user.image)
-                            }
-                        }
-                    }
-                }
+        mViewModel.currentUser.observe(viewLifecycleOwner, { user ->
+            if (user != null) {
+                if (!user.name.isNullOrEmpty())
+                    binding.tvUserName.text = user.name + " " + user.last_name
+                if (!user.phone_number.isNullOrEmpty())
+                    binding.tvUserPhoneNumber.text = user.phone_number
+                if (!user.email.isNullOrEmpty())
+                    binding.tvUserEmail.text = user.email
+                if (!user.image.isNullOrEmpty() && !user.image.equals(""))
+                    binding.ivUserPhoto.load(user.image)
             }
         })
     }
@@ -140,7 +125,7 @@ class SettingsFragment : BaseFragment() {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK && data != null && data.data != null) {
                 val mData: Uri = data.data!!
-                FireBaseHelper.changeUserPhoto(mData, mSnapShot)
+                FireBaseHelper.changeUserPhoto(USER_ID, mData)
                 changePhoto(mData)
             }
         }

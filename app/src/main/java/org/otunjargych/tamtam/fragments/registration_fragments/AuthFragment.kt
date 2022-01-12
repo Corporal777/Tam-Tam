@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.activities.MainActivity
@@ -28,6 +29,7 @@ class AuthFragment() : BaseFragment() {
         binding.authToolbar.customTitle.text = getString(R.string.authorization)
 
         binding.btnEnter.setOnClickListener {
+            binding.progressView.isVisible = true
             authUser()
         }
 
@@ -46,16 +48,24 @@ class AuthFragment() : BaseFragment() {
         val password: String = binding.etPasswordAuth.text.toString()
 
         AUTH = FirebaseAuth.getInstance()
-        if (!phoneNumber.isNullOrEmpty() || !password.isNullOrEmpty()) {
-            AUTH.signInWithEmailAndPassword(phoneNumber, password).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    toastMessage(requireContext(), "Добро пожаловать")
-                    replaceActivity()
+        if (AUTH.currentUser == null){
+            if (!phoneNumber.isNullOrEmpty() || !password.isNullOrEmpty()) {
+                AUTH.signInWithEmailAndPassword(phoneNumber, password).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        binding.progressView.isVisible = false
+                        toastMessage(requireContext(), "Добро пожаловать")
+                        replaceActivity()
+                    }
+                }.addOnFailureListener {
+                    binding.progressView.isVisible = false
+                    toastMessage(requireContext(), "Такого аккаунта не существует!")
                 }
-            }.addOnFailureListener {
-                toastMessage(requireContext(), "Такого аккаунта не существует!")
-            }
-        } else toastMessage(requireContext(), "Заполните все поля ввода!")
+            } else toastMessage(requireContext(), "Заполните все поля ввода!")
+        }
+        else{
+            toastMessage(requireContext(), "Вы уже авторизованы")
+        }
+
 
     }
 

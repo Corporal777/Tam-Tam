@@ -69,7 +69,6 @@ class TransportFragment : BaseFragment() {
     }
 
     private fun initToolbarActions() {
-        binding.toolbar.customTitle.text = "Транспорт"
         binding.toolbar.toolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }

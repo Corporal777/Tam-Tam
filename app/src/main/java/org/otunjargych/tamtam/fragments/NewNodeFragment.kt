@@ -17,8 +17,9 @@ import org.otunjargych.tamtam.adapter.ImagesAdapter
 import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentNewAdBinding
 import org.otunjargych.tamtam.extensions.*
+import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
-import org.otunjargych.tamtam.model.Note
+import org.otunjargych.tamtam.model.Node
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -86,11 +87,12 @@ class NewNodeFragment : BaseFragment() {
             tvMetro.setOnClickListener {
                 showMetroStationsList()
             }
-            layoutChoosePhoto.btnSelectPhoto.setOnClickListener {
+            Boom(btnSelectPhoto)
+            btnSelectPhoto.setOnClickListener {
                 openImagePicker()
             }
         }
-
+        Boom(binding.btnAddNewAd)
         binding.btnAddNewAd.setOnClickListener {
             if (binding.tvCategory.text.isNullOrEmpty()) {
                 binding.tvCategory.error = ""
@@ -185,7 +187,7 @@ class NewNodeFragment : BaseFragment() {
         val list = ArrayList<String>()
         list.addAll(FireBaseHelper.getImagesUrlList())
         val time = Date().time
-        val note = Note(
+        val note = Node(
             USER_ID,
             uuid,
             title,
@@ -202,7 +204,7 @@ class NewNodeFragment : BaseFragment() {
             phoneNumber,
             whatsappNumber
         )
-        FireBaseHelper.addToFireStore(note)
+        FireBaseHelper.addDataToFirestore(mSelectedCategory, note)
         //FireBaseHelper.addNewData(mSelectedCategory, note)
     }
 

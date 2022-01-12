@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
-import org.otunjargych.tamtam.databinding.ListItemBinding
+import com.bumptech.glide.Glide
+import org.otunjargych.tamtam.R
+import org.otunjargych.tamtam.databinding.ItemNodeBinding
 import org.otunjargych.tamtam.extensions.OnNodeClickListener
 import org.otunjargych.tamtam.extensions.asTime
 import org.otunjargych.tamtam.extensions.boom.Boom
@@ -23,7 +24,7 @@ class PagingNodesAdapter(private val listener: OnNodeClickListener) :
         viewType: Int
     ): PagingNodesAdapter.PagingViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ListItemBinding.inflate(inflater, parent, false)
+        val binding = ItemNodeBinding.inflate(inflater, parent, false)
         return PagingViewHolder(binding)
     }
 
@@ -37,7 +38,7 @@ class PagingNodesAdapter(private val listener: OnNodeClickListener) :
     }
 
 
-    inner class PagingViewHolder(val binding: ListItemBinding) :
+    inner class PagingViewHolder(val binding: ItemNodeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(node: Node) = with(binding) {
@@ -61,8 +62,10 @@ class PagingNodesAdapter(private val listener: OnNodeClickListener) :
             } else
                 tvLocation.text = "м. " + node.station
             tvCategory.text = node.category
-            if (node.images.size > 0) {
-                Picasso.get().load(node.images[0]).into(ivNoteImage)
+            if (!node.images.isNullOrEmpty() && !node.images[0].equals("") ) {
+                Glide.with(binding.root).load(node.images[0]).into(ivNoteImage)
+            }else{
+                Glide.with(binding.root).load(R.drawable.placeholder).into(ivNoteImage)
             }
             Boom(cvItem)
             cvItem.setOnClickListener {

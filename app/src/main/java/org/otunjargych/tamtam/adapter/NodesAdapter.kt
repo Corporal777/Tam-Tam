@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import org.otunjargych.tamtam.databinding.ListItemBinding
+import org.otunjargych.tamtam.databinding.ItemNodeBinding
 import org.otunjargych.tamtam.extensions.DiffUtilCallbackN
 import org.otunjargych.tamtam.extensions.OnNodeClickListener
 import org.otunjargych.tamtam.extensions.boom.Boom
@@ -33,7 +33,7 @@ class NodesAdapter : RecyclerView.Adapter<NodesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ListItemBinding.inflate(inflater, parent, false)
+        val binding = ItemNodeBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -48,7 +48,7 @@ class NodesAdapter : RecyclerView.Adapter<NodesAdapter.ViewHolder>() {
     }
 
 
-    inner class ViewHolder(private val binding: ListItemBinding) :
+    inner class ViewHolder(private val binding: ItemNodeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(node: Node) = with(binding) {
 

@@ -109,13 +109,17 @@ fun String.asTime(): String {
 
 fun getCategoriesList(): List<String> {
     val categoriesList = ArrayList<String>()
-    categoriesList.add("Работа, Подработки")
+    categoriesList.add("Работа, Вакансии")
     categoriesList.add("Транспорт, Перевозки")
     categoriesList.add("Медицина, Красота")
     categoriesList.add("Продажа, Покупка")
     categoriesList.add("Квартиры, Гостиницы")
     categoriesList.add("Обучение, Услуги")
     return categoriesList
+}
+
+fun getEmptyImage(): String{
+    return "https://firebasestorage.googleapis.com/v0/b/tam-tam-8b2a7.appspot.com/o/notes_images%2Fplaceholder.png?alt=media&token=c8c79ca4-a95c-465e-9b06-f0c7d6ed5c91"
 }
 
 fun Fragment.openImagePicker() {
@@ -142,6 +146,10 @@ fun Fragment.hideKeyboard(view: View) {
 }
 
 fun onCompareText(note: String, word: String): Boolean {
+    return (note.contains(word, true) || note.contentEquals(word, true))
+}
+
+fun onCompareTitle(note: String, word: String): Boolean {
     return (note.contains(word, true) || note.contentEquals(word, true))
 }
 

@@ -3,12 +3,12 @@ package org.otunjargych.tamtam.adapter
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import org.otunjargych.tamtam.databinding.ListItemBinding
+import org.otunjargych.tamtam.databinding.ItemNodeBinding
 import org.otunjargych.tamtam.extensions.asTime
 import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.Note
 
-class ViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class ViewHolder(val binding: ItemNodeBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(note: Note) = with(binding) {
 

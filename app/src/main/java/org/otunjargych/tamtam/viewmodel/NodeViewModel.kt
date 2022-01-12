@@ -33,10 +33,10 @@ class NodeViewModel() : ViewModel() {
     fun loadSearchableNodes(collection: String) {
         _node.value = State.Loading()
         viewModelScope.launch {
-            delay(1000)
+            delay(1500)
             getFirestoreData(collection).collect {
                 if (it.data!!.isNotEmpty()) {
-                    _node.value = State.Success(it.data)
+                    _node.postValue(State.Success(it.data))
                 } else {
                     Log.e("Empty", "onSuccess: LIST EMPTY");
                 }
@@ -64,7 +64,6 @@ class NodeViewModel() : ViewModel() {
 
     private suspend fun getFirestoreData(collection: String): Flow<State<List<Node>>> =
         callbackFlow {
-
             val eventDocument = FirebaseFirestore
                 .getInstance()
                 .collection(collection)
@@ -77,6 +76,5 @@ class NodeViewModel() : ViewModel() {
             }
 
             awaitClose { subscription.remove() }
-
         }
 }

@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialSharedAxis
-import dagger.hilt.android.AndroidEntryPoint
 import org.otunjargych.tamtam.R
 
 abstract class BaseFragment : Fragment() {

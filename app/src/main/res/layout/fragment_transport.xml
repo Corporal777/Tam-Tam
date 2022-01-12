@@ -11,13 +11,13 @@
         style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EFEFEF"
+        android:background="@color/app_main_color"
         android:elevation="10dp"
         app:elevation="10dp">
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/custom_toolbar_back" />
+            layout="@layout/custom_toolbar_transport" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -33,67 +33,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:scrollbarThumbHorizontal="@null"
-                android:scrollbarThumbVertical="@null">
-
-                <ScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:overScrollMode="never"
-                    android:scrollbarThumbHorizontal="@null"
-                    android:scrollbarThumbVertical="@null">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp">
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_tag_first"
-                            android:layout_width="150dp"
-                            android:layout_height="35dp"
-                            android:layout_marginStart="10dp"
-                            android:background="@drawable/tag_background"
-                            android:fontFamily="@font/commons_demi_bold"
-                            android:text="Грузоперевозки"
-                            android:textAllCaps="false"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_tag_second"
-                            android:layout_width="120dp"
-                            android:layout_height="35dp"
-                            android:layout_marginStart="10dp"
-                            android:background="@drawable/tag_background"
-                            android:fontFamily="@font/commons_demi_bold"
-                            android:text="Автомобиль"
-                            android:textAllCaps="false"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_tag_third"
-                            android:layout_width="140dp"
-                            android:layout_height="35dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/tag_background"
-                            android:fontFamily="@font/commons_demi_bold"
-                            android:text="Выезд / Заезд"
-                            android:textAllCaps="false"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-                </ScrollView>
-            </HorizontalScrollView>
 
 
             <RelativeLayout

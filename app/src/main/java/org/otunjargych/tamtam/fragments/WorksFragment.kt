@@ -18,6 +18,7 @@ import org.otunjargych.tamtam.adapter.NodesAdapter
 import org.otunjargych.tamtam.adapter.PagingNodesAdapter
 import org.otunjargych.tamtam.databinding.FragmentWorkBinding
 import org.otunjargych.tamtam.extensions.*
+import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.State
 import org.otunjargych.tamtam.viewmodel.NodeViewModel
@@ -61,6 +62,28 @@ class WorksFragment : BaseFragment() {
             binding.include.etSearch.text.clear()
         }
 
+        binding.include.apply {
+            Boom(btnTagZero)
+            btnTagZero.setOnClickListener {
+                initNodesPagingData()
+            }
+            Boom(btnTagFirst)
+            btnTagFirst.setOnClickListener {
+                initSearchableData("Подработ", NODE_WORKS)
+            }
+            Boom(btnTagSecond)
+            btnTagSecond.setOnClickListener {
+                initSearchableData("Халтур", NODE_WORKS)
+            }
+            Boom(btnTagThird)
+            btnTagThird.setOnClickListener {
+                initSearchableData("Ищу работу", NODE_WORKS)
+            }
+            Boom(btnTagFourth)
+            btnTagFourth.setOnClickListener {
+                initSearchableData("Ищу работник", NODE_WORKS)
+            }
+        }
 
     }
 
@@ -82,7 +105,6 @@ class WorksFragment : BaseFragment() {
         mPagingNodesAdapter = PagingNodesAdapter(nodeClick)
         binding.listNotes.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
-
         }
     }
 
@@ -101,8 +123,6 @@ class WorksFragment : BaseFragment() {
             mPagingNodesAdapter.loadStateFlow.collectLatest {
                 binding.progressView.isVisible = it.append is LoadState.Loading
             }
-
-
         }
     }
 
@@ -110,9 +130,9 @@ class WorksFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         if (hasConnection(requireContext())) {
-            if (binding.include.etSearch.text.isNullOrEmpty()){
+            if (binding.include.etSearch.text.isNullOrEmpty()) {
                 initNodesPagingData()
-            }else{
+            } else {
                 initSearchableData(binding.include.etSearch.text.toString(), NODE_WORKS)
 
             }
@@ -133,11 +153,11 @@ class WorksFragment : BaseFragment() {
                 }
                 is State.Success -> {
                     binding.progressView.isVisible = false
-                    state.data.let {nodeList ->
+                    state.data.let { nodeList ->
                         list.clear()
-                        if (nodeList!!.isNotEmpty()){
-                            nodeList.forEach {node ->
-                                if (onCompareText(node.text, str) && !list.contains(node)) {
+                        if (nodeList!!.isNotEmpty()) {
+                            nodeList.forEach { node ->
+                                if (onCompareTitle(node.title, str) || onCompareText(node.text, str) && !list.contains(node)) {
                                     list.add(node)
                                 }
                             }
@@ -148,12 +168,7 @@ class WorksFragment : BaseFragment() {
                 }
             }
         })
-
-
-
-
     }
-
 
 
     private fun onBtnSearchClick() {
@@ -164,7 +179,7 @@ class WorksFragment : BaseFragment() {
                 list.clear()
                 hideKeyboard(requireView())
                 return@OnEditorActionListener true
-            }else if(actionId == EditorInfo.IME_ACTION_SEARCH && text.isNullOrEmpty()){
+            } else if (actionId == EditorInfo.IME_ACTION_SEARCH && text.isNullOrEmpty()) {
                 hideKeyboard(requireView())
                 initNodesPagingData()
             }

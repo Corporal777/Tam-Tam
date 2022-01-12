@@ -76,7 +76,7 @@ class DetailFragment : BaseFragment() {
                 override fun onImageClick() {
                 }
             }
-        if (!imagesList[0].isNullOrEmpty()) {
+        if (!imagesList.isNullOrEmpty()) {
             adapter.update(imagesList, onImageClick)
         }
         binding.viewPager.adapter = adapter
@@ -146,29 +146,15 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun initAuthor() {
-        mViewModel.user.observe(viewLifecycleOwner, { state ->
-            when (state) {
-                is State.Loading -> {
+        mViewModel.user.observe(viewLifecycleOwner, { user ->
+            if (!user.name.isNullOrEmpty() || !user.last_name.isNullOrEmpty()) {
+                binding.tvDetailUserName.text = user.name + " " + user.last_name
+            } else binding.tvDetailUserName.text =
+                getString(R.string.not_accepted)
 
-                }
-                is State.Success -> {
-                    state.data.let { snapShot ->
-                        if (snapShot != null) {
-                            val user: User? = snapShot.getValue(User::class.java)
-                            if (user != null) {
-                                if (!user.name.isNullOrEmpty() || !user.last_name.isNullOrEmpty()) {
-                                    binding.tvDetailUserName.text = user.name + " " + user.last_name
-                                } else binding.tvDetailUserName.text =
-                                    getString(R.string.not_accepted)
-
-                                if (!user.image.isEmpty()) {
-                                    binding.ivDetailUserPhoto.load(user.image)
-                                } else binding.ivDetailUserPhoto.load(R.drawable.anonymous_user)
-                            }
-                        }
-                    }
-                }
-            }
+            if (!user.image.isEmpty()) {
+                binding.ivDetailUserPhoto.load(user.image)
+            } else binding.ivDetailUserPhoto.load(R.drawable.empty_avatar)
         })
 
     }
@@ -415,7 +401,11 @@ class DetailFragment : BaseFragment() {
                 mDetailUserId = note.userId
 
                 imagesList.clear()
-                imagesList.addAll(note.images)
+                if (!note.images.isNullOrEmpty()) {
+                    imagesList.addAll(note.images)
+                } else {
+                    imagesList.add(getEmptyImage())
+                }
 
                 initFields()
             }
