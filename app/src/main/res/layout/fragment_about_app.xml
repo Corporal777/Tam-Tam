@@ -32,7 +32,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:fontFamily="@font/encore_font_circular_book"
+                android:fontFamily="@font/commons_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2mm"
@@ -43,7 +43,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:fontFamily="@font/encore_font_circular_book"
+                android:fontFamily="@font/commons_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2mm"
@@ -55,7 +55,7 @@
 
 
             <TextView
-                android:fontFamily="@font/encore_font_circular_book"
+                android:fontFamily="@font/commons_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2mm"
@@ -67,7 +67,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:fontFamily="@font/encore_font_circular_book"
+                android:fontFamily="@font/commons_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2mm"
@@ -79,7 +79,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:fontFamily="@font/encore_font_circular_book"
+                android:fontFamily="@font/commons_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2mm"
@@ -91,7 +91,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:fontFamily="@font/encore_font_circular_book"
+                android:fontFamily="@font/commons_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2mm"
@@ -102,7 +102,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:fontFamily="@font/encore_font_circular_book"
+                android:fontFamily="@font/commons_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2mm"

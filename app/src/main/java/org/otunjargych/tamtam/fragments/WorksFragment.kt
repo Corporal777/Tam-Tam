@@ -19,6 +19,7 @@ import org.otunjargych.tamtam.adapter.PagingNodesAdapter
 import org.otunjargych.tamtam.databinding.FragmentWorkBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.extensions.boom.Boom
+import org.otunjargych.tamtam.fragments.dialog_fragments.FiltersFragment
 import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.State
 import org.otunjargych.tamtam.viewmodel.NodeViewModel
@@ -35,6 +36,7 @@ class WorksFragment : BaseFragment() {
 
     private val list = ArrayList<Node>()
     private lateinit var nodeClick: OnNodeClickListener
+    private var mSelectedStation = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +46,7 @@ class WorksFragment : BaseFragment() {
         _binding = FragmentWorkBinding.inflate(inflater, container, false)
         initRecyclerView()
         setProgressBarAccordingToLoadState()
+
         return binding.root
     }
 
@@ -52,6 +55,13 @@ class WorksFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbarActions()
         onBtnSearchClick()
+        binding.include.ivFilter.setOnClickListener {
+            showDialog {
+                toastMessage(requireContext(), it)
+                mSelectedStation = it
+                initSearchableData(it, NODE_WORKS)
+            }
+        }
     }
 
     private fun initToolbarActions() {
@@ -130,16 +140,19 @@ class WorksFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         if (hasConnection(requireContext())) {
-            if (binding.include.etSearch.text.isNullOrEmpty()) {
+            if (!mSelectedStation.isNullOrEmpty()) {
+                initSearchableData(mSelectedStation, NODE_WORKS)
+            }
+            if (binding.include.etSearch.text.isNullOrEmpty() || mSelectedStation.isNullOrEmpty()) {
                 initNodesPagingData()
             } else {
                 initSearchableData(binding.include.etSearch.text.toString(), NODE_WORKS)
-
             }
         } else {
             binding.progressView.isVisible = true
             toastMessage(requireContext(), getString(R.string.no_connection))
         }
+
     }
 
 
@@ -157,7 +170,11 @@ class WorksFragment : BaseFragment() {
                         list.clear()
                         if (nodeList!!.isNotEmpty()) {
                             nodeList.forEach { node ->
-                                if (onCompareTitle(node.title, str) || onCompareText(node.text, str) && !list.contains(node)) {
+                                if (onCompareTitle(node.title, str) || onCompareText(
+                                        node.text,
+                                        str
+                                    ) && !list.contains(node)
+                                ) {
                                     list.add(node)
                                 }
                             }
@@ -187,9 +204,18 @@ class WorksFragment : BaseFragment() {
         })
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showDialog(onData: (String) -> Unit) {
+        val args = Bundle()
+        args.putString("category", getString(R.string.work_category))
+        val dialog = FiltersFragment(onData)
+        dialog.arguments = args
+        dialog.show(requireActivity().supportFragmentManager, "dialog")
     }
 
 }

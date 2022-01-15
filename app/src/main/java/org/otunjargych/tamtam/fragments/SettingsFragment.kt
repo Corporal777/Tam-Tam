@@ -64,6 +64,9 @@ class SettingsFragment : BaseFragment() {
                 i.data = Uri.parse(url)
                 startActivity(i)
             }
+            aboutApp.setOnClickListener {
+                replaceFragment(AboutAppFragment())
+            }
         }
     }
 

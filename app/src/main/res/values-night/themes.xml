@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.ZuhaApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
+        <item name="bottomSheetDialogTheme">@style/Theme.MyApp.BottomSheetDialog</item>
         <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar</item>
         <item name="searchViewStyle">@style/CustomSearchViewStyle</item>
         <item name="colorAccent">@color/white</item>
@@ -68,6 +69,15 @@
         <item name="submitBackground">@drawable/search_background</item>
     </style>
 
+    <style name="Widget.MyApp.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="behavior_skipCollapsed">true</item>
+        <item name="behavior_fitToContents">true</item>
+        <item name="behavior_peekHeight">1000dp</item> // yep, that helped to skip collapsed state at initial
+        <item name="behavior_hideable">true</item>
+    </style>
 
+    <style name="Theme.MyApp.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.MyApp.BottomSheet.Modal</item>
+    </style>
 
 </resources>

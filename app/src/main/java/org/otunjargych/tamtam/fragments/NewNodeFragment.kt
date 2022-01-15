@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.ImagesAdapter
 import org.otunjargych.tamtam.api.FireBaseHelper
-import org.otunjargych.tamtam.databinding.FragmentNewAdBinding
+import org.otunjargych.tamtam.databinding.FragmentNewNodeBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
@@ -35,7 +35,7 @@ class NewNodeFragment : BaseFragment() {
     private var mImageList = ArrayList<Uri>()
     private var listener: OnBottomAppBarStateChangeListener? = null
 
-    private var _binding: FragmentNewAdBinding? = null
+    private var _binding: FragmentNewNodeBinding? = null
     private val binding get() = _binding!!
     private lateinit var mAdapter: ImagesAdapter
 
@@ -53,7 +53,7 @@ class NewNodeFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentNewAdBinding.inflate(inflater, container, false)
+        _binding = FragmentNewNodeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
