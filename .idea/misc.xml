@@ -78,6 +78,7 @@
         <entry key="app/src/main/res/layout/custom_toolbar_auth.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/custom_toolbar_back.xml" value="0.264" />
         <entry key="app/src/main/res/layout/custom_toolbar_search.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/custom_toolbar_transport.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/custom_toolbar_work.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/detail.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/detail_fragment.xml" value="0.264" />
@@ -94,6 +95,7 @@
         <entry key="app/src/main/res/layout/fragment_code_reg.xml" value="0.264" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.39510939510939513" />
         <entry key="app/src/main/res/layout/fragment_enter.xml" value="0.29322916666666665" />
+        <entry key="app/src/main/res/layout/fragment_filters.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_flats.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_full_images.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_liked_ads.xml" value="0.29322916666666665" />

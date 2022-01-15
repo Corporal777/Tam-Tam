@@ -118,6 +118,45 @@
         android:textColorHint="@color/color_of_text_fragment_new_ad"
         android:textSize="17sp" />
 
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/commons_demi_bold"
+        android:gravity="center_vertical"
+        android:text="@string/detail_addres"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_metro" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/adress_lay"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="@string/address"
+        app:endIconMode="clear_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/app_main_color"
+            android:fontFamily="@font/commons_demi_bold"
+            android:inputType="textMultiLine"
+            android:textColor="@color/app_main_color"
+            android:textColorHint="@color/app_main_color"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <androidx.appcompat.widget.AppCompatButton
         app:layout_constraintRight_toRightOf="parent"

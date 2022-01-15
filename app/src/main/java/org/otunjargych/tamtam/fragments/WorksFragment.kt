@@ -1,6 +1,7 @@
 package org.otunjargych.tamtam.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,6 @@ import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.fragments.dialog_fragments.FiltersFragment
 import org.otunjargych.tamtam.model.Node
-import org.otunjargych.tamtam.model.State
 import org.otunjargych.tamtam.viewmodel.NodeViewModel
 
 
@@ -59,7 +59,10 @@ class WorksFragment : BaseFragment() {
             showDialog {
                 toastMessage(requireContext(), it)
                 mSelectedStation = it
-                initSearchableData(it, NODE_WORKS)
+                if (hasConnection(requireContext())) {
+                    initSearchPagingData(it)
+                    binding.include.etSearch.setText(mSelectedStation)
+                }
             }
         }
     }
@@ -75,23 +78,24 @@ class WorksFragment : BaseFragment() {
         binding.include.apply {
             Boom(btnTagZero)
             btnTagZero.setOnClickListener {
+                binding.include.etSearch.text.clear()
                 initNodesPagingData()
             }
             Boom(btnTagFirst)
             btnTagFirst.setOnClickListener {
-                initSearchableData("Подработ", NODE_WORKS)
+                initSearchPagingData("Подработ")
             }
             Boom(btnTagSecond)
             btnTagSecond.setOnClickListener {
-                initSearchableData("Халтур", NODE_WORKS)
+                initSearchPagingData("Халтур")
             }
             Boom(btnTagThird)
             btnTagThird.setOnClickListener {
-                initSearchableData("Ищу работу", NODE_WORKS)
+                initSearchPagingData("Ищу работу")
             }
             Boom(btnTagFourth)
             btnTagFourth.setOnClickListener {
-                initSearchableData("Ищу работник", NODE_WORKS)
+                initSearchPagingData("Ищу работник")
             }
         }
 
@@ -116,6 +120,7 @@ class WorksFragment : BaseFragment() {
         binding.listNotes.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
+        binding.listNotes.adapter = mPagingNodesAdapter
     }
 
     private fun initNodesPagingData() {
@@ -125,13 +130,26 @@ class WorksFragment : BaseFragment() {
 
             }
         }
-        binding.listNotes.adapter = mPagingNodesAdapter
+
+    }
+
+    private fun initSearchPagingData(str: String) {
+        lifecycleScope.launch {
+            mViewModel.loadSearchNodes(NODE_WORKS, str).collectLatest {
+                mPagingNodesAdapter.submitData(it)
+            }
+        }
+        //binding.listNotes.adapter = mPagingNodesAdapter
     }
 
     private fun setProgressBarAccordingToLoadState() {
         lifecycleScope.launch {
             mPagingNodesAdapter.loadStateFlow.collectLatest {
-                binding.progressView.isVisible = it.append is LoadState.Loading
+                try {
+                    binding.progressView.isVisible = it.append is LoadState.Loading
+                } catch (e: Exception) {
+                    Log.e("Error", e.message.toString())
+                }
             }
         }
     }
@@ -140,13 +158,11 @@ class WorksFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         if (hasConnection(requireContext())) {
-            if (!mSelectedStation.isNullOrEmpty()) {
-                initSearchableData(mSelectedStation, NODE_WORKS)
-            }
-            if (binding.include.etSearch.text.isNullOrEmpty() || mSelectedStation.isNullOrEmpty()) {
+            if (binding.include.etSearch.text.isNullOrEmpty()) {
                 initNodesPagingData()
             } else {
-                initSearchableData(binding.include.etSearch.text.toString(), NODE_WORKS)
+                initSearchPagingData(binding.include.etSearch.text.toString())
+                //initSearchableData(binding.include.etSearch.text.toString())
             }
         } else {
             binding.progressView.isVisible = true
@@ -156,44 +172,11 @@ class WorksFragment : BaseFragment() {
     }
 
 
-    private fun initSearchableData(str: String, collection: String) {
-        mSearchNodesAdapter = NodesAdapter()
-        mViewModel.loadSearchableNodes(collection)
-        mViewModel.node.observe(viewLifecycleOwner, { state ->
-            when (state) {
-                is State.Loading -> {
-                    binding.progressView.isVisible = true
-                }
-                is State.Success -> {
-                    binding.progressView.isVisible = false
-                    state.data.let { nodeList ->
-                        list.clear()
-                        if (nodeList!!.isNotEmpty()) {
-                            nodeList.forEach { node ->
-                                if (onCompareTitle(node.title, str) || onCompareText(
-                                        node.text,
-                                        str
-                                    ) && !list.contains(node)
-                                ) {
-                                    list.add(node)
-                                }
-                            }
-                            mSearchNodesAdapter.update(list, nodeClick)
-                            binding.listNotes.adapter = mSearchNodesAdapter
-                        }
-                    }
-                }
-            }
-        })
-    }
-
-
     private fun onBtnSearchClick() {
         binding.include.etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             val text = binding.include.etSearch.text
             if (actionId == EditorInfo.IME_ACTION_SEARCH && !text.isNullOrEmpty()) {
-                initSearchableData(text.toString(), NODE_WORKS)
-                list.clear()
+                initSearchPagingData(text.toString())
                 hideKeyboard(requireView())
                 return@OnEditorActionListener true
             } else if (actionId == EditorInfo.IME_ACTION_SEARCH && text.isNullOrEmpty()) {
@@ -217,5 +200,36 @@ class WorksFragment : BaseFragment() {
         dialog.arguments = args
         dialog.show(requireActivity().supportFragmentManager, "dialog")
     }
+
+    //   private fun initSearchableData(str: String) {
+//        mSearchNodesAdapter = NodesAdapter()
+//        mViewModel.loadSearchableNodes(collection)
+//        mViewModel.node.observe(viewLifecycleOwner, { state ->
+//            when (state) {
+//                is State.Loading -> {
+//                    binding.progressView.isVisible = true
+//                }
+//                is State.Success -> {
+//                    binding.progressView.isVisible = false
+//                    state.data.let { nodeList ->
+//                        list.clear()
+//                        if (nodeList!!.isNotEmpty()) {
+//                            nodeList.forEach { node ->
+//                                if (onCompareTitle(node.title, str) || onCompareText(
+//                                        node.text,
+//                                        str
+//                                    ) && !list.contains(node)
+//                                ) {
+//                                    list.add(node)
+//                                }
+//                            }
+//                            mSearchNodesAdapter.update(list, nodeClick)
+//                            binding.listNotes.adapter = mSearchNodesAdapter
+//                        }
+//                    }
+//                }
+//            }
+//        })
+//    }
 
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Tam Tam</string>
     <string name="work_category">Работа, Вакансии</string>
+    <string name="trans_category">Транспорт, Перевозки</string>
     <string name="no_connection">Нет Интернет соединения!</string>
     <string name="search">   Поиск ...</string>
     <string name="metro_stations">   Станции метро:</string>

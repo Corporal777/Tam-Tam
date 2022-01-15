@@ -118,7 +118,7 @@ fun getCategoriesList(): List<String> {
     return categoriesList
 }
 
-fun getEmptyImage(): String{
+fun getEmptyImage(): String {
     return "https://firebasestorage.googleapis.com/v0/b/tam-tam-8b2a7.appspot.com/o/notes_images%2Fplaceholder.png?alt=media&token=c8c79ca4-a95c-465e-9b06-f0c7d6ed5c91"
 }
 
@@ -147,6 +147,13 @@ fun Fragment.hideKeyboard(view: View) {
 
 fun onCompareText(note: String, word: String): Boolean {
     return (note.contains(word, true) || note.contentEquals(word, true))
+}
+
+fun isSimilar(node: Node, str: String): Boolean {
+    return node.text.contains(str, true) || node.title.contains(str, true) || node.station.contains(
+        str,
+        true
+    )
 }
 
 fun onCompareTitle(note: String, word: String): Boolean {

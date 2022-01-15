@@ -7,7 +7,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 import org.otunjargych.tamtam.model.Node
 
-class NotesDataSource(private val queryNotes: Query) : PagingSource<QuerySnapshot, Node>() {
+class AllNodesDataSource(private val queryNotes: Query) : PagingSource<QuerySnapshot, Node>() {
 
 
     override fun getRefreshKey(state: PagingState<QuerySnapshot, Node>): QuerySnapshot? {

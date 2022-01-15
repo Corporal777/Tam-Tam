@@ -17,7 +17,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.otunjargych.tamtam.data.NotesDataSource
+import org.otunjargych.tamtam.data.AllNodesDataSource
+import org.otunjargych.tamtam.data.SearchNodesDataSource
 import org.otunjargych.tamtam.extensions.FF_DATABASE_ROOT
 import org.otunjargych.tamtam.extensions.PAGE_SIZE
 import org.otunjargych.tamtam.extensions.TIME_PROPERTY
@@ -42,8 +43,6 @@ class NodeViewModel() : ViewModel() {
                 }
             }
         }
-
-
     }
 
 
@@ -55,10 +54,24 @@ class NodeViewModel() : ViewModel() {
 
         val listData =
             Pager(PagingConfig(pageSize = PAGE_SIZE)) {
-                NotesDataSource(queryNodes)
+                AllNodesDataSource(queryNodes)
             }.flow.cachedIn(viewModelScope)
 
         return listData
+    }
+
+    fun loadSearchNodes(collection: String, search: String): Flow<PagingData<Node>>{
+        val queryNodes = FF_DATABASE_ROOT
+            .collection(collection)
+            .orderBy(TIME_PROPERTY, DESCENDING)
+            .limit(PAGE_SIZE.toLong())
+
+        val searchData =
+            Pager(PagingConfig(pageSize = PAGE_SIZE)) {
+                SearchNodesDataSource(search, queryNodes)
+            }.flow.cachedIn(viewModelScope)
+
+        return searchData
     }
 
 
