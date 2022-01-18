@@ -9,16 +9,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import coil.load
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.ViewPagerAdapter
+import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentDetailBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.extensions.boom.Boom
-import org.otunjargych.tamtam.model.*
+import org.otunjargych.tamtam.model.LikedAds
+import org.otunjargych.tamtam.model.Node
+import org.otunjargych.tamtam.viewmodel.LikedNodesViewModel
 import org.otunjargych.tamtam.viewmodel.UserViewModel
 import java.util.*
 
@@ -43,12 +43,13 @@ class DetailFragment : BaseFragment() {
     private var mDetailUserId: String = ""
     private var mDetailAddress: String = ""
     private var imagesList = ArrayList<String>()
-
+    private var node = Node()
     private lateinit var mRefAds: DatabaseReference
     private lateinit var mRefListener: AppValueEventListener
     private var mapListeners = hashMapOf<DatabaseReference, AppValueEventListener>()
 
     private val mViewModel: UserViewModel by activityViewModels()
+    private val mLikedNodesViewModel: LikedNodesViewModel by activityViewModels()
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -92,6 +93,8 @@ class DetailFragment : BaseFragment() {
             tvLikes.text = mDetailLikes
             tvViewings.text = mDetailViewings
             tvAddress.text = mDetailAddress
+            tvViewings.text = mDetailViewings
+            tvLikes.text = mDetailLikes
 
             if (!mDetailSalary.isNullOrEmpty()) {
                 tvSalary.text = mDetailSalary
@@ -126,8 +129,12 @@ class DetailFragment : BaseFragment() {
                 }
             }
             btnLike.setOnClickListener {
-                if (AUTH.currentUser != null) {
-                    //initLikes()
+                if (AUTH.currentUser != null && hasConnection(requireContext())) {
+                    changeLikes()
+//                    CoroutineScope(Dispatchers.Main).launch {
+//                        DatabaseHelperImpl(DatabaseBuilder.getInstance(requireContext())).insertNode(node)
+//                    }
+                    mLikedNodesViewModel.insertNodesData(node)
                     btnLike.setImageResource(R.drawable.ic_liked)
                     btnLike.isClickable = false
 //                    val animScale: Animation =
@@ -161,11 +168,12 @@ class DetailFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        //initViewings()
+        changeViewings()
         if (AUTH.currentUser != null) {
-            checkLikedAds()
+            checkLikedNodes(node)
         }
         if (hasConnection(requireContext())) {
+            mLikedNodesViewModel.checkLikedNode()
             mViewModel.loadUserData(mDetailUserId)
         }
     }
@@ -178,231 +186,55 @@ class DetailFragment : BaseFragment() {
     }
 
 
-    private fun initLikes() {
-
-        val mRefUserAds =
-            FirebaseDatabase.getInstance().getReference(NODE_USERS).child(USER_ID)
-                .child(NODE_LIKED_ADS)
-
-        if (category == "Работа, Подработки") {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_WORKS)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val work: Work? = dataSnapshot.getValue(Work::class.java)
-                    if (mDetailText?.contentEquals(work?.text)!!) {
-                        val likes: DatabaseReference = dataSnapshot.ref.child("likes")
-                        likes.setValue(work!!.likes + 1)
-                        mRefUserAds.child(mDetailDate).setValue(likedAds)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-
-        if (category == "Медицина, Красота") {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_HEALTH)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val beauty: Beauty? = dataSnapshot.getValue(Beauty::class.java)
-                    if (mDetailText?.contentEquals(beauty?.text)) {
-                        val likes: DatabaseReference = dataSnapshot.ref.child("likes")
-                        likes.setValue(beauty!!.likes + 1)
-                        mRefUserAds.child(mDetailDate).setValue(likedAds)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        if (category == "Транспорт, Перевозки") {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_TRANSPORT)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val transport: Transportation? =
-                        dataSnapshot.getValue(Transportation::class.java)
-                    if (mDetailText.contentEquals(transport?.text)) {
-                        val likes: DatabaseReference = dataSnapshot.ref.child("likes")
-                        likes.setValue(transport!!.likes + 1)
-                        mRefUserAds.child(mDetailDate).setValue(likedAds)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        if (category == "Продажа, Покупка") {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_BUY_SELL)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val buySell: BuySell? = dataSnapshot.getValue(BuySell::class.java)
-                    if (mDetailText.contentEquals(buySell?.text)) {
-                        val likes: DatabaseReference = dataSnapshot.ref.child("likes")
-                        likes.setValue(buySell?.likes!! + 1)
-                        mRefUserAds.child(mDetailDate).setValue(likedAds)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        if (category == "Квартиры, Гостиницы") {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_HOUSE)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val flats: Flats? = dataSnapshot.getValue(Flats::class.java)
-                    if (mDetailText.contentEquals(flats?.text)) {
-                        val likes: DatabaseReference = dataSnapshot.ref.child("likes")
-                        likes.setValue(flats?.likes!! + 1)
-                        mRefUserAds.child(mDetailDate).setValue(likedAds)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        if (category == "Обучение, Услуги") {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_SERVICES)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val services: Services? = dataSnapshot.getValue(Services::class.java)
-                    if (mDetailText.contentEquals(services?.text)) {
-                        val likes: DatabaseReference = dataSnapshot.ref.child("likes")
-                        likes.setValue(services?.likes!! + 1)
-                        mRefUserAds.child(mDetailDate).setValue(likedAds)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        mapListeners[mRefAds] = mRefListener
+    private fun changeLikes() {
+        var like = node.likes
+        like++
+        FireBaseHelper.changeLikeNumber(mDetailCategory, mDetailId, like)
     }
 
 
-    private fun initViewings() {
-        if (category.contentEquals("Работа, Подработки")) {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_WORKS)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val work: Work? = dataSnapshot.getValue(Work::class.java)
-                    if (mDetailText.contentEquals(work?.text)) {
-                        val viewings: DatabaseReference = dataSnapshot.ref.child("viewings")
-                        viewings.setValue(work!!.viewings + 1)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        if (category.contentEquals("Медицина, Красота")) {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_HEALTH)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val beauty: Beauty? = dataSnapshot.getValue(Beauty::class.java)
-                    if (mDetailText.contentEquals(beauty?.text)) {
-                        val viewings: DatabaseReference = dataSnapshot.ref.child("viewings")
-                        viewings.setValue(beauty!!.viewings + 1)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        if (category.contentEquals("Транспорт, Перевозки")) {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_TRANSPORT)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val transport: Transportation? =
-                        dataSnapshot.getValue(Transportation::class.java)
-                    if (mDetailText.contentEquals(transport?.text)) {
-                        val viewings: DatabaseReference = dataSnapshot.ref.child("viewings")
-                        viewings.setValue(transport!!.viewings + 1)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        if (category.contentEquals("Продажа, Покупка")) {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_BUY_SELL)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val buySell: BuySell? = dataSnapshot.getValue(BuySell::class.java)
-                    if (mDetailText.contentEquals(buySell?.text)) {
-                        val viewings: DatabaseReference = dataSnapshot.ref.child("viewings")
-                        viewings.setValue(buySell?.viewings!! + 1)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        if (category.contentEquals("Квартиры, Гостиницы")) {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_HOUSE)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val flats: Flats? = dataSnapshot.getValue(Flats::class.java)
-                    if (mDetailText.contentEquals(flats?.text)) {
-                        val viewings: DatabaseReference = dataSnapshot.ref.child("viewings")
-                        viewings.setValue(flats?.viewings!! + 1)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        if (category.contentEquals("Обучение, Услуги")) {
-            mRefAds = FirebaseDatabase.getInstance().getReference(NODE_SERVICES)
-            mRefListener = AppValueEventListener { snapShot ->
-                for (dataSnapshot: DataSnapshot in snapShot.children) {
-                    val services: Services? = dataSnapshot.getValue(Services::class.java)
-                    if (mDetailText.contentEquals(services?.text)) {
-                        val viewings: DatabaseReference = dataSnapshot.ref.child("viewings")
-                        viewings.setValue(services?.viewings!! + 1)
-                    }
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-        }
-        mapListeners[mRefAds] = mRefListener
+    private fun changeViewings() {
+        var viewing = node.viewings
+        viewing++
+        FireBaseHelper.changeViewingNumber(node.category, node.uuid, viewing)
     }
 
-    private fun checkLikedAds() {
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-        val mRefUserAds =
-            FirebaseDatabase.getInstance().getReference(NODE_USERS).child(uid!!)
-                .child(NODE_LIKED_ADS)
-        mRefListener = AppValueEventListener {
-            for (dataSnapshot: DataSnapshot in it.children) {
-                val likedAds: LikedAds? = dataSnapshot.getValue(LikedAds::class.java)
-                if (!mDetailText.isNullOrEmpty()) {
-                    if (likedAds != null) {
-                        if (mDetailText.contentEquals(likedAds?.text)) {
-                            binding.btnLike.setImageResource(R.drawable.ic_liked)
-                            binding.btnLike.isClickable = false
-                        }
-                    }
-
+    private fun checkLikedNodes(node: Node) {
+        mLikedNodesViewModel.check.observe(viewLifecycleOwner, {
+            it.forEach {liked->
+                if (node.uuid.contentEquals(liked.uuid)) {
+                    binding.btnLike.setImageResource(R.drawable.ic_liked)
+                    binding.btnLike.isClickable = false
                 }
             }
-        }
-        mRefUserAds.addListenerForSingleValueEvent(mRefListener)
-        mapListeners[mRefUserAds] = mRefListener
+
+        })
     }
 
     private fun getFields() {
         val bundle: Bundle? = this.arguments
         if (bundle != null) {
-            val note: Node? = bundle.getParcelable("note")
-            if (note != null) {
-                mDetailTitle = note.title
-                mDetailText = note.text
-                mDetailCategory = note.category
-                mDetailSalary = note.salary
-                mDetailStation = note.station
-                mDetailDate = note.timeStamp.toString()
-                mDetailPhone = note.phone_number
-                mDetailWhatsapp = note.whatsapp_number
-                mDetailLikes = note.likes.toString()
-                mDetailViewings = note.viewings.toString()
-                mDetailId = note.uuid
-                mDetailAddress = note.addres
-                mDetailUserId = note.userId
+            node = bundle.getParcelable("note")!!
+            if (node != null) {
+                mDetailTitle = node.title
+                mDetailText = node.text
+                mDetailCategory = node.category
+                mDetailSalary = node.salary
+                mDetailStation = node.station
+                mDetailDate = node.timeStamp.toString()
+                mDetailPhone = node.phone_number
+                mDetailWhatsapp = node.whatsapp_number
+                mDetailLikes = node.likes.toString()
+                mDetailViewings = node.viewings.toString()
+                mDetailId = node.uuid
+                mDetailAddress = node.addres
+                mDetailUserId = node.userId
+                mDetailViewings = node.viewings.toString()
+                mDetailLikes = node.likes.toString()
 
                 imagesList.clear()
-                if (!note.images.isNullOrEmpty()) {
-                    imagesList.addAll(note.images)
+                if (!node.images.isNullOrEmpty()) {
+                    imagesList.addAll(node.images)
                 } else {
                     imagesList.add(getEmptyImage())
                 }

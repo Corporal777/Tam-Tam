@@ -1,25 +1,11 @@
 package org.otunjargych.tamtam.extensions
 
 import androidx.recyclerview.widget.DiffUtil
-import org.otunjargych.tamtam.model.*
-
-class DiffUtilCallbackW(
-    private val oldList: List<Work>,
-    private val newList: List<Work>
-) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
+import org.otunjargych.tamtam.model.BuySell
+import org.otunjargych.tamtam.model.Node
+import org.otunjargych.tamtam.model.Services
 
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].timeStamp == newList[newItemPosition].timeStamp
-
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition] == newList[newItemPosition]
-}
 
 class DiffUtilCallbackN(
     private val oldList: List<Node>,
@@ -40,41 +26,8 @@ class DiffUtilCallbackN(
 
 }
 
-class DiffUtilCallbackT(
-    private val oldList: List<Transportation>,
-    private val newList: List<Transportation>
-) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
 
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].timeStamp == newList[newItemPosition].timeStamp
-
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition] == newList[newItemPosition]
-}
-
-class DiffUtilCallbackB(
-    private val oldList: List<Beauty>,
-    private val newList: MutableList<Beauty>
-) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
-
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition].timeStamp == newList[newItemPosition].timeStamp
-
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition] == newList[newItemPosition]
-}
 
 class DiffUtilCallbackBS(
     private val oldList: MutableList<BuySell>,

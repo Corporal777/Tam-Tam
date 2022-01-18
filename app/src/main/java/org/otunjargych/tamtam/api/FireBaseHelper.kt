@@ -132,6 +132,78 @@ object FireBaseHelper {
             .update("name", changedName, "last_name", changedLastName)
     }
 
+    fun changeViewingNumber(category : String, uuid: String, count: Int){
+        when (category) {
+            medicineCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HEALTH)
+                    .document(uuid)
+                    .update("viewings", count)
+            }
+            workCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_WORKS)
+                    .document(uuid)
+                    .update("viewings", count)
+
+            }
+            studyCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_SERVICES)
+                    .document(uuid)
+                    .update("viewings", count)
+            }
+            flatsCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HOUSE)
+                    .document(uuid)
+                    .update("viewings", count)
+            }
+            transportCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_TRANSPORT)
+                    .document(uuid)
+                    .update("viewings", count)
+            }
+            buySellCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_BUY_SELL)
+                    .document(uuid)
+                    .update("viewings", count)
+            }
+        }
+    }
+
+    fun changeLikeNumber(category : String, uuid: String, count: Int){
+        when (category) {
+            medicineCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HEALTH)
+                    .document(uuid)
+                    .update("likes", count)
+            }
+            workCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_WORKS)
+                    .document(uuid)
+                    .update("likes", count)
+
+            }
+            studyCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_SERVICES)
+                    .document(uuid)
+                    .update("likes", count)
+            }
+            flatsCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HOUSE)
+                    .document(uuid)
+                    .update("likes", count)
+            }
+            transportCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_TRANSPORT)
+                    .document(uuid)
+                    .update("likes", count)
+            }
+            buySellCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_BUY_SELL)
+                    .document(uuid)
+                    .update("likes", count)
+            }
+        }
+    }
+
     fun getImagesUrlList(): ArrayList<String> {
         return imagesUrlList
 
@@ -146,7 +218,9 @@ object FireBaseHelper {
             }
             workCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_WORKS)
-                    .add(note)
+                    .document(note.uuid)
+                    .set(note)
+
             }
             studyCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_SERVICES)
@@ -168,11 +242,12 @@ object FireBaseHelper {
     }
 
 
+
     fun addNewUserProfile(user: User, uuid: String) {
         FF_DATABASE_ROOT.collection(NODE_USERS)
             .document(uuid)
             .set(user)
-            .addOnSuccessListener { documentReference ->
+            .addOnSuccessListener { _ ->
                 //Log.d("Success", "DocumentSnapshot added with ID: ${documentReference.id}")
             }
             .addOnFailureListener { e ->

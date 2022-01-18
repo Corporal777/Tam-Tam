@@ -79,16 +79,12 @@
                 android:layout_height="wrap_content">
 
 
-
-                <ProgressBar
-                    android:visibility="invisible"
-                    android:layout_marginTop="50dp"
-                    android:id="@+id/progressbar"
-                    style="@style/CircularProgress"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:indeterminateTint="#411E80" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
 
 
             </RelativeLayout>
@@ -96,31 +92,5 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
-        android:id="@+id/animationView"
-        android:gravity="center"
-        android:background="@drawable/loading_background"
-        android:layout_marginTop="250dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="100dp"
-        android:layout_height="50dp">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="100dp"
-            app:lottie_speed="2"
-            android:layout_height="100dp"
-            app:lottie_rawRes="@raw/infinity_line_anim"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"/>
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

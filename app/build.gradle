@@ -12,10 +12,10 @@ android {
 
     defaultConfig {
         applicationId "org.otunjargych.tamtam"
-        minSdk 25
+        minSdk 26
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "3.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,7 +55,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Yandex App Metric
     implementation 'com.yandex.android:mobmetricalib:3.21.1'
 
     //Firebase
@@ -71,6 +72,7 @@ dependencies {
     implementation 'com.chabbal:slidingdotsplash:1.0.2'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation "com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1"
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Coroutine Lifecycle Scopes
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
@@ -92,16 +94,11 @@ dependencies {
     //Lottie
     implementation "com.airbnb.android:lottie:3.4.0"
 
-    //EventBus
-    implementation 'org.greenrobot:eventbus:3.0.0'
-    kapt 'org.greenrobot:eventbus-annotation-processor:3.0.1'
-    implementation 'com.squareup:otto:1.3.8'
+    //Room
+    implementation "androidx.room:room-runtime:2.4.1"
+    kapt "androidx.room:room-compiler:2.4.1"
+    implementation "androidx.room:room-ktx:2.4.1"
 
 }
 
-kapt {
-    arguments {
-        arg('eventBusIndex', 'org.otunjargych.tamtam.MyEventBusIndex')
-    }
-}
 

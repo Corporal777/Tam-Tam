@@ -19,6 +19,7 @@ import org.otunjargych.tamtam.activities.MainActivity
 import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentRegistrationBinding
 import org.otunjargych.tamtam.extensions.*
+import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.User
 
 
@@ -105,6 +106,7 @@ class RegistrationFragment : BaseFragment() {
 
 
     private fun addUser() {
+        val list = ArrayList<Node>()
         mPhoneNumber = binding.etPhone.text.toString()
         mPassword = binding.etPassword.text.toString()
         mEmail = binding.etEmail.text.toString()
@@ -121,6 +123,7 @@ class RegistrationFragment : BaseFragment() {
                     path.downloadUrl.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             imageUrl = task.result.toString()
+
                             val user: User =
                                 User(uid, mName, mLastName, mPhoneNumber, mEmail, imageUrl)
                             //mRefUsers.child(NODE_USERS).child(uid).setValue(user)

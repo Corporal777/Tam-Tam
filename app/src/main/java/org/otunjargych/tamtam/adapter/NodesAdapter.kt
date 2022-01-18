@@ -5,7 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
+import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ItemNodeBinding
 import org.otunjargych.tamtam.extensions.DiffUtilCallbackN
 import org.otunjargych.tamtam.extensions.OnNodeClickListener
@@ -72,8 +73,10 @@ class NodesAdapter : RecyclerView.Adapter<NodesAdapter.ViewHolder>() {
             } else
                 tvLocation.text = "м. " + node.station
             tvCategory.text = node.category
-            if (node.images.size > 0) {
-                Picasso.get().load(node.images[0]).into(ivNoteImage)
+            if (!node.images.isNullOrEmpty() && !node.images[0].equals("") ) {
+                Glide.with(binding.root).load(node.images[0]).into(ivNoteImage)
+            }else{
+                Glide.with(binding.root).load(R.drawable.placeholder).into(ivNoteImage)
             }
             Boom(cvItem)
             cvItem.setOnClickListener {

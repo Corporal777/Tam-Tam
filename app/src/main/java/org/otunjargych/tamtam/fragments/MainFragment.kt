@@ -10,15 +10,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.firebase.database.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DatabaseReference
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.NodesAdapter
 import org.otunjargych.tamtam.databinding.FragmentMainBinding
 import org.otunjargych.tamtam.extensions.OnBottomAppBarStateChangeListener
+import org.otunjargych.tamtam.extensions.OnNodeClickListener
 import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.extensions.replaceFragment
+import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.Note
-import org.otunjargych.tamtam.viewmodel.DataViewModel
+import org.otunjargych.tamtam.model.State
+import org.otunjargych.tamtam.viewmodel.LikedNodesViewModel
 
 
 class MainFragment : Fragment() {
@@ -27,10 +31,11 @@ class MainFragment : Fragment() {
     private var mCountAds = 5
     val noteList: MutableList<Note> = ArrayList()
     private var listener: OnBottomAppBarStateChangeListener? = null
+    private lateinit var nodeClick: OnNodeClickListener
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private val mViewModel: DataViewModel by activityViewModels()
+    private val mViewModel: LikedNodesViewModel by activityViewModels()
 
     private var mIsScrolling = false
 
@@ -65,10 +70,43 @@ class MainFragment : Fragment() {
             recyclerView.setHasFixedSize(true)
             mLayoutManager = GridLayoutManager(requireContext(), 2)
             recyclerView.layoutManager = mLayoutManager
-            recyclerView.isNestedScrollingEnabled = true
         }
-        //initFirebaseData()
+        initFirebaseData()
         return binding.root
+    }
+
+    private fun initFirebaseData() {
+        mAdapter = NodesAdapter()
+        nodeClick = object : OnNodeClickListener {
+            override fun onNodeClick(node: Node, position: Int) {
+                if (node != null) {
+                    val bundle: Bundle = Bundle()
+                    with(bundle) {
+                        putParcelable("note", node)
+                    }
+                    val fragment: DetailFragment = DetailFragment()
+                    replaceFragment(fragment)
+                    fragment.arguments = bundle
+                }
+            }
+
+        }
+
+        mViewModel.liked.observe(viewLifecycleOwner, {state->
+            when (state){
+                is State.Loading -> {
+
+                }
+                is State.Success -> {
+                    state.data.let {
+                        if(it != null) {
+                            mAdapter.update(it, nodeClick)
+                            binding.recyclerView.adapter = mAdapter
+                        }
+                    }
+                }
+            }
+        })
     }
 
 

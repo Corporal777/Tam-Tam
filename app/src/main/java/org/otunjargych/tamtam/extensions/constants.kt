@@ -32,13 +32,12 @@ const val FOLDER_BUY_SELL_IMAGES = "buy_sell_images"
 const val FOLDER_FLATS_IMAGES = "flats_images"
 const val FOLDER_SERVICES_IMAGES = "services_images"
 const val NODE_LIKED_ADS = "pref_ads"
-
+const val YANDEX_APP_METRIC = "614c99b2-a597-4af3-86fb-55947fddc3aa"
 
 
 const val END_POINT= "works.json"
 const val FB_BASE_URL = "https://tam-tam-8b2a7-default-rtdb.firebaseio.com/"
 
-const val NOTES_COLLECTION = "work_notes"
 const val TIME_PROPERTY = "timeStamp"
 const val TEXT_PROPERTY = "text"
 const val PAGE_SIZE = 5
