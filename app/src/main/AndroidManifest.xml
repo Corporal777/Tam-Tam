@@ -35,6 +35,9 @@
         <activity
             android:name=".extensions.imagepicker.ui.Gallery"
             android:exported="true" />
+        <activity
+            android:name=".extensions.imagepicker.ui.Detail"
+            android:exported="true" />
 
     </application>
 

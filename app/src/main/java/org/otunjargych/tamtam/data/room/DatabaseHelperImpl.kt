@@ -10,4 +10,8 @@ class DatabaseHelperImpl(private val appDatabase: AppDatabase) : DatabaseHelper{
     override suspend fun insertNode(node: Node) {
     return appDatabase.nodeDao().insertNode(node)
     }
+
+    override suspend fun deleteNode(node: Node) {
+        return appDatabase.nodeDao().deleteNode(node)
+    }
 }

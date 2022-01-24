@@ -138,6 +138,15 @@ interface OnBottomAppBarStateChangeListener {
     fun onShow()
 }
 
+interface OnBottomAppBarItemsEnabledListener{
+    fun enabledHomeItem()
+    fun enabledSettingsItem()
+    fun enabledLikedItem()
+    fun disabledHomeItem()
+    fun disabledSettingsItem()
+    fun disabledLikedItem()
+}
+
 fun Fragment.hideKeyboard(view: View) {
     view.clearFocus()
     val inn: InputMethodManager? =

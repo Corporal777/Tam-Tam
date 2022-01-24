@@ -3,24 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Главная"
         android:id="@+id/main"
         android:icon="@drawable/ic_home"
-        app:showAsAction="always"
-        />
+        android:title=""
+        app:showAsAction="always" />
 
 
     <item
-        android:title="Избранное"
-        android:id="@+id/liked_ads"
+        android:id="@+id/liked_nodes"
         android:icon="@drawable/ic_liked_ads"
-        app:showAsAction="always"
-        />
+        android:title=""
+        app:showAsAction="always" />
 
     <item
-        android:icon="@drawable/ic_settings"
         android:id="@+id/settings"
-        android:title="Настройки"
-        app:showAsAction="always"
-        />
+        android:icon="@drawable/ic_settings"
+        android:title=""
+        app:showAsAction="always" />
+
 </menu>

@@ -83,18 +83,22 @@ class WorksFragment : BaseFragment() {
             }
             Boom(btnTagFirst)
             btnTagFirst.setOnClickListener {
+                binding.include.etSearch.text.clear()
                 initSearchPagingData("Подработ")
             }
             Boom(btnTagSecond)
             btnTagSecond.setOnClickListener {
+                binding.include.etSearch.text.clear()
                 initSearchPagingData("Халтур")
             }
             Boom(btnTagThird)
             btnTagThird.setOnClickListener {
+                binding.include.etSearch.text.clear()
                 initSearchPagingData("Ищу работу")
             }
             Boom(btnTagFourth)
             btnTagFourth.setOnClickListener {
+                binding.include.etSearch.text.clear()
                 initSearchPagingData("Ищу работник")
             }
         }

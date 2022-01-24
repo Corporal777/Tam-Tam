@@ -6,41 +6,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DatabaseReference
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.NodesAdapter
+import org.otunjargych.tamtam.adapter.VipNodesAdapter
 import org.otunjargych.tamtam.databinding.FragmentMainBinding
-import org.otunjargych.tamtam.extensions.OnBottomAppBarStateChangeListener
-import org.otunjargych.tamtam.extensions.OnNodeClickListener
+import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.extensions.boom.Boom
-import org.otunjargych.tamtam.extensions.replaceFragment
 import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.Note
 import org.otunjargych.tamtam.model.State
-import org.otunjargych.tamtam.viewmodel.LikedNodesViewModel
+import org.otunjargych.tamtam.viewmodel.NodeViewModel
 
 
 class MainFragment : Fragment() {
 
     private lateinit var mAdapter: NodesAdapter
-    private var mCountAds = 5
+    private lateinit var mAdapterVip: VipNodesAdapter
     val noteList: MutableList<Note> = ArrayList()
     private var listener: OnBottomAppBarStateChangeListener? = null
     private lateinit var nodeClick: OnNodeClickListener
 
+    private var itemListener: OnBottomAppBarItemsEnabledListener? = null
+
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private val mViewModel: LikedNodesViewModel by activityViewModels()
+    private val mViewModel: NodeViewModel by activityViewModels()
 
-    private var mIsScrolling = false
-
-    private lateinit var mRefAds: DatabaseReference
-    private lateinit var mRefListener: ChildEventListener
     private lateinit var mLayoutManager: GridLayoutManager
 
     override fun onAttach(context: Context) {
@@ -48,6 +46,11 @@ class MainFragment : Fragment() {
         listener = try {
             context as OnBottomAppBarStateChangeListener
         } catch (e: Exception) {
+            throw ClassCastException("Activity not attached!")
+        }
+        itemListener = try {
+            context as OnBottomAppBarItemsEnabledListener
+        }catch (e : Exception){
             throw ClassCastException("Activity not attached!")
         }
     }
@@ -66,47 +69,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        binding.apply {
-            recyclerView.setHasFixedSize(true)
-            mLayoutManager = GridLayoutManager(requireContext(), 2)
-            recyclerView.layoutManager = mLayoutManager
-        }
-        initFirebaseData()
         return binding.root
-    }
-
-    private fun initFirebaseData() {
-        mAdapter = NodesAdapter()
-        nodeClick = object : OnNodeClickListener {
-            override fun onNodeClick(node: Node, position: Int) {
-                if (node != null) {
-                    val bundle: Bundle = Bundle()
-                    with(bundle) {
-                        putParcelable("note", node)
-                    }
-                    val fragment: DetailFragment = DetailFragment()
-                    replaceFragment(fragment)
-                    fragment.arguments = bundle
-                }
-            }
-
-        }
-
-        mViewModel.liked.observe(viewLifecycleOwner, {state->
-            when (state){
-                is State.Loading -> {
-
-                }
-                is State.Success -> {
-                    state.data.let {
-                        if(it != null) {
-                            mAdapter.update(it, nodeClick)
-                            binding.recyclerView.adapter = mAdapter
-                        }
-                    }
-                }
-            }
-        })
     }
 
 
@@ -128,17 +91,76 @@ class MainFragment : Fragment() {
                 replaceFragment(BuySellFragment())
             }
             category.caseFlats.setOnClickListener {
-                replaceFragment(FlatsFragment())
+                replaceFragment(HouseFragment())
             }
             category.caseStudy.setOnClickListener {
                 replaceFragment(ServicesFragment())
             }
             category.caseMedicine.setOnClickListener {
-                replaceFragment(BeautyFragment())
+                replaceFragment(HealthFragment())
             }
+        }
+        initRecyclerView()
+        initFirebaseData()
+    }
+
+    private fun initRecyclerView() {
+        mAdapterVip = VipNodesAdapter()
+        mAdapter = NodesAdapter()
+        nodeClick = object : OnNodeClickListener {
+            override fun onNodeClick(node: Node, position: Int) {
+                if (node != null) {
+                    val bundle: Bundle = Bundle()
+                    with(bundle) {
+                        putParcelable("note", node)
+                    }
+                    val fragment: DetailFragment = DetailFragment()
+                    replaceFragment(fragment)
+                    fragment.arguments = bundle
+                }
+            }
+
+        }
+        binding.apply {
+            recyclerView.setHasFixedSize(true)
+            mLayoutManager = GridLayoutManager(requireContext(), 2)
+            recyclerView.layoutManager = mLayoutManager
+
+            recyclerViewVip.setHasFixedSize(true)
+            recyclerViewVip.layoutManager = LinearLayoutManager(requireContext(),
+                HORIZONTAL, false
+            )
         }
     }
 
+    private fun initFirebaseData() {
+        mViewModel.node.observe(viewLifecycleOwner, { state ->
+            when (state) {
+                is State.Loading -> {
+                    binding.progressView.isVisible = true
+                }
+                is State.Success -> {
+                    state.data.let {
+                        if (it != null) {
+                            binding.progressView.isVisible = false
+                            mAdapter.update(it, nodeClick)
+                            binding.recyclerView.adapter = mAdapter
+                        }
+                    }
+                }
+                is State.Error -> {
+                    binding.progressView.isVisible = true
+                    toastMessage(requireContext(), "Что то пошло не так")
+                }
+            }
+        })
+        mViewModel.vip.observe(viewLifecycleOwner, {
+            if(it != null){
+                mAdapterVip.update(it, nodeClick)
+                binding.recyclerViewVip.adapter = mAdapterVip
+            }
+        })
+    }
 
     private fun showBottomAppBar() {
         listener?.onShow()
@@ -146,10 +168,13 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        //mViewModel.loadLastNoteData(mCountAds)
+        if (hasConnection(requireContext())) {
+            mViewModel.loadActualNodes(NODE_WORKS)
+            mViewModel.loadVipNodes()
+        } else toastMessage(requireContext(), getString(R.string.no_connection))
         showBottomAppBar()
-
     }
+
 
     private fun boom() {
         binding.apply {
@@ -168,6 +193,15 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
+    override fun onStart() {
+        super.onStart()
+        itemListener?.disabledHomeItem()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        itemListener?.enabledHomeItem()
+    }
 
 }
 

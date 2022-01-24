@@ -50,18 +50,26 @@ class PagingNodesAdapter(private val listener: OnNodeClickListener) :
                         .toString()
             } else
                 tvText.text = node.text
-            if (node.salary == "" || node.salary == null) {
+            if (node.salary == "" || node.salary.isNullOrEmpty()) {
                 tvSalary.text = "Договорная"
                 ivCurrency.visibility = View.GONE
             } else
                 tvSalary.text = node.salary
 
             tvDate.text = node.timeStamp.toString().asTime()
-            if (node.station == null || node.station == "") {
+            if (node.station.isNullOrEmpty() || node.station == "") {
                 tvLocation.text = "Не указано"
-            } else
-                tvLocation.text = "м. " + node.station
-            tvCategory.text = node.category
+            } else{
+                if (node.station.length > 17){
+                    tvLocation.text = StringBuilder(
+                        node.station.substring(0, 16)).append("...")
+                        .toString()
+                }else
+                    tvLocation.text = "м. " + node.station
+            }
+            if (!node.category.isNullOrEmpty()){
+                tvCategory.text = node.category
+            }
             if (!node.images.isNullOrEmpty() && !node.images[0].equals("") ) {
                 Glide.with(binding.root).load(node.images[0]).into(ivNoteImage)
             }else{

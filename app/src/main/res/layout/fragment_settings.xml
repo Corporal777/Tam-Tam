@@ -22,6 +22,7 @@
             android:layout_height="50dp"
             android:background="@color/app_main_color"
             android:elevation="6dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:contentInsetStart="0dp"
             app:menu="@menu/account_menu"
             app:navigationIcon="@drawable/ic_back">
@@ -67,10 +68,7 @@
                 android:layout_height="150dp"
                 android:layout_marginTop="35dp"
                 android:layout_marginBottom="5dp"
-                android:clickable="true"
                 android:elevation="5dp"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:src="@drawable/empty_avatar"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -336,7 +334,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/commons_medium"
-                    android:text="Связь с разработчиком"
+                    android:text="Вопросы, поддержка и улучшение"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -418,14 +416,14 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="70dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/exit"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/commons_demi_bold"
                 android:gravity="bottom"
                 android:text="@string/version_app"

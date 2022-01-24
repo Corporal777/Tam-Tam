@@ -22,6 +22,7 @@
             android:elevation="10dp"
             app:layout_anchor="@+id/app_bar_layout"
             app:layout_anchorGravity="center"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationIcon="@drawable/ic_back"
             app:popupTheme="@style/Widget.MaterialComponents.Toolbar.Primary"
             app:titleTextColor="@color/white">
@@ -32,7 +33,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="right"
-                android:layout_marginEnd="17dp"
+                android:layout_marginEnd="20dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_like" />
@@ -159,7 +160,7 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
@@ -169,52 +170,54 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_category_detail" />
 
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="#EAEAEA"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
             <TextView
-                android:layout_marginStart="10dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view"
-                android:fontFamily="@font/commons_regular"
                 android:id="@+id/tv_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/commons_regular"
                 android:text="Нарашивание ресниц БААРДЫК объем 1000р МАНИКЮР шелак 500р метрого ЖАКЫН"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view" />
 
             <View
                 android:id="@+id/line"
-                app:layout_constraintTop_toBottomOf="@id/tv_text"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:background="#EAEAEA" />
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="#EAEAEA"
+                app:layout_constraintTop_toBottomOf="@id/tv_text" />
 
 
             <LinearLayout
                 android:id="@+id/location_line"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="9dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line">
 
                 <ImageView
                     android:layout_width="15dp"
@@ -223,12 +226,12 @@
                     android:src="@drawable/detail_location" />
 
                 <TextView
-                    android:fontFamily="@font/commons_medium"
                     android:id="@+id/tv_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="2dp"
+                    android:fontFamily="@font/commons_medium"
                     android:text="Не указано"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -236,12 +239,12 @@
 
             <LinearLayout
                 android:id="@+id/address_line"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/location_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/location_line">
 
                 <ImageView
                     android:layout_width="12dp"
@@ -251,12 +254,12 @@
                     android:src="@drawable/ic_street" />
 
                 <TextView
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="@font/commons_medium"
                     android:id="@+id/tv_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/commons_medium"
                     android:text="Не указано"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -264,13 +267,13 @@
 
             <LinearLayout
                 android:id="@+id/time_line"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="3dp"
-                android:layout_marginEnd="10dp">
+                android:layout_marginEnd="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address_line">
 
                 <ImageView
                     android:layout_width="13dp"
@@ -280,12 +283,12 @@
                     android:src="@drawable/ic_time" />
 
                 <TextView
-                    android:fontFamily="@font/commons_medium"
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="3.5dp"
+                    android:fontFamily="@font/commons_medium"
                     android:text="13.03.2021"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -293,20 +296,20 @@
 
             <View
                 android:id="@+id/line3"
-                app:layout_constraintTop_toBottomOf="@id/time_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:background="#EAEAEA" />
+                android:background="#EAEAEA"
+                app:layout_constraintTop_toBottomOf="@id/time_line" />
 
             <LinearLayout
                 android:id="@+id/user_line"
-                app:layout_constraintTop_toBottomOf="@id/line3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/line3">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_detail_user_photo"
@@ -316,12 +319,12 @@
                     android:src="@drawable/empty_avatar" />
 
                 <TextView
-                    android:fontFamily="@font/commons_demi_bold"
                     android:id="@+id/tv_detail_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/commons_demi_bold"
                     android:text="Не указано"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -329,19 +332,16 @@
             </LinearLayout>
 
             <View
-                app:layout_constraintTop_toBottomOf="@id/user_line"
                 android:id="@+id/line4"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:background="#EAEAEA" />
+                android:background="#EAEAEA"
+                app:layout_constraintTop_toBottomOf="@id/user_line" />
 
             <androidx.cardview.widget.CardView
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/line4"
                 android:id="@+id/btn_detail_phone_number"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
@@ -350,9 +350,12 @@
                 android:layout_marginBottom="5dp"
                 android:background="#EFEFEF"
                 android:clickable="true"
+                android:focusable="true"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="3dp"
-                android:focusable="true">
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line4">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -362,12 +365,12 @@
                     android:src="@drawable/ic_call" />
 
                 <TextView
-                    android:fontFamily="@font/commons_demi_bold"
                     android:id="@+id/tv_detail_phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/commons_demi_bold"
                     android:text="Не указано"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -376,9 +379,6 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_detail_phone_number"
                 android:id="@+id/btn_detail_whatsapp_number"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
@@ -386,9 +386,12 @@
                 android:layout_marginTop="5dp"
                 android:background="#EFEFEF"
                 android:clickable="true"
+                android:focusable="true"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="3dp"
-                android:focusable="true">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_detail_phone_number">
 
                 <ImageView
                     android:layout_width="23dp"
@@ -398,12 +401,12 @@
                     android:src="@drawable/ic_whatsapp_colorful" />
 
                 <TextView
-                    android:fontFamily="@font/commons_demi_bold"
                     android:id="@+id/tv_detail_phone_number_whatsapp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/commons_demi_bold"
                     android:text="Не указано"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -413,14 +416,14 @@
 
 
             <View
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_detail_whatsapp_number"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="7dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="7dp" />
+                android:layout_marginEnd="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_detail_whatsapp_number" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

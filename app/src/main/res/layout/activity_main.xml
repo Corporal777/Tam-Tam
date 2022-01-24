@@ -13,27 +13,26 @@
         android:layout_height="match_parent" />
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:tint="@color/trans"
-        android:foreground="@drawable/fab_background"
-        app:layout_anchor="@id/bottom_app_bar"
-        />
-
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        app:contentInsetStart="0dp"
         app:fabAlignmentMode="end"
+        app:menu="@menu/menu_bottom_navigation"
         app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
-        app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
-        app:hideOnScroll="true"
-        app:menu="@menu/menu_bottom_navigation">
+        app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"/>
 
-    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:tint="@color/trans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="@drawable/fab_background"
+        app:layout_anchor="@id/bottom_app_bar" />
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,17 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
 import coil.load
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.database.DatabaseReference
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.ViewPagerAdapter
 import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentDetailBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.extensions.boom.Boom
-import org.otunjargych.tamtam.model.LikedAds
 import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.viewmodel.LikedNodesViewModel
 import org.otunjargych.tamtam.viewmodel.UserViewModel
@@ -27,7 +27,6 @@ class DetailFragment : BaseFragment() {
 
     private lateinit var adapter: ViewPagerAdapter
     private lateinit var category: String
-    private lateinit var likedAds: LikedAds
 
     private var mDetailText: String = ""
     private var mDetailTitle: String = ""
@@ -44,9 +43,6 @@ class DetailFragment : BaseFragment() {
     private var mDetailAddress: String = ""
     private var imagesList = ArrayList<String>()
     private var node = Node()
-    private lateinit var mRefAds: DatabaseReference
-    private lateinit var mRefListener: AppValueEventListener
-    private var mapListeners = hashMapOf<DatabaseReference, AppValueEventListener>()
 
     private val mViewModel: UserViewModel by activityViewModels()
     private val mLikedNodesViewModel: LikedNodesViewModel by activityViewModels()
@@ -131,16 +127,13 @@ class DetailFragment : BaseFragment() {
             btnLike.setOnClickListener {
                 if (AUTH.currentUser != null && hasConnection(requireContext())) {
                     changeLikes()
-//                    CoroutineScope(Dispatchers.Main).launch {
-//                        DatabaseHelperImpl(DatabaseBuilder.getInstance(requireContext())).insertNode(node)
-//                    }
                     mLikedNodesViewModel.insertNodesData(node)
                     btnLike.setImageResource(R.drawable.ic_liked)
                     btnLike.isClickable = false
-//                    val animScale: Animation =
-//                        AnimationUtils.loadAnimation(requireContext(), R.anim.scale)
-//                    btnLike.startAnimation(animScale)
-                    snackMessage(requireContext(), view, "Добавлено в избранное")
+                    val animScale: Animation =
+                        AnimationUtils.loadAnimation(requireContext(), R.anim.scale)
+                    btnLike.startAnimation(animScale)
+                    toastMessage(requireContext(), "Добавлено в избранное")
                 } else {
                     toastMessage(requireContext(), "Необходимо авторизоваться!")
                 }
@@ -169,20 +162,20 @@ class DetailFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         changeViewings()
-        if (AUTH.currentUser != null) {
-            checkLikedNodes(node)
-        }
         if (hasConnection(requireContext())) {
             mLikedNodesViewModel.checkLikedNode()
             mViewModel.loadUserData(mDetailUserId)
+            if (AUTH.currentUser != null) {
+                checkLikedNodes(node)
+            }
+        } else {
+            toastMessage(requireContext(), getString(R.string.no_connection))
         }
+
     }
 
     override fun onPause() {
         super.onPause()
-        mapListeners.forEach {
-            it.key.removeEventListener(it.value)
-        }
     }
 
 
@@ -201,7 +194,7 @@ class DetailFragment : BaseFragment() {
 
     private fun checkLikedNodes(node: Node) {
         mLikedNodesViewModel.check.observe(viewLifecycleOwner, {
-            it.forEach {liked->
+            it.forEach { liked ->
                 if (node.uuid.contentEquals(liked.uuid)) {
                     binding.btnLike.setImageResource(R.drawable.ic_liked)
                     binding.btnLike.isClickable = false

@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.appbar.MaterialToolbar
 import org.otunjargych.tamtam.databinding.FragmentAboutAppBinding
 import org.otunjargych.tamtam.extensions.BaseFragment
 
 
-class AboutAppFragment : BaseFragment(){
+class AboutAppFragment : BaseFragment() {
 
-    private lateinit var mToolBar: MaterialToolbar
     private var _binding: FragmentAboutAppBinding? = null
     private val binding get() = _binding!!
 
@@ -24,6 +22,15 @@ class AboutAppFragment : BaseFragment(){
         _binding = FragmentAboutAppBinding.inflate(inflater, container, false)
 
         return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.customTitle.text = "О приложении"
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
     override fun onDestroyView() {

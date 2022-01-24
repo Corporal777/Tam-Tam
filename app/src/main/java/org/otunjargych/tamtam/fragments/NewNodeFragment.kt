@@ -18,7 +18,6 @@ import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentNewNodeBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.extensions.boom.Boom
-import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
 import org.otunjargych.tamtam.model.Node
 import java.util.*
 import kotlin.collections.ArrayList
@@ -26,8 +25,6 @@ import kotlin.collections.ArrayList
 
 class NewNodeFragment : BaseFragment() {
 
-
-    private lateinit var dialog: MyDialogFragment
     private lateinit var mListPopupWindow: ListPopupWindow
     private var mHandler: Handler? = null
     private var mRunnable: Runnable? = null
@@ -228,7 +225,12 @@ class NewNodeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+    }
+
+    override fun onStart() {
+        super.onStart()
         hideBottomAppBar()
+
     }
 
     override fun onDestroyView() {

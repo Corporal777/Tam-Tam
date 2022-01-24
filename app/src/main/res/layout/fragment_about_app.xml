@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/main_background"
     android:layout_height="match_parent">
 
@@ -15,7 +16,28 @@
         android:elevation="10dp"
         app:elevation="10dp">
 
-        <include layout="@layout/custom_toolbar" />
+        <androidx.appcompat.widget.Toolbar
+            app:navigationIcon="@drawable/ic_back"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/app_main_color"
+            android:elevation="6dp"
+            app:contentInsetStart="0dp">
+
+
+            <TextView
+                android:id="@+id/custom_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/commons_bold"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                tools:text="О приложении" />
+
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -97,7 +119,7 @@
                 android:layout_marginLeft="2mm"
                 android:layout_marginTop="1mm"
                 android:layout_marginRight="2mm"
-                android:text="Для получения дополнительной информации и связи с разработчиком нажмите в меню на значок WhatsApp."
+                android:text="Для получения дополнительной информации и связи с разработчиком нажмите на значок WhatsApp в настройках приложения."
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

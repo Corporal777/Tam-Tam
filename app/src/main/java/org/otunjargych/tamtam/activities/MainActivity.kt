@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +21,7 @@ import org.otunjargych.tamtam.fragments.*
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), OnBottomAppBarStateChangeListener {
+class MainActivity : AppCompatActivity(), OnBottomAppBarStateChangeListener, OnBottomAppBarItemsEnabledListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -96,32 +97,33 @@ class MainActivity : AppCompatActivity(), OnBottomAppBarStateChangeListener {
 
 
     private fun setOnMenuItem() {
-
         binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.main -> {
-                    supportFragmentManager.commit {
-                        setReorderingAllowed(true)
-                        replace(R.id.fragment_container, MainFragment())
-                    }
+                    replaceFragment(1)
                     clearBackStack()
                     true
                 }
-                R.id.liked_ads -> {
-                    if (hasConnection(applicationContext) && USER.currentUser != null) {
-                        replaceFragment(LikedAdsFragment())
+                R.id.liked_nodes -> {
+                    if (hasConnection(this) && AUTH.currentUser != null) {
+                        replaceFragment(2)
                         true
-                    } else
-                        false
+                    } else {
+                        val intent = Intent(this@MainActivity, RegistrationActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
                 }
                 R.id.settings -> {
-                    replaceFragment(SettingsFragment())
+                    replaceFragment(3)
                     true
                 }
                 else -> false
+
             }
         }
     }
+
 
     private fun clearBackStack() {
         val manager: FragmentManager = supportFragmentManager
@@ -148,5 +150,63 @@ class MainActivity : AppCompatActivity(), OnBottomAppBarStateChangeListener {
             USER_ID = FirebaseAuth.getInstance().currentUser?.uid.toString()
         }
     }
+
+
+    private fun replaceFragment(status: Int) {
+        var fragment: Fragment = MainFragment()
+        var tag = ""
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            when (status) {
+                1 -> {
+                    replace(R.id.fragment_container, fragment)
+                }
+                2 -> {
+                    tag = "liked_nodes"
+                    fragment = LikedNodesFragment()
+                    replace(R.id.fragment_container, fragment)
+                    addToBackStack(tag)
+                }
+                3 -> {
+                    tag = "settings"
+                    fragment = SettingsFragment()
+                    replace(R.id.fragment_container, fragment)
+                    addToBackStack(tag)
+                }
+            }
+        }
+    }
+
+    override fun enabledHomeItem() {
+        binding.bottomAppBar.menu.findItem(R.id.main).isEnabled = true
+        binding.bottomAppBar.menu.findItem(R.id.main).setIcon(R.drawable.ic_home)
+    }
+
+    override fun enabledSettingsItem() {
+        binding.bottomAppBar.menu.findItem(R.id.settings).isEnabled = true
+        binding.bottomAppBar.menu.findItem(R.id.settings).setIcon(R.drawable.ic_settings)
+    }
+
+    override fun enabledLikedItem() {
+        binding.bottomAppBar.menu.findItem(R.id.liked_nodes).isEnabled = true
+        binding.bottomAppBar.menu.findItem(R.id.liked_nodes).setIcon(R.drawable.ic_liked_ads)
+    }
+
+    override fun disabledHomeItem() {
+        binding.bottomAppBar.menu.findItem(R.id.main).isEnabled = false
+        binding.bottomAppBar.menu.findItem(R.id.main).setIcon(R.drawable.ic_home_colored)
+    }
+
+
+    override fun disabledSettingsItem() {
+        binding.bottomAppBar.menu.findItem(R.id.settings).isEnabled = false
+        binding.bottomAppBar.menu.findItem(R.id.settings).setIcon(R.drawable.ic_settings_colored)
+    }
+
+    override fun disabledLikedItem() {
+        binding.bottomAppBar.menu.findItem(R.id.liked_nodes).isEnabled = false
+        binding.bottomAppBar.menu.findItem(R.id.liked_nodes).setIcon(R.drawable.ic_liked_colored)
+    }
+
 
 }

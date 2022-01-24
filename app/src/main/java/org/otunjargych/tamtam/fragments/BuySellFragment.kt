@@ -1,300 +1,197 @@
 package org.otunjargych.tamtam.fragments
 
-import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.cardview.widget.CardView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.otunjargych.tamtam.R
-import org.otunjargych.tamtam.adapter.BuySellAdapter
+import org.otunjargych.tamtam.adapter.PagingNodesAdapter
+import org.otunjargych.tamtam.databinding.FragmentBuySellBinding
 import org.otunjargych.tamtam.extensions.*
-import org.otunjargych.tamtam.fragments.dialog_fragments.MyDialogFragment
-import org.otunjargych.tamtam.model.BuySell
+import org.otunjargych.tamtam.extensions.boom.Boom
+import org.otunjargych.tamtam.fragments.dialog_fragments.FiltersFragment
+import org.otunjargych.tamtam.model.Node
+import org.otunjargych.tamtam.viewmodel.NodeViewModel
 
-class BuySellFragment : Fragment() {
+class BuySellFragment : BaseFragment() {
 
-    private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mCardView: CardView
-    private lateinit var dialog: MyDialogFragment
-    private var selected_station: String? = null
-    private lateinit var mImageViewBack: ImageView
-    private lateinit var mImageViewAdd: ImageView
-    private lateinit var mImageViewClear: ImageView
-    private lateinit var mEditTextSearch: EditText
-    private lateinit var mCardViewFirst: CardView
-    private lateinit var mCardViewSecond: CardView
-    private lateinit var mCardViewThird: CardView
-    private lateinit var mCardViewFourth: CardView
-    private lateinit var mAdapter: BuySellAdapter
-    val buySellList: MutableList<BuySell> = ArrayList()
-    private lateinit var mRefAds: DatabaseReference
-    private lateinit var mRefListener: AppValueEventListener
-    private var mapListeners = hashMapOf<DatabaseReference, AppValueEventListener>()
-    private lateinit var mProgressBar: ProgressBar
+    private var _binding: FragmentBuySellBinding? = null
+    private val binding get() = _binding!!
 
-    private var mHandler: Handler? = null
-    private var mRunnable: Runnable? = null
+    private lateinit var mPagingNodesAdapter: PagingNodesAdapter
+    private val mViewModel: NodeViewModel by activityViewModels()
+    private lateinit var nodeClick: OnNodeClickListener
+    private var mSelectedStation = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_buy_sell, container, false)
-        mRecyclerView = view.findViewById(R.id.recycler_view_buy_sell)
-        mRecyclerView.layoutManager = GridLayoutManager(activity, 2)
-        mCardView = view.findViewById(R.id.card_metro)
-        mImageViewClear = view.findViewById(R.id.iv_clear)
-        mEditTextSearch = view.findViewById(R.id.et_search_buy_sell)
-        mCardViewFirst = view.findViewById(R.id.card_buy_sell_first)
-        mCardViewSecond = view.findViewById(R.id.card_buy_sell_second)
-        mCardViewThird = view.findViewById(R.id.card_buy_sell_third)
-        mCardViewFourth = view.findViewById(R.id.card_buy_sell_fourth)
-        mProgressBar = view.findViewById(R.id.progressbar)
-
-        mImageViewClear.setOnClickListener {
-            selected_station = null
-            mEditTextSearch.text.clear()
-            buySellList.clear()
-            initFB()
-        }
-        mImageViewBack.setOnClickListener {
-            fragmentManager?.popBackStack()
-        }
-
-        mCardView.setOnClickListener {
-            if (!hasConnection(context!!)) {
-                errorToast("Нет интернета!", activity!!)
-            } else {
-                val manager: FragmentManager? = fragmentManager
-                dialog = MyDialogFragment()
-                dialog.show(manager!!, "metro4")
-            }
-        }
-        mCardViewFirst.setOnClickListener {
-            val str = "Телефон"
-            initSearchFB(str)
-            mEditTextSearch.setText(str)
-            buySellList.clear()
-        }
-        mCardViewSecond.setOnClickListener {
-            val str = "Авто, Машина"
-            initSearchFB(str)
-            mEditTextSearch.setText(str)
-            buySellList.clear()
-        }
-        mCardViewThird.setOnClickListener {
-            val str = "Дом, Мебель"
-            initSearchFB(str)
-            mEditTextSearch.setText(str)
-            buySellList.clear()
-        }
-        mCardViewFourth.setOnClickListener {
-            val str = "Обмен"
-            initSearchFB(str)
-            mEditTextSearch.setText(str)
-            buySellList.clear()
-        }
-
-        return view
+        _binding = FragmentBuySellBinding.inflate(inflater, container, false)
+        initRecyclerView()
+        setProgressBarAccordingToLoadState()
+        return binding.root
     }
 
-
-    private fun initCurrentUser() {
-        AUTH = FirebaseAuth.getInstance()
-        if (hasConnection(context!!)) {
-            if (AUTH.currentUser != null) {
-                replaceFragment(NewNodeFragment())
-            } else {
-                errorToast("Войдите в аккаунт!", activity!!)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initToolbarActions()
+        onBtnSearchClick()
+        binding.toolbar.ivFilter.setOnClickListener {
+            showDialog {
+                toastMessage(requireContext(), it)
+                mSelectedStation = it
+                if (hasConnection(requireContext())) {
+                    initSearchPagingData(it)
+                    binding.toolbar.etSearch.setText(mSelectedStation)
+                }
             }
-        } else {
-            Snackbar.make(view!!, "Нет интернет соединения!", Snackbar.LENGTH_LONG)
-                .setBackgroundTint(resources.getColor(R.color.app_main_color)).show()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (!mEditTextSearch.text.isEmpty() || selected_station != null) {
-            initSearchFB(mEditTextSearch.text.toString())
-            buySellList.clear()
-            initSearch()
+        if (hasConnection(requireContext())) {
+            if (binding.toolbar.etSearch.text.isNullOrEmpty()) {
+                initNodesPagingData()
+            } else {
+                initSearchPagingData(binding.toolbar.etSearch.text.toString())
+            }
         } else {
-            initFB()
-        }
-    }
-
-    fun setSelectedStation(selectedItem: String?) {
-        selected_station = selectedItem!!
-        mEditTextSearch.setText(selected_station)
-        mHandler = Handler()
-        mRunnable = Runnable {
-            dialog.dismiss()
-        }
-        mHandler!!.postDelayed(mRunnable!!, 500)
-    }
-
-
-    private fun initFB() {
-        buySellList.clear()
-        mAdapter = BuySellAdapter()
-        val stateAdListener: BuySellAdapter.OnAdClickListener =
-            object : BuySellAdapter.OnAdClickListener {
-                override fun onAdClick(buySell: BuySell, position: Int) {
-                    if (buySell != null) {
-
-                        val bundle: Bundle = Bundle()
-                        bundle.putSerializable("image_first", buySell.firstImageURL)
-                        bundle.putSerializable("image_second", buySell.secondImageURL)
-                        bundle.putSerializable("image_third", buySell.thirdImageURL)
-                        bundle.putSerializable("image_fourth", buySell.fourthImageURL)
-                        bundle.putSerializable("text", buySell.text)
-                        bundle.putSerializable("category", buySell.category)
-                        bundle.putSerializable("date", buySell.timeStamp.toString())
-                        bundle.putSerializable("title", buySell.title)
-                        bundle.putSerializable("station", buySell.station)
-                        bundle.putSerializable("salary", buySell.salary)
-                        bundle.putSerializable("phone", buySell.phone_number)
-                        bundle.putSerializable("likes", buySell.likes)
-                        bundle.putSerializable("viewings", buySell.viewings)
-                        bundle.putSerializable("id", buySell.id)
-
-                        val fragment: DetailFragment = DetailFragment()
-                        replaceFragment(fragment)
-                        fragment.arguments = bundle
-                    }
-                }
-            }
-        GlobalScope.launch {
-            mRefAds = FirebaseDatabase.getInstance().getReference().child(NODE_BUY_SELL)
-            mRefListener = AppValueEventListener {
-                for (dataSnapshot: DataSnapshot in it.children) {
-                    var buySell: BuySell = dataSnapshot.getValue(BuySell::class.java)!!
-
-                    if (!buySellList.contains(buySell) && buySell != null) {
-                        buySellList.add(0, buySell)
-                    }
-                    mAdapter.update(buySellList, stateAdListener)
-                    mRecyclerView.adapter = mAdapter
-                    mProgressBar.visibility = ProgressBar.INVISIBLE
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-            mapListeners[mRefAds] = mRefListener
-
-        }
-    }
-
-    private fun initSearchFB(search_word: String) {
-        mAdapter = BuySellAdapter()
-        val stateAdListener: BuySellAdapter.OnAdClickListener =
-            object : BuySellAdapter.OnAdClickListener {
-                override fun onAdClick(buySell: BuySell, position: Int) {
-                    if (buySell != null) {
-
-                        val bundle: Bundle = Bundle()
-                        bundle.putSerializable("image_first", buySell.firstImageURL)
-                        bundle.putSerializable("image_second", buySell.secondImageURL)
-                        bundle.putSerializable("image_third", buySell.thirdImageURL)
-                        bundle.putSerializable("image_fourth", buySell.fourthImageURL)
-                        bundle.putSerializable("text", buySell.text)
-                        bundle.putSerializable("category", buySell.category)
-                        bundle.putSerializable("date", buySell.timeStamp.toString())
-                        bundle.putSerializable("title", buySell.title)
-                        bundle.putSerializable("station", buySell.station)
-                        bundle.putSerializable("salary", buySell.salary)
-                        bundle.putSerializable("phone", buySell.phone_number)
-                        bundle.putSerializable("likes", buySell.likes)
-                        bundle.putSerializable("viewings", buySell.viewings)
-                        bundle.putSerializable("id", buySell.id)
-
-                        val fragment: DetailFragment = DetailFragment()
-                        replaceFragment(fragment)
-                        fragment.arguments = bundle
-                    }
-                }
-            }
-        GlobalScope.launch {
-            mRefAds = FirebaseDatabase.getInstance().getReference().child(NODE_BUY_SELL)
-            mRefListener = AppValueEventListener {
-                for (dataSnapshot: DataSnapshot in it.children) {
-                    var buySell: BuySell = dataSnapshot.getValue(BuySell::class.java)!!
-
-                    if (selected_station == null && buySell.text.contains(search_word, true)) {
-                        buySellList.add(0, buySell)
-                        mAdapter.update(buySellList, stateAdListener)
-                    }
-                    if (selected_station == buySell.station && buySell.text.contains(
-                            search_word,
-                            true
-                        )
-                    ) {
-                        buySellList.add(0, buySell)
-                        mAdapter.update(buySellList, stateAdListener)
-                    }
-                    if (selected_station == buySell.station && search_word == selected_station) {
-                        buySellList.add(0, buySell)
-                        mAdapter.update(buySellList, stateAdListener)
-                    }
-                    mRecyclerView.adapter = mAdapter
-                    mProgressBar.visibility = ProgressBar.INVISIBLE
-                }
-            }
-            mRefAds.addListenerForSingleValueEvent(mRefListener)
-            mapListeners[mRefAds] = mRefListener
-
+            binding.progressView.isVisible = true
+            toastMessage(requireContext(), getString(R.string.no_connection))
         }
 
     }
 
-    private fun initSearch() {
-        mEditTextSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                initSearchFB(mEditTextSearch.text.toString())
-                performSearch()
-                buySellList.clear()
-                Toast.makeText(activity, "Successfully", Toast.LENGTH_LONG).show()
+    private fun initNodesPagingData() {
+        lifecycleScope.launch {
+            mViewModel.loadNodes(NODE_BUY_SELL).collectLatest {
+                mPagingNodesAdapter.submitData(it)
+
+            }
+        }
+    }
+
+    private fun initSearchPagingData(str: String) {
+        lifecycleScope.launch {
+            mViewModel.loadSearchNodes(NODE_BUY_SELL, str).collectLatest {
+                mPagingNodesAdapter.submitData(it)
+            }
+        }
+    }
+
+    private fun setProgressBarAccordingToLoadState() {
+        lifecycleScope.launch {
+            mPagingNodesAdapter.loadStateFlow.collectLatest {
+                try {
+                    binding.progressView.isVisible = it.append is LoadState.Loading
+                } catch (e: Exception) {
+                    Log.e("LoadingError", e.message.toString())
+                }
+            }
+        }
+    }
+
+    private fun showDialog(onData: (String) -> Unit) {
+        val args = Bundle()
+        args.putString("category", getString(R.string.buy_sell_category))
+        val dialog = FiltersFragment(onData)
+        dialog.arguments = args
+        dialog.show(requireActivity().supportFragmentManager, "dialog")
+    }
+
+    private fun initRecyclerView() {
+        nodeClick = object : OnNodeClickListener {
+            override fun onNodeClick(node: Node, position: Int) {
+                if (node != null) {
+                    val bundle: Bundle = Bundle()
+                    with(bundle) {
+                        putParcelable("note", node)
+                    }
+                    val fragment: DetailFragment = DetailFragment()
+                    replaceFragment(fragment)
+                    fragment.arguments = bundle
+                }
+            }
+
+        }
+        mPagingNodesAdapter = PagingNodesAdapter(nodeClick)
+        binding.rvListNotes.apply {
+            layoutManager = GridLayoutManager(requireContext(), 2)
+        }
+        binding.rvListNotes.adapter = mPagingNodesAdapter
+    }
+
+    private fun initToolbarActions() {
+        binding.toolbar.toolbar.setNavigationOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+        binding.toolbar.ivClear.setOnClickListener {
+            binding.toolbar.etSearch.text.clear()
+        }
+        initTags()
+
+    }
+
+    private fun onBtnSearchClick() {
+        binding.toolbar.etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            val text = binding.toolbar.etSearch.text
+            if (actionId == EditorInfo.IME_ACTION_SEARCH && !text.isNullOrEmpty()) {
+                initSearchPagingData(text.toString())
+                hideKeyboard(requireView())
                 return@OnEditorActionListener true
+            } else if (actionId == EditorInfo.IME_ACTION_SEARCH && text.isNullOrEmpty()) {
+                hideKeyboard(requireView())
+                initNodesPagingData()
             }
-//            if (actionId == EditorInfo.IME_ACTION_SEARCH && mEditTextSearch.text.isEmpty()) {
-//                initFB()
-//                return@OnEditorActionListener true
-//            }
             false
         })
     }
 
-    private fun performSearch() {
-        mEditTextSearch.clearFocus()
-        val inn: InputMethodManager? =
-            activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-        inn?.hideSoftInputFromWindow(mEditTextSearch.windowToken, 0)
-
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapListeners.forEach {
-            it.key.removeEventListener(it.value)
+    private fun initTags(){
+        binding.toolbar.apply {
+            Boom(btnTagZero)
+            btnTagZero.setOnClickListener {
+                binding.toolbar.etSearch.text.clear()
+                initNodesPagingData()
+            }
+            Boom(btnTagFirst)
+            btnTagFirst.setOnClickListener {
+                binding.toolbar.etSearch.text.clear()
+                initSearchPagingData("Телефон")
+            }
+            Boom(btnTagSecond)
+            btnTagSecond.setOnClickListener {
+                binding.toolbar.etSearch.text.clear()
+                initSearchPagingData("Одежд")
+            }
+            Boom(btnTagThird)
+            btnTagThird.setOnClickListener {
+                binding.toolbar.etSearch.text.clear()
+                initSearchPagingData("Авто")
+            }
+            Boom(btnTagFourth)
+            btnTagFourth.setOnClickListener {
+                binding.toolbar.etSearch.text.clear()
+                initSearchPagingData("Сатылат")
+            }
         }
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

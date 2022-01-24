@@ -1,7 +1,6 @@
 package org.otunjargych.tamtam.api
 
 import android.net.Uri
-import android.util.Log
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
@@ -19,7 +18,7 @@ object FireBaseHelper {
 
     private const val workCategory = "Работа, Вакансии"
     private const val transportCategory = "Транспорт, Перевозки"
-    private const val medicineCategory = "Медицина, Красота"
+    private const val healthCategory = "Медицина, Красота"
     private const val buySellCategory = "Продажа, Покупка"
     private const val flatsCategory = "Квартиры, Гостиницы"
     private const val studyCategory = "Обучение, Услуги"
@@ -62,7 +61,7 @@ object FireBaseHelper {
     fun addNewData(category: String, note: Note) {
         mRefAds = FirebaseDatabase.getInstance().reference
         when (category) {
-            medicineCategory -> {
+            healthCategory -> {
                 mRefAds.child(NODE_HEALTH).child(Date().time.toString())
                     .setValue(note)
             }
@@ -133,8 +132,12 @@ object FireBaseHelper {
     }
 
     fun changeViewingNumber(category : String, uuid: String, count: Int){
+        FF_DATABASE_ROOT.collection(NODE_VIP)
+            .document(uuid)
+            .update("viewings", count)
+
         when (category) {
-            medicineCategory -> {
+            healthCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_HEALTH)
                     .document(uuid)
                     .update("viewings", count)
@@ -169,8 +172,13 @@ object FireBaseHelper {
     }
 
     fun changeLikeNumber(category : String, uuid: String, count: Int){
+
+        FF_DATABASE_ROOT.collection(NODE_VIP)
+            .document(uuid)
+            .update("likes", count)
+
         when (category) {
-            medicineCategory -> {
+            healthCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_HEALTH)
                     .document(uuid)
                     .update("likes", count)
@@ -212,31 +220,35 @@ object FireBaseHelper {
 
     fun addDataToFirestore(category: String, note: Node) {
         when (category) {
-            medicineCategory -> {
+            healthCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_HEALTH)
-                    .add(note)
+                    .document(note.uuid)
+                    .set(note)
             }
             workCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_WORKS)
                     .document(note.uuid)
                     .set(note)
-
             }
             studyCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_SERVICES)
-                    .add(note)
+                    .document(note.uuid)
+                    .set(note)
             }
             flatsCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_HOUSE)
-                    .add(note)
+                    .document(note.uuid)
+                    .set(note)
             }
             transportCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_TRANSPORT)
-                    .add(note)
+                    .document(note.uuid)
+                    .set(note)
             }
             buySellCategory -> {
                 FF_DATABASE_ROOT.collection(NODE_BUY_SELL)
-                    .add(note)
+                    .document(note.uuid)
+                    .set(note)
             }
         }
     }
@@ -247,11 +259,5 @@ object FireBaseHelper {
         FF_DATABASE_ROOT.collection(NODE_USERS)
             .document(uuid)
             .set(user)
-            .addOnSuccessListener { _ ->
-                //Log.d("Success", "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w("Error", "Error adding document", e)
-            }
     }
 }

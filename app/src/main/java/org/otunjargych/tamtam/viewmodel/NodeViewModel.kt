@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import org.otunjargych.tamtam.data.AllNodesDataSource
 import org.otunjargych.tamtam.data.SearchNodesDataSource
 import org.otunjargych.tamtam.extensions.FF_DATABASE_ROOT
+import org.otunjargych.tamtam.extensions.NODE_VIP
 import org.otunjargych.tamtam.extensions.PAGE_SIZE
 import org.otunjargych.tamtam.extensions.TIME_PROPERTY
 import org.otunjargych.tamtam.model.Node
@@ -31,13 +32,28 @@ class NodeViewModel() : ViewModel() {
     private val _node: MutableLiveData<State<List<Node>>> = MutableLiveData()
     val node: LiveData<State<List<Node>>> = _node
 
-    fun loadSearchableNodes(collection: String) {
+    private val _vip : MutableLiveData<List<Node>> = MutableLiveData()
+    val vip : LiveData<List<Node>> = _vip
+
+    fun loadActualNodes(collection: String) {
         _node.value = State.Loading()
         viewModelScope.launch {
-            delay(1500)
+            delay(1000)
             getFirestoreData(collection).collect {
                 if (it.data!!.isNotEmpty()) {
                     _node.postValue(State.Success(it.data))
+                } else {
+                    Log.e("Empty", "onSuccess: LIST EMPTY");
+                }
+            }
+        }
+    }
+
+    fun loadVipNodes(){
+        viewModelScope.launch {
+            getVipFirestoreData().collect {
+                if (it.isNotEmpty()) {
+                    _vip.postValue(it)
                 } else {
                     Log.e("Empty", "onSuccess: LIST EMPTY");
                 }
@@ -80,11 +96,29 @@ class NodeViewModel() : ViewModel() {
             val eventDocument = FirebaseFirestore
                 .getInstance()
                 .collection(collection)
+                .orderBy(TIME_PROPERTY, DESCENDING)
+                .limit(6)
 
             val subscription = eventDocument.addSnapshotListener { snapshot, error ->
                 if (!snapshot!!.isEmpty) {
                     val nodeList = snapshot.toObjects(Node::class.java)
                     offer(State.Success(nodeList))
+                }
+            }
+
+            awaitClose { subscription.remove() }
+        }
+
+    private fun getVipFirestoreData(): Flow<List<Node>> =
+        callbackFlow {
+            val eventDocument = FirebaseFirestore
+                .getInstance()
+                .collection(NODE_VIP)
+
+            val subscription = eventDocument.addSnapshotListener { snapshot, error ->
+                if (!snapshot!!.isEmpty) {
+                    val nodeList = snapshot.toObjects(Node::class.java)
+                    offer(nodeList)
                 }
             }
 

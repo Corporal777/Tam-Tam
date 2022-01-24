@@ -1,6 +1,7 @@
 package org.otunjargych.tamtam.fragments
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,7 +11,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.activities.RegistrationActivity
 import org.otunjargych.tamtam.api.FireBaseHelper
@@ -24,8 +24,18 @@ class SettingsFragment : BaseFragment() {
     private val mViewModel: UserViewModel by activityViewModels()
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var mSnapShot: DataSnapshot
 
+    private var listener: OnBottomAppBarItemsEnabledListener? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = try {
+            context as OnBottomAppBarItemsEnabledListener
+        } catch (e: Exception) {
+            throw ClassCastException("Activity not attached!")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +77,12 @@ class SettingsFragment : BaseFragment() {
             aboutApp.setOnClickListener {
                 replaceFragment(AboutAppFragment())
             }
+            privacyPolicy.setOnClickListener {
+                replaceFragment(PolicyFragment())
+            }
+            share.setOnClickListener {
+                share()
+            }
         }
     }
 
@@ -78,18 +94,25 @@ class SettingsFragment : BaseFragment() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.change_name -> {
-                    if (hasConnection(requireContext()) && AUTH.currentUser != null) {
-                        replaceFragment(ChangeNameFragment())
+                    if (hasConnection(requireContext())) {
+                        if (AUTH.currentUser != null) {
+                            replaceFragment(ChangeNameFragment())
+                        } else {
+                            toastMessage(requireContext(), "Необходимо авторизоваться!")
+                        }
                     } else {
                         toastMessage(requireContext(), getString(R.string.no_connection))
                     }
                 }
-
                 R.id.change_photo -> {
-                    if (hasConnection(requireContext()) && AUTH.currentUser != null) {
-                        val intent: Intent = Intent(Intent.ACTION_PICK)
-                        intent.type = "image/*"
-                        startActivityForResult(intent, 1)
+                    if (hasConnection(requireContext())) {
+                        if (AUTH.currentUser != null) {
+                            val intent: Intent = Intent(Intent.ACTION_PICK)
+                            intent.type = "image/*"
+                            startActivityForResult(intent, 1)
+                        } else {
+                            toastMessage(requireContext(), "Необходимо авторизоваться!")
+                        }
                     } else {
                         toastMessage(requireContext(), getString(R.string.no_connection))
                     }
@@ -138,6 +161,30 @@ class SettingsFragment : BaseFragment() {
     private fun changePhoto(url: Uri) {
         binding.ivUserPhoto.load(url)
         toastMessage(requireContext(), "Фото изменено")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        listener?.disabledSettingsItem()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        listener?.enabledSettingsItem()
+    }
+
+    private fun share() {
+        try {
+            val shareApp = Intent(Intent.ACTION_SEND)
+            shareApp.type = "text/plain"
+            var message = "Let me recommend you this application: "
+            message =
+                message + " https://play.google.com/store/apps/details?id=" + requireActivity().packageName
+            shareApp.putExtra(Intent.EXTRA_TEXT, message)
+            startActivity(Intent.createChooser(shareApp, "Choose one of this apps:"))
+        } catch (e: Exception) {
+            toastMessage(requireContext(), "Sharing was unsuccessful.")
+        }
     }
 
 

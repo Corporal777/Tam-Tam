@@ -2,6 +2,10 @@
     <string name="app_name">Tam Tam</string>
     <string name="work_category">Работа, Вакансии</string>
     <string name="trans_category">Транспорт, Перевозки</string>
+    <string name="services_category">Услуги, Обучение</string>
+    <string name="buy_sell_category">Продажа, Покупка</string>
+    <string name="house_category">Квартиры, Гостиницы</string>
+    <string name="health_category">Медицина, Красота</string>
     <string name="no_connection">Нет Интернет соединения!</string>
     <string name="search">   Поиск ...</string>
     <string name="metro_stations">   Станции метро:</string>
@@ -48,6 +52,10 @@
     <string name="enter_your_phone_number">Введите номер телефона</string>
     <string name="and_password">и пароль</string>
     <string name="accept">Принять</string>
+
+
+    <string name="test_text">Магазинге уaevaevaevaevaevavaervw vwrvwvwvw vwevwevwevwrvwwv wrvwvwvwevwevwevw vwevwevwevwvwevwevw vwevwevwevwevwevwevwvwv vwevwevwevwvwvavaevaevaevaevaevavavaevaevaevaevaevaevaevaevaevaevaevaecvaevaevaevaevбоvaevaevaevaevaevaevaevaedaecaavavavaevavavaркаccqcqeveveveqqevevaevaevaevaга упаковкага грузчике балдар кыздар керек мед книжка менен"
+</string>
 
     <integer-array name="img_id_arr">
         <item>@drawable/splash_test</item>

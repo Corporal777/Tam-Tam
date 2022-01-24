@@ -172,18 +172,22 @@ class TransportFragment : BaseFragment() {
             }
             Boom(btnTagFirst)
             btnTagFirst.setOnClickListener {
+                binding.toolbar.etSearch.text.clear()
                 initSearchPagingData("Грузоперевоз")
             }
             Boom(btnTagSecond)
             btnTagSecond.setOnClickListener {
+                binding.toolbar.etSearch.text.clear()
                 initSearchPagingData("Аренд")
             }
             Boom(btnTagThird)
             btnTagThird.setOnClickListener {
+                binding.toolbar.etSearch.text.clear()
                 initSearchPagingData("Выезд")
             }
             Boom(btnTagFourth)
             btnTagFourth.setOnClickListener {
+                binding.toolbar.etSearch.text.clear()
                 initSearchPagingData("Такс")
             }
         }
