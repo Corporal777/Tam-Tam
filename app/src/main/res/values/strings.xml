@@ -13,6 +13,7 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="full_time_work">Работа</string>
     <string name="short_time_work">Подработки</string>
+    <string name="vacancy">Вакансии</string>
     <string name="Beauty">Красота</string>
     <string name="Medicine">Медицина</string>
     <string name="transportation">Перевозки</string>

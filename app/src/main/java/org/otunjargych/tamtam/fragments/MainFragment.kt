@@ -171,7 +171,10 @@ class MainFragment : Fragment() {
         if (hasConnection(requireContext())) {
             mViewModel.loadActualNodes(NODE_WORKS)
             mViewModel.loadVipNodes()
-        } else toastMessage(requireContext(), getString(R.string.no_connection))
+        } else {
+            binding.progressView.isVisible = true
+            toastMessage(requireContext(), getString(R.string.no_connection))
+        }
         showBottomAppBar()
     }
 

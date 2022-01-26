@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -21,7 +20,7 @@ import org.otunjargych.tamtam.fragments.*
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), OnBottomAppBarStateChangeListener, OnBottomAppBarItemsEnabledListener {
+class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener, OnBottomAppBarItemsEnabledListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -29,6 +28,7 @@ class MainActivity : AppCompatActivity(), OnBottomAppBarStateChangeListener, OnB
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         initFields()
 
         if (savedInstanceState == null) {

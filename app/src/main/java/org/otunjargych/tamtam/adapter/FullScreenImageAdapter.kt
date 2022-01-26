@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import org.otunjargych.tamtam.extensions.TouchImageView
 
 class FullScreenImageAdapter(private val photoList: MutableList<String>) :
@@ -61,7 +62,7 @@ class FullScreenImageAdapter(private val photoList: MutableList<String>) :
             .into(object : CustomTarget<Drawable?>() {
                 override fun onResourceReady(
                     resource: Drawable,
-                    transition: com.bumptech.glide.request.transition.Transition<in Drawable?>?
+                    transition: Transition<in Drawable?>?
                 ) {
                     holder.imagePlace.setImageDrawable(resource)
                 }

@@ -50,9 +50,9 @@ class ViewPagerAdapter() :
                 Glide.with(binding.root).load(R.drawable.placeholder).into(ivPagingImages)
             } else {
                 Glide.with(binding.root).load(url).into(ivPagingImages)
-//                iv_paging_images.setOnClickListener {
-//                    onImageClickListener.onImageClick()
-//                }
+                ivPagingImages.setOnClickListener {
+                    onImageClickListener.onImageClick()
+                }
             }
         }
     }

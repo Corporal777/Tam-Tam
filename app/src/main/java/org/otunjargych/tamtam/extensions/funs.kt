@@ -3,12 +3,15 @@ package org.otunjargych.tamtam.extensions
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Typeface
 import android.net.ConnectivityManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
@@ -25,6 +28,9 @@ import org.otunjargych.tamtam.extensions.imagepicker.ui.ImagePickerView
 import org.otunjargych.tamtam.model.Node
 import java.text.SimpleDateFormat
 import java.util.*
+
+
+
 
 
 fun Fragment.replaceFragment(fragment: Fragment) {
@@ -221,5 +227,7 @@ class AppTextWatcher(val onSuccess: (CharSequence?) -> Unit) : TextWatcher {
 interface OnNodeClickListener {
     fun onNodeClick(node: Node, position: Int)
 }
+
+
 
 

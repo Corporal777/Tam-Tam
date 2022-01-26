@@ -10,10 +10,17 @@ import com.yandex.metrica.YandexMetricaConfig
 import org.otunjargych.tamtam.extensions.YANDEX_APP_METRIC
 
 
+
+
+
+
+
+
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         FirebaseApp.initializeApp(applicationContext)
         initYandexAppMetric()
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
@@ -33,4 +40,6 @@ class App : Application() {
         YandexMetrica.activate(applicationContext, config)
         YandexMetrica.enableActivityAutoTracking(this)
     }
+
+
 }

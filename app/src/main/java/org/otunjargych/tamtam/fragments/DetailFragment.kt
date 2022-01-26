@@ -71,6 +71,11 @@ class DetailFragment : BaseFragment() {
         val onImageClick: ViewPagerAdapter.OnImageClickListener =
             object : ViewPagerAdapter.OnImageClickListener {
                 override fun onImageClick() {
+                    val bundle = Bundle()
+                    bundle.putStringArrayList("images", imagesList)
+                    val fragment = FullScreenImagesFragment()
+                    fragment.arguments = bundle
+                    replaceFragment(fragment)
                 }
             }
         if (!imagesList.isNullOrEmpty()) {
