@@ -4,195 +4,103 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.delay
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.otunjargych.tamtam.api.EventResponse
-import org.otunjargych.tamtam.api.FireBaseHelper.lastValuesEventFlow
-import org.otunjargych.tamtam.api.FireBaseHelper.valuesEventFlow
 import org.otunjargych.tamtam.extensions.*
-import org.otunjargych.tamtam.model.Note
+import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.State
 
 
 class DataViewModel : ViewModel() {
 
-    private lateinit var mRefAds: DatabaseReference
-    private lateinit var mRefListener: AppChildEventListener
-    private val list: MutableList<Note> = ArrayList()
-    private val _work: MutableLiveData<State<List<Note>>> = MutableLiveData()
-    val work: LiveData<State<List<Note>>> = _work
+    private val _work: MutableLiveData<List<Node>> = MutableLiveData()
+    val work: LiveData<List<Node>> = _work
 
-    private val _note: MutableLiveData<List<Note>> = MutableLiveData()
-    val note: LiveData<List<Note>> = _note
+    private val _health: MutableLiveData<List<Node>> = MutableLiveData()
+    val health: LiveData<List<Node>> = _health
 
-    private val _other: MutableLiveData<Note> = MutableLiveData()
-    val other: LiveData<Note> = _other
+    private val _house: MutableLiveData<List<Node>> = MutableLiveData()
+    val house: LiveData<List<Node>> = _house
 
-    private val _transport: MutableLiveData<State<List<Note>>> = MutableLiveData()
-    val transport: LiveData<State<List<Note>>> = _transport
+    private val _transport: MutableLiveData<List<Node>> = MutableLiveData()
+    val transport: LiveData<List<Node>> = _transport
 
-    private val _last: MutableLiveData<State<List<Note>>> = MutableLiveData()
-    val last: LiveData<State<List<Note>>> = _last
+    private val _services: MutableLiveData<List<Node>> = MutableLiveData()
+    val services: LiveData<List<Node>> = _services
 
-    private val _medicine: MutableLiveData<State<List<Note>>> = MutableLiveData()
-    val medicine: LiveData<State<List<Note>>> = _medicine
+    private val _buySell: MutableLiveData<List<Node>> = MutableLiveData()
+    val buySell: LiveData<List<Node>> = _buySell
+
+    private val _data: MutableLiveData<State<List<Node>>> = MutableLiveData()
+    val data: LiveData<State<List<Node>>> = _data
 
 
-    fun loadWorkData() {
-        val list: MutableList<Note> = ArrayList()
-        _work.postValue(State.Loading())
+
+
+    fun loadMyNodes(userId: String) {
+        val list = ArrayList<Node>()
+        _data.postValue(State.Loading())
         viewModelScope.launch {
-            delay(1500)
-            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_WORKS)
-            mRefAds.valuesEventFlow().collect { result ->
-                when (result) {
-                    is EventResponse.Changed -> {
-                        val snapshot = result.snapshot
-                        for (dataSnapshot: DataSnapshot in snapshot.children) {
-                            var note = dataSnapshot.getValue(Note::class.java)!!
-                            list.add(0, note)
-                            _work.postValue(State.Success(list))
-                        }
-
-                    }
-                    is EventResponse.Cancelled -> {
-                        _work.postValue(State.Error())
-                        val exception = result.error
-                    }
-                }
+            getMyDataNodes(userId, NODE_WORKS).collect {
+                list.addAll(it)
             }
         }
-    }
-
-    fun loadTransportData() {
-        val list: MutableList<Note> = ArrayList()
-        _transport.postValue(State.Loading())
         viewModelScope.launch {
-            delay(1000)
-            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_TRANSPORT)
-            mRefAds.valuesEventFlow().collect { result ->
-                when (result) {
-                    is EventResponse.Changed -> {
-                        val snapshot = result.snapshot
-                        for (dataSnapshot: DataSnapshot in snapshot.children) {
-                            var note = dataSnapshot.getValue(Note::class.java)!!
-                            if (!list.contains(note)) {
-                                list.add(0, note)
-                                _transport.postValue(State.Success(list))
-                            }
-
-                        }
-
-                    }
-                    is EventResponse.Cancelled -> {
-                        _transport.postValue(State.Error())
-                        val exception = result.error
-                    }
-                }
+            getMyDataNodes(userId, NODE_HEALTH).collect {
+                list.addAll(it)
             }
         }
-    }
-
-    fun loadMedicineAndBeautyData() {
-        val list: MutableList<Note> = ArrayList()
-        _medicine.postValue(State.Loading())
         viewModelScope.launch {
-            delay(1000)
-            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_HEALTH)
-            mRefAds.valuesEventFlow().collect { result ->
-                when (result) {
-                    is EventResponse.Changed -> {
-                        val snapshot = result.snapshot
-                        for (dataSnapshot: DataSnapshot in snapshot.children) {
-                            var note = dataSnapshot.getValue(Note::class.java)!!
-                            if (!list.contains(note)) {
-                                list.add(0, note)
-                                _medicine.postValue(State.Success(list))
-                            }
-
-                        }
-
-                    }
-                    is EventResponse.Cancelled -> {
-                        _medicine.postValue(State.Error())
-                        val exception = result.error
-                    }
-                }
+            getMyDataNodes(userId, NODE_TRANSPORT).collect {
+                list.addAll(it)
             }
         }
-    }
-
-    fun loadLastNoteData(count: Int) {
-        val list: MutableList<Note> = ArrayList()
-        _last.postValue(State.Loading())
         viewModelScope.launch {
-            delay(1500)
-            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_WORKS)
-            mRefAds.lastValuesEventFlow(count).collect { result ->
-                when (result) {
-                    is EventResponse.Changed -> {
-                        val snapshot = result.snapshot
-                        for (dataSnapshot: DataSnapshot in snapshot.children) {
-                            var note = dataSnapshot.getValue(Note::class.java)!!
-                            if (!list.contains(note)) {
-
-                            }
-                            list.add(0, note)
-                            _last.postValue(State.Success(list))
-
-                        }
-
-                    }
-                    is EventResponse.Cancelled -> {
-                        _last.postValue(State.Error())
-                        val exception = result.error
-                    }
-                }
+            getMyDataNodes(userId, NODE_SERVICES).collect {
+                list.addAll(it)
             }
         }
-    }
-
-    fun getData() {
         viewModelScope.launch {
-            mRefAds = FirebaseDatabase.getInstance().reference.child(NODE_WORKS)
-            mRefAds.lastValuesEventFlow(5).collect { result ->
-                when (result) {
-                    is EventResponse.Changed -> {
-                        val snapshot = result.snapshot
-                        for (dataSnapshot: DataSnapshot in snapshot.children) {
-                            var note = dataSnapshot.getValue(Note::class.java)!!
+            getMyDataNodes(userId, NODE_BUY_SELL).collect {
+                list.addAll(it)
+            }
+        }
+        viewModelScope.launch {
+            getMyDataNodes(userId, NODE_HOUSE).collect {
+                list.addAll(it)
+                if (list.isNotEmpty()) {
+                    _data.postValue(State.Success(list))
+                } else
+                    _data.postValue(State.NoItem())
 
-                            list.add(0, note)
-                            _note.value = list
-
-
-                        }
-
-                    }
-                    is EventResponse.Cancelled -> {
-                        _last.postValue(State.Error())
-                        val exception = result.error
-                    }
-                }
             }
         }
     }
 
 
-    fun getOther(count: Int) {
-        mRefAds = REF_DATABASE_ROOT.child(NODE_WORKS)
-        mRefListener = AppChildEventListener {
-            var note = it.getValue(Note::class.java)!!
-            _other.value = note
+    private suspend fun getMyDataNodes(
+        userId: String,
+        collection: String
+    ): Flow<List<Node>> =
+        callbackFlow {
+            val eventDocument = FirebaseFirestore
+                .getInstance()
+                .collection(collection)
+                .whereEqualTo("userId", userId)
 
+            val subscription = eventDocument.addSnapshotListener { snapshot, error ->
+                if (!snapshot!!.isEmpty) {
+                    val nodeList = snapshot.toObjects(Node::class.java)
+                    offer(nodeList)
+                }
+            }
 
+            awaitClose { subscription.remove() }
         }
-        mRefAds.limitToLast(count).addChildEventListener(mRefListener)
-    }
 
 
 }

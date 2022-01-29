@@ -12,14 +12,14 @@ import androidx.fragment.app.commit
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.activities.MainActivity
-import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentRegistrationBinding
 import org.otunjargych.tamtam.extensions.*
-import org.otunjargych.tamtam.model.Node
+import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.User
 
 
@@ -30,10 +30,11 @@ class RegistrationFragment : BaseFragment() {
     private lateinit var mName: String
     private lateinit var mLastName: String
     private lateinit var mEmail: String
+    private lateinit var mUserId: String
     private lateinit var mRefUsers: DatabaseReference
 
-    private var userPhoto: Uri? = null
-    private var imageUrl: String = ""
+    private var mUserPhoto: Uri? = null
+    private var mImageUrl: String = ""
 
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
@@ -58,11 +59,18 @@ class RegistrationFragment : BaseFragment() {
                 replace(R.id.registration_container, AuthFragment())
             }
         }
+        Boom(binding.btnAccept)
         binding.btnAccept.setOnClickListener {
-            binding.progressView.isVisible = true
-            authUser()
+            if (hasConnection(requireContext())){
+                binding.progressView.isVisible = true
+                authUser()
+            }else{
+                toastMessage(requireContext(), getString(R.string.no_connection))
+            }
+
 
         }
+        Boom(binding.userPhoto)
         binding.userPhoto.setOnClickListener {
             val intent: Intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
@@ -76,9 +84,7 @@ class RegistrationFragment : BaseFragment() {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK && data != null) {
                 binding.userPhoto.load(data.data)
-                userPhoto = data.data
-
-
+                mUserPhoto = data.data
             }
         }
     }
@@ -90,53 +96,52 @@ class RegistrationFragment : BaseFragment() {
         AUTH = FirebaseAuth.getInstance()
         AUTH.createUserWithEmailAndPassword(mPhoneNumber, mPassword)
             .addOnSuccessListener {
-                addUser()
-                toastMessage(requireContext(), "Добро пожаловать")
-                replaceActivity()
+                initUserParams()
             }.addOnFailureListener {
                 toastMessage(requireContext(), "Что-то пошло не так!")
+            }.addOnCompleteListener {
+
             }
         AUTH.signInWithEmailAndPassword(mPhoneNumber, mPassword).addOnCompleteListener {
+            toastMessage(requireContext(), "Добро пожаловать")
+            addUser()
             binding.progressView.isVisible = false
+            replaceActivity()
         }.addOnFailureListener {
-            binding.progressView.isVisible = false
+            toastMessage(requireContext(), "Что-то пошло не так!")
         }
 
     }
 
 
     private fun addUser() {
-        val list = ArrayList<Node>()
-        mPhoneNumber = binding.etPhone.text.toString()
-        mPassword = binding.etPassword.text.toString()
-        mEmail = binding.etEmail.text.toString()
-        mName = binding.etName.text.toString()
-        mLastName = binding.etLastName.text.toString()
-        val uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
-        mRefUsers = FirebaseDatabase.getInstance().reference
-
         REF_STORAGE_ROOT = FirebaseStorage.getInstance().reference
-        val path = REF_STORAGE_ROOT.child(FOLDER_USER_IMAGES).child(uid)
-        if (userPhoto != null) {
-            path.putFile(userPhoto!!).addOnCompleteListener {
+        if (mUserPhoto != null) {
+            val path =
+                REF_STORAGE_ROOT.child(FOLDER_USER_IMAGES).child(mUserId)
+            path.putFile(mUserPhoto!!).addOnCompleteListener {
                 if (it.isSuccessful) {
                     path.downloadUrl.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            imageUrl = task.result.toString()
-
-                            val user: User =
-                                User(uid, mName, mLastName, mPhoneNumber, mEmail, imageUrl)
-                            //mRefUsers.child(NODE_USERS).child(uid).setValue(user)
-                            FireBaseHelper.addNewUserProfile(user, uid)
+                            mImageUrl = task.result.toString()
+                            createUser()
                         }
                     }
                 }
             }
         } else {
-            val user: User = User(uid, mName, mLastName, mPhoneNumber, mEmail, imageUrl)
-            FireBaseHelper.addNewUserProfile(user, uid)
-            // mRefUsers.child(NODE_USERS).child(uid).setValue(user)
+            createUser()
         }
+    }
+
+
+    private fun initUserParams() {
+        mPhoneNumber = binding.etPhone.text.toString()
+        mPassword = binding.etPassword.text.toString()
+        mEmail = binding.etEmail.text.toString()
+        mName = binding.etName.text.toString()
+        mLastName = binding.etLastName.text.toString()
+        mUserId = FirebaseAuth.getInstance().currentUser?.uid.toString()
     }
 
 
@@ -150,9 +155,21 @@ class RegistrationFragment : BaseFragment() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
-//        requireActivity().overridePendingTransition(
-//            android.R.anim.fade_in,
-//            android.R.anim.fade_out
-//        )
+
+    }
+
+    private fun createUser() {
+        val user =
+            User(
+                mUserId,
+                mName,
+                mLastName,
+                mPhoneNumber,
+                mEmail,
+                mImageUrl
+            )
+        Firebase.firestore.collection(NODE_USERS)
+            .document(mUserId)
+            .set(user)
     }
 }

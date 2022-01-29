@@ -1,7 +1,6 @@
 package org.otunjargych.tamtam.fragments
 
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import coil.load
-import com.google.firebase.auth.FirebaseAuth
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.activities.RegistrationActivity
 import org.otunjargych.tamtam.api.FireBaseHelper
@@ -18,24 +16,13 @@ import org.otunjargych.tamtam.databinding.FragmentSettingsBinding
 import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.viewmodel.UserViewModel
 
-class SettingsFragment : BaseFragment() {
+class SettingsFragment : BaseSettingsFragment() {
 
 
     private val mViewModel: UserViewModel by activityViewModels()
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
-    private var listener: OnBottomAppBarItemsEnabledListener? = null
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        listener = try {
-            context as OnBottomAppBarItemsEnabledListener
-        } catch (e: Exception) {
-            throw ClassCastException("Activity not attached!")
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,10 +46,25 @@ class SettingsFragment : BaseFragment() {
     private fun initSettingsActions() {
         binding.apply {
             exit.setOnClickListener {
-                if (hasConnection(requireContext()) && AUTH.currentUser != null) {
-                    FirebaseAuth.getInstance().signOut()
-                    startActivity(Intent(activity, RegistrationActivity::class.java))
-                    requireActivity().finish()
+                if (hasConnection(requireContext())) {
+                    if (AUTH.currentUser != null) {
+                        AUTH.signOut()
+                        startActivity(Intent(requireActivity(), RegistrationActivity::class.java))
+                        requireActivity().finish()
+                    } else {
+                        toastMessage(requireContext(), "Необходимо авторизоваться!")
+                    }
+                } else {
+                    toastMessage(requireContext(), getString(R.string.no_connection))
+                }
+            }
+            myNodes.setOnClickListener {
+                if (hasConnection(requireContext())) {
+                    if (AUTH.currentUser != null) {
+                        replaceFragment(MyNodesFragment())
+                    } else {
+                        toastMessage(requireContext(), "Необходимо авторизоваться!")
+                    }
                 } else {
                     toastMessage(requireContext(), getString(R.string.no_connection))
                 }
@@ -126,7 +128,7 @@ class SettingsFragment : BaseFragment() {
     private fun initUserInfo() {
         mViewModel.currentUser.observe(viewLifecycleOwner, { user ->
             if (user != null) {
-                if (!user.name.isNullOrEmpty())
+                if (!user.name.isNullOrEmpty() || !user.last_name.isNullOrEmpty())
                     binding.tvUserName.text = user.name + " " + user.last_name
                 if (!user.phone_number.isNullOrEmpty())
                     binding.tvUserPhoneNumber.text = user.phone_number
@@ -163,15 +165,6 @@ class SettingsFragment : BaseFragment() {
         toastMessage(requireContext(), "Фото изменено")
     }
 
-    override fun onStart() {
-        super.onStart()
-        listener?.disabledSettingsItem()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        listener?.enabledSettingsItem()
-    }
 
     private fun share() {
         try {

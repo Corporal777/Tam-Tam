@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.otunjargych.tamtam.databinding.FragmentAboutAppBinding
-import org.otunjargych.tamtam.extensions.BaseFragment
+import org.otunjargych.tamtam.extensions.BaseSettingsFragment
 
 
-class AboutAppFragment : BaseFragment() {
+class AboutAppFragment : BaseSettingsFragment() {
 
     private var _binding: FragmentAboutAppBinding? = null
     private val binding get() = _binding!!

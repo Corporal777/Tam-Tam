@@ -19,7 +19,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.otunjargych.tamtam.data.AllNodesDataSource
 import org.otunjargych.tamtam.data.SearchNodesDataSource
-import org.otunjargych.tamtam.extensions.*
+import org.otunjargych.tamtam.extensions.FF_DATABASE_ROOT
+import org.otunjargych.tamtam.extensions.NODE_VIP
+import org.otunjargych.tamtam.extensions.PAGE_SIZE
+import org.otunjargych.tamtam.extensions.TIME_PROPERTY
 import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.State
 
@@ -32,8 +35,6 @@ class NodeViewModel() : ViewModel() {
     private val _vip: MutableLiveData<List<Node>> = MutableLiveData()
     val vip: LiveData<List<Node>> = _vip
 
-    private val _my: MutableLiveData<State<List<Node>>> = MutableLiveData()
-    val my: LiveData<State<List<Node>>> = _my
 
     fun loadActualNodes(collection: String) {
         _node.value = State.Loading()
@@ -49,23 +50,6 @@ class NodeViewModel() : ViewModel() {
         }
     }
 
-    fun loadMyNodes(userId: String) {
-        val list = ArrayList<Node>()
-        _my.postValue(State.Loading())
-        viewModelScope.launch {
-            delay(1000)
-            getMyDataNodes(userId, NODE_WORKS).collect { work ->
-                list.addAll(work)
-                getMyDataNodes(userId, NODE_SERVICES).collect { services ->
-                    list.addAll(services)
-                    getMyDataNodes(userId, NODE_HEALTH).collect { health ->
-                        list.addAll(health)
-                        _my.postValue(State.Success(list))
-                    }
-                }
-            }
-        }
-    }
 
     fun loadVipNodes() {
         viewModelScope.launch {
@@ -127,26 +111,7 @@ class NodeViewModel() : ViewModel() {
             awaitClose { subscription.remove() }
         }
 
-    private suspend fun getMyDataNodes(
-        userId: String,
-        collection: String
-    ): Flow<List<Node>> =
-        callbackFlow {
-            val eventDocument = FirebaseFirestore
-                .getInstance()
-                .collection(collection)
-                .whereEqualTo("userId", userId)
 
-
-            val subscription = eventDocument.addSnapshotListener { snapshot, error ->
-                if (!snapshot!!.isEmpty) {
-                    val nodeList = snapshot.toObjects(Node::class.java)
-                    offer(nodeList)
-                }
-            }
-
-            awaitClose { subscription.remove() }
-        }
 
     private fun getVipFirestoreData(): Flow<List<Node>> =
         callbackFlow {

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.2" />
+        <entry key="../../.gradle/caches/transforms-3/808c3f6592250a91afeb4b5acf6458a3/transformed/jetified-slidingdotsplash-1.0.2/res/drawable/tab_selector.xml" value="0.3106253177427555" />
         <entry key="app/src/main/res/drawable-anydpi/ic_add.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable-anydpi/ic_exit.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/background_transparent.xml" value="0.3182291666666667" />
@@ -36,6 +37,8 @@
         <entry key="app/src/main/res/drawable/ic_delete_image.xml" value="0.3106253177427555" />
         <entry key="app/src/main/res/drawable/ic_done.xml" value="0.264" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.3106253177427555" />
+        <entry key="app/src/main/res/drawable/ic_edit_white.xml" value="0.3106253177427555" />
+        <entry key="app/src/main/res/drawable/ic_empty.xml" value="0.3106253177427555" />
         <entry key="app/src/main/res/drawable/ic_exit.xml" value="0.3106253177427555" />
         <entry key="app/src/main/res/drawable/ic_filter.xml" value="0.3106253177427555" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.29814814814814816" />
@@ -64,6 +67,7 @@
         <entry key="app/src/main/res/drawable/progress_anim.xml" value="0.264" />
         <entry key="app/src/main/res/drawable/progress_bar.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/search_background.xml" value="0.2" />
+        <entry key="app/src/main/res/drawable/tab_indicator_default.xml" value="0.3106253177427555" />
         <entry key="app/src/main/res/drawable/tag_background.xml" value="0.3182291666666667" />
         <entry key="app/src/main/res/font/work_sans.xml" value="0.3309608540925267" />
         <entry key="app/src/main/res/font/work_sans_bold.xml" value="0.3309608540925267" />
@@ -102,6 +106,7 @@
         <entry key="app/src/main/res/layout/fragment_change_name.xml" value="0.264" />
         <entry key="app/src/main/res/layout/fragment_code_reg.xml" value="0.264" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/fragment_edit_my_nodes.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_enter.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_filters.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_flats.xml" value="0.29322916666666665" />
@@ -116,7 +121,7 @@
         <entry key="app/src/main/res/layout/fragment_new_node.xml" value="0.28425925925925927" />
         <entry key="app/src/main/res/layout/fragment_phone_reg.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_policy.xml" value="0.264" />
-        <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.176" />
+        <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.264" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_services.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.2" />
@@ -132,7 +137,9 @@
         <entry key="app/src/main/res/layout/not_using.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/page_item.xml" value="0.264" />
         <entry key="app/src/main/res/layout/station_item.xml" value="0.4" />
-        <entry key="app/src/main/res/layout/swipe_item.xml" value="0.536" />
+        <entry key="app/src/main/res/layout/swipe_item.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/swipe_liked_item.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/swipe_my_item.xml" value="0.176" />
         <entry key="app/src/main/res/menu/account_menu.xml" value="0.536" />
         <entry key="app/src/main/res/menu/gallery_toolbar_menu.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/menu/main.xml" value="0.29322916666666665" />
@@ -151,7 +158,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.176" />
+        <option name="scale" value="0.264" />
       </ProjectState>
     </option>
   </component>

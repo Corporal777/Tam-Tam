@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/main_background">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -14,14 +14,14 @@
         app:elevation="10dp">
 
         <androidx.appcompat.widget.Toolbar
-            app:navigationIcon="@drawable/ic_back"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
             android:background="@color/app_main_color"
             android:elevation="6dp"
-            app:contentInsetStart="0dp">
+            app:contentInsetStart="0dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:navigationIcon="@drawable/ic_back">
 
 
             <TextView
@@ -44,24 +44,11 @@
         android:id="@+id/list_my_nodes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingStart="5dp"
-        android:layout_marginBottom="50dp"
-        android:paddingEnd="5dp"
+        android:paddingBottom="100dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/progressView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/infinity_line_anim"
-        app:lottie_speed="2" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

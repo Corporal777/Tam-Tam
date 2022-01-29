@@ -3,15 +3,11 @@ package org.otunjargych.tamtam.extensions
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Typeface
 import android.net.ConnectivityManager
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.DisplayMetrics
-import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
@@ -28,9 +24,6 @@ import org.otunjargych.tamtam.extensions.imagepicker.ui.ImagePickerView
 import org.otunjargych.tamtam.model.Node
 import java.text.SimpleDateFormat
 import java.util.*
-
-
-
 
 
 fun Fragment.replaceFragment(fragment: Fragment) {
@@ -64,27 +57,6 @@ fun hasConnection(context: Context): Boolean {
     if (wifiInfo != null && wifiInfo.isConnected) {
         return true
     } else return false
-}
-
-fun errorToast(message: String, context: Context) {
-    val layout: View = LayoutInflater.from(context).inflate(R.layout.custom_error_toast, null)
-    val mTextView: TextView = layout.findViewById(R.id.toast_message)
-    val toast: Toast = Toast(context)
-    mTextView.text = message
-    toast.view = layout
-    toast.duration = Toast.LENGTH_LONG
-    toast.show()
-
-}
-
-fun successToast(message: String, context: Context) {
-    val layout: View = LayoutInflater.from(context).inflate(R.layout.custom_success_toast, null)
-    val mTextView: TextView = layout.findViewById(R.id.toast_message)
-    val toast: Toast = Toast(context)
-    mTextView.text = message
-    toast.view = layout
-    toast.duration = Toast.LENGTH_LONG
-    toast.show()
 }
 
 
@@ -144,7 +116,7 @@ interface OnBottomAppBarStateChangeListener {
     fun onShow()
 }
 
-interface OnBottomAppBarItemsEnabledListener{
+interface OnBottomAppBarItemsEnabledListener {
     fun enabledHomeItem()
     fun enabledSettingsItem()
     fun enabledLikedItem()

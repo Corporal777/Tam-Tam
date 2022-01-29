@@ -20,7 +20,8 @@ import org.otunjargych.tamtam.fragments.*
 import java.util.*
 
 
-class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener, OnBottomAppBarItemsEnabledListener {
+class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener,
+    OnBottomAppBarItemsEnabledListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -47,17 +48,17 @@ class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener, OnBottom
             setShowMotionSpecResource(R.animator.fab_show)
             setHideMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
-                if (AUTH.currentUser != null) {
-                    replaceFragment(NewNodeFragment())
-                } else {
-                    val intent = Intent(this@MainActivity, RegistrationActivity::class.java)
-                    startActivity(intent)
-//                    overridePendingTransition(
-//                        android.R.anim.slide_in_left,
-//                        android.R.anim.slide_out_right
-//                    )
-
+                if (hasConnection(this@MainActivity)){
+                    if (AUTH.currentUser != null) {
+                        replaceFragment(NewNodeFragment())
+                    } else {
+                        val intent = Intent(this@MainActivity, RegistrationActivity::class.java)
+                        startActivity(intent)
+                    }
+                }else{
+                    toastMessage(this@MainActivity, getString(R.string.no_connection))
                 }
+
             }
         }
     }
@@ -105,12 +106,17 @@ class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener, OnBottom
                     true
                 }
                 R.id.liked_nodes -> {
-                    if (hasConnection(this) && AUTH.currentUser != null) {
-                        replaceFragment(2)
-                        true
+                    if (hasConnection(this)) {
+                        if (AUTH.currentUser != null) {
+                            replaceFragment(2)
+                            true
+                        } else {
+                            val intent = Intent(this@MainActivity, RegistrationActivity::class.java)
+                            startActivity(intent)
+                            true
+                        }
                     } else {
-                        val intent = Intent(this@MainActivity, RegistrationActivity::class.java)
-                        startActivity(intent)
+                        toastMessage(this, getString(R.string.no_connection))
                         true
                     }
                 }

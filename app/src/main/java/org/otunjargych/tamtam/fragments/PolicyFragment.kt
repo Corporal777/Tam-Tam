@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.appbar.MaterialToolbar
 import org.otunjargych.tamtam.databinding.FragmentPolicyBinding
-import org.otunjargych.tamtam.extensions.BaseFragment
+import org.otunjargych.tamtam.extensions.BaseSettingsFragment
 
-class PolicyFragment : BaseFragment(){
+class PolicyFragment : BaseSettingsFragment(){
 
-    private lateinit var mToolBar: MaterialToolbar
     private var _binding: FragmentPolicyBinding? = null
     private val binding get() = _binding!!
 

@@ -1,5 +1,6 @@
 package org.otunjargych.tamtam.api
 
+import android.content.Context
 import android.net.Uri
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -90,7 +91,6 @@ object FireBaseHelper {
 
     fun addImagesToStorage(list: List<Uri>) {
         imagesUrlList.clear()
-
         list.forEach {
             val path =
                 FirebaseStorage.getInstance().reference.child(
@@ -98,14 +98,15 @@ object FireBaseHelper {
                 ).child(UUID.randomUUID().toString())
             path.putFile(it).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    path.downloadUrl.addOnCompleteListener { result ->
-                        if (result.isSuccessful) {
-                            imagesUrlList.add(result.result.toString())
+                    path.downloadUrl.addOnCompleteListener { status ->
+                        if (status.isSuccessful) {
+                            imagesUrlList.add( status.result.toString())
                         }
                     }
                 }
             }
         }
+
     }
 
 
@@ -131,7 +132,7 @@ object FireBaseHelper {
             .update("name", changedName, "last_name", changedLastName)
     }
 
-    fun changeViewingNumber(category : String, uuid: String, count: Int){
+    fun changeViewingNumber(category: String, uuid: String, count: Int) {
         FF_DATABASE_ROOT.collection(NODE_VIP)
             .document(uuid)
             .update("viewings", count)
@@ -171,7 +172,7 @@ object FireBaseHelper {
         }
     }
 
-    fun changeLikeNumber(category : String, uuid: String, count: Int){
+    fun changeLikeNumber(category: String, uuid: String, count: Int) {
 
         FF_DATABASE_ROOT.collection(NODE_VIP)
             .document(uuid)
@@ -214,7 +215,6 @@ object FireBaseHelper {
 
     fun getImagesUrlList(): ArrayList<String> {
         return imagesUrlList
-
     }
 
 
@@ -253,7 +253,123 @@ object FireBaseHelper {
         }
     }
 
+    fun deleteNodeFromFirestore(context: Context, category: String, uuid: String) {
+        when (category) {
+            healthCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HEALTH).document(uuid)
+                    .delete().addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление удалено")
 
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            workCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_WORKS).document(uuid)
+                    .delete().addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление удалено")
+
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            studyCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_SERVICES).document(uuid)
+                    .delete().addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление удалено")
+
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            flatsCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HOUSE).document(uuid)
+                    .delete().addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление удалено")
+
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            transportCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_TRANSPORT).document(uuid)
+                    .delete().addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление удалено")
+
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            buySellCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_BUY_SELL).document(uuid)
+                    .delete().addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление удалено")
+
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+        }
+    }
+
+    fun editNodeFromFirestore(context: Context, category: String, node: Node) {
+        when (category) {
+            healthCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HEALTH)
+                    .document(node.uuid)
+                    .set(node).addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление изменено")
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            workCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_WORKS)
+                    .document(node.uuid)
+                    .set(node).addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление изменено")
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            studyCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_SERVICES)
+                    .document(node.uuid)
+                    .set(node).addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление изменено")
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            flatsCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_HOUSE)
+                    .document(node.uuid)
+                    .set(node).addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление изменено")
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            transportCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_TRANSPORT)
+                    .document(node.uuid)
+                    .set(node).addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление изменено")
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+            buySellCategory -> {
+                FF_DATABASE_ROOT.collection(NODE_BUY_SELL)
+                    .document(node.uuid)
+                    .set(node).addOnSuccessListener {
+                        toastMessage(context, "Ваше объявление изменено")
+                    }.addOnFailureListener {
+                        toastMessage(context, "Что то пошло не так")
+                    }
+            }
+        }
+    }
 
     fun addNewUserProfile(user: User, uuid: String) {
         FF_DATABASE_ROOT.collection(NODE_USERS)

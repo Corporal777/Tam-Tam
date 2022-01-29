@@ -29,7 +29,16 @@ class NodesAdapter : RecyclerView.Adapter<NodesAdapter.ViewHolder>() {
         this.onClickListener = onClickListener
         mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNotes, list))
         mDiffResult.dispatchUpdatesTo(this)
+    }
 
+    fun addNode(node: Node) {
+        val list = ArrayList<Node>()
+        if (!list.contains(node)) {
+            list.add(node)
+        }
+        listNotes.addAll(list)
+        mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNotes, list))
+        mDiffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -73,9 +82,9 @@ class NodesAdapter : RecyclerView.Adapter<NodesAdapter.ViewHolder>() {
             } else
                 tvLocation.text = "м. " + node.station
             tvCategory.text = node.category
-            if (!node.images.isNullOrEmpty() && !node.images[0].equals("") ) {
+            if (!node.images.isNullOrEmpty() && !node.images[0].equals("")) {
                 Glide.with(binding.root).load(node.images[0]).into(ivNoteImage)
-            }else{
+            } else {
                 Glide.with(binding.root).load(R.drawable.placeholder).into(ivNoteImage)
             }
             Boom(cvItem)

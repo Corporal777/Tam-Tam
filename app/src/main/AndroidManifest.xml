@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 
     <application
@@ -20,8 +20,8 @@
         android:theme="@style/Theme.TamTam">
         <activity
             android:name="org.otunjargych.tamtam.activities.SplashActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,13 +30,19 @@
         </activity>
         <activity
             android:name="org.otunjargych.tamtam.activities.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="org.otunjargych.tamtam.activities.RegistrationActivity" />
+        <activity
+            android:name="org.otunjargych.tamtam.activities.RegistrationActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true" />
         <activity
             android:name=".extensions.imagepicker.ui.Gallery"
+            android:configChanges="orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".extensions.imagepicker.ui.Detail"
+            android:configChanges="orientation|screenSize"
             android:exported="true" />
 
     </application>

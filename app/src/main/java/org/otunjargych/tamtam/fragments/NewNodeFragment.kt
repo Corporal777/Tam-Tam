@@ -64,10 +64,6 @@ class NewNodeFragment : BaseFragment() {
         }
     }
 
-    private fun hideBottomAppBar() {
-        listener?.onHide()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -216,7 +212,7 @@ class NewNodeFragment : BaseFragment() {
         mHandler = Handler()
         mRunnable = Runnable {
             addNewNodeData()
-            //requireActivity().supportFragmentManager.popBackStack()
+            requireActivity().supportFragmentManager.popBackStack()
         }
         mHandler!!.postDelayed(mRunnable!!, 1500)
 
@@ -227,9 +223,14 @@ class NewNodeFragment : BaseFragment() {
         super.onResume()
     }
 
+    override fun onStop() {
+        super.onStop()
+        listener?.onShow()
+    }
+
     override fun onStart() {
         super.onStart()
-        hideBottomAppBar()
+        listener?.onHide()
 
     }
 

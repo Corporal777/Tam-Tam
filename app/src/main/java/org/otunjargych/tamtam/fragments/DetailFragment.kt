@@ -93,10 +93,12 @@ class DetailFragment : BaseFragment() {
             tvDate.text = mDetailDate.asTime()
             tvLikes.text = mDetailLikes
             tvViewings.text = mDetailViewings
-            tvAddress.text = mDetailAddress
+
             tvViewings.text = mDetailViewings
             tvLikes.text = mDetailLikes
-
+            if (!mDetailAddress.isNullOrEmpty()) {
+                tvAddress.text = mDetailAddress
+            }
             if (!mDetailSalary.isNullOrEmpty()) {
                 tvSalary.text = mDetailSalary
             }

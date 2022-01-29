@@ -12,6 +12,7 @@
         android:layout_height="match_parent" />
 
     <com.google.android.material.tabs.TabLayout
+        android:background="@color/main_background"
         android:id="@+id/tab_dots"
         android:layout_width="match_parent"
         android:layout_height="25dp"

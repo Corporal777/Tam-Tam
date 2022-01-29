@@ -9,28 +9,29 @@ import com.bumptech.glide.Glide
 import com.chauthai.swipereveallayout.SwipeRevealLayout
 import com.chauthai.swipereveallayout.ViewBinderHelper
 import org.otunjargych.tamtam.R
-import org.otunjargych.tamtam.databinding.SwipeLikedItemBinding
+import org.otunjargych.tamtam.databinding.SwipeMyItemBinding
 import org.otunjargych.tamtam.extensions.DiffUtilCallbackN
 import org.otunjargych.tamtam.extensions.asTime
 import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.Node
 
-class LikedNodesAdapter : RecyclerView.Adapter<LikedNodesAdapter.AdOneViewHolder>() {
+class MyNodesAdapter : RecyclerView.Adapter<MyNodesAdapter.MyNodeViewHolder>() {
 
     private var listNodes = mutableListOf<Node>()
     private var viewBinderHelper: ViewBinderHelper = ViewBinderHelper()
     private lateinit var onClickListener: OnNodeClickListener
     private lateinit var mDiffResult: DiffUtil.DiffResult
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdOneViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyNodeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = SwipeLikedItemBinding.inflate(inflater, parent, false)
-        return AdOneViewHolder(binding)
+        val binding = SwipeMyItemBinding.inflate(inflater, parent, false)
+        return MyNodeViewHolder(binding)
     }
 
     interface OnNodeClickListener {
         fun onNodeClick(node: Node, position: Int)
         fun onNodeDelete(node: Node, position: Int)
+        fun onNodeEdit(node: Node, position: Int)
     }
 
 
@@ -43,7 +44,17 @@ class LikedNodesAdapter : RecyclerView.Adapter<LikedNodesAdapter.AdOneViewHolder
         mDiffResult.dispatchUpdatesTo(this)
     }
 
-    override fun onBindViewHolder(holder: AdOneViewHolder, position: Int) {
+    fun addNode(node: Node) {
+        val list = ArrayList<Node>()
+        if (!list.contains(node)) {
+            list.add(node)
+        }
+        listNodes.addAll(list)
+        mDiffResult = DiffUtil.calculateDiff(DiffUtilCallbackN(listNodes, list))
+        mDiffResult.dispatchUpdatesTo(this)
+    }
+
+    override fun onBindViewHolder(holder: MyNodeViewHolder, position: Int) {
         viewBinderHelper.setOpenOnlyOne(true)
         viewBinderHelper.bind(holder.swipeRevealLayout, listNodes[position].title)
 
@@ -55,7 +66,7 @@ class LikedNodesAdapter : RecyclerView.Adapter<LikedNodesAdapter.AdOneViewHolder
         return listNodes.size
     }
 
-    inner class AdOneViewHolder(val binding: SwipeLikedItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MyNodeViewHolder(val binding: SwipeMyItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val swipeRevealLayout: SwipeRevealLayout = binding.swipeLayout
 
         fun bind(node: Node) = with(binding) {
@@ -94,6 +105,10 @@ class LikedNodesAdapter : RecyclerView.Adapter<LikedNodesAdapter.AdOneViewHolder
                 onClickListener.onNodeDelete(node, position)
                 listNodes.remove(node)
                 notifyItemRemoved(position)
+            }
+            Boom(cvEdit)
+            cvEdit.setOnClickListener {
+                onClickListener.onNodeEdit(node, position)
             }
         }
     }

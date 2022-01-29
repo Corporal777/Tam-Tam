@@ -3,11 +3,11 @@ package org.otunjargych.tamtam.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import androidx.appcompat.app.AppCompatActivity
 import org.otunjargych.tamtam.databinding.ActivitySplashBinding
+import org.otunjargych.tamtam.extensions.BaseActivity
 
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
     private lateinit var binding: ActivitySplashBinding
     private lateinit var mHandler: Handler
     private lateinit var mRunnable: Runnable

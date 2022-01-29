@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -28,10 +29,13 @@ import org.otunjargych.tamtam.extensions.imagepicker.utils.GridSpacingItemDecora
 import org.otunjargych.tamtam.extensions.imagepicker.utils.PermissionUtil
 import org.otunjargych.tamtam.extensions.imagepicker.utils.StringUtil
 import org.otunjargych.tamtam.extensions.imagepicker.utils.toOptionCompat
+import org.otunjargych.tamtam.extensions.toastMessage
 
 internal class Gallery() : AppCompatActivity(), GalleryListener {
 
     private lateinit var binding: GalleryBinding
+    private var mHandler: Handler? = null
+    private var mRunnable: Runnable? = null
 
     companion object {
         private const val TAG = "ImagePickerView"
@@ -217,7 +221,7 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
             setUp?.title ?: ""
         } else {
             if (count > 0) {
-                count.toString()
+                "$count/6"
             } else {
                 setUp?.title ?: ""
             }
@@ -252,11 +256,13 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
     }
 
     private fun receiveImages(uris: List<Uri>) {
+        toastMessage(this, "Загрузка фото...")
         val resultIntent = Intent().apply {
             putParcelableArrayListExtra(resultName, ArrayList(uris))
         }
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
+
     }
 
     private fun isImageMultipleSelected(): Boolean {

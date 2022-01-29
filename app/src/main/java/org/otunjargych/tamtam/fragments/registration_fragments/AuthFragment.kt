@@ -12,6 +12,8 @@ import org.otunjargych.tamtam.activities.MainActivity
 import org.otunjargych.tamtam.databinding.FragmentAuthBinding
 import org.otunjargych.tamtam.extensions.AUTH
 import org.otunjargych.tamtam.extensions.BaseFragment
+import org.otunjargych.tamtam.extensions.boom.Boom
+import org.otunjargych.tamtam.extensions.hasConnection
 import org.otunjargych.tamtam.extensions.toastMessage
 
 class AuthFragment() : BaseFragment() {
@@ -28,9 +30,15 @@ class AuthFragment() : BaseFragment() {
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
         binding.authToolbar.customTitle.text = getString(R.string.authorization)
 
+        Boom(binding.btnEnter)
         binding.btnEnter.setOnClickListener {
-            binding.progressView.isVisible = true
-            authUser()
+            if (hasConnection(requireContext())){
+                binding.progressView.isVisible = true
+                authUser()
+            }else{
+                toastMessage(requireContext(), getString(R.string.no_connection))
+            }
+
         }
 
         binding.tvRegistration.setOnClickListener {
@@ -48,8 +56,8 @@ class AuthFragment() : BaseFragment() {
         val password: String = binding.etPasswordAuth.text.toString()
 
         AUTH = FirebaseAuth.getInstance()
-        if (AUTH.currentUser == null){
-            if (!phoneNumber.isNullOrEmpty() || !password.isNullOrEmpty()) {
+        if (AUTH.currentUser == null) {
+            if (!phoneNumber.isNullOrEmpty() && !password.isNullOrEmpty()) {
                 AUTH.signInWithEmailAndPassword(phoneNumber, password).addOnCompleteListener {
                     if (it.isSuccessful) {
                         binding.progressView.isVisible = false
@@ -61,9 +69,9 @@ class AuthFragment() : BaseFragment() {
                     toastMessage(requireContext(), "Такого аккаунта не существует!")
                 }
             } else toastMessage(requireContext(), "Заполните все поля ввода!")
-        }
-        else{
+        } else {
             toastMessage(requireContext(), "Вы уже авторизованы")
+            replaceActivity()
         }
 
 
