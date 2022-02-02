@@ -65,6 +65,35 @@
                 </ScrollView>
             </HorizontalScrollView>
 
+
+            <androidx.cardview.widget.CardView
+                android:visibility="gone"
+                android:id="@+id/cv_banner"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp">
+
+                <com.google.android.gms.ads.AdView
+                    android:layout_gravity="center"
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    ads:adSize="LARGE_BANNER"
+                    ads:adUnitId="@string/test_ad_mob_id">
+                </com.google.android.gms.ads.AdView>
+
+            </androidx.cardview.widget.CardView>
+
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

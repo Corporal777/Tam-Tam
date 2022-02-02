@@ -15,10 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.extensions.imagepicker.ui.ImagePickerView
 import org.otunjargych.tamtam.model.Node
@@ -147,40 +143,6 @@ fun onCompareTitle(note: String, word: String): Boolean {
     return (note.contains(word, true) || note.contentEquals(word, true))
 }
 
-
-class AppChildEventListener(private val onSuccess: (DataSnapshot) -> Unit) : ChildEventListener {
-    override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-        onSuccess(snapshot)
-    }
-
-    override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-        //TODO("Not yet implemented")
-    }
-
-    override fun onChildRemoved(snapshot: DataSnapshot) {
-        //TODO("Not yet implemented")
-    }
-
-    override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-        //TODO("Not yet implemented")
-    }
-
-    override fun onCancelled(error: DatabaseError) {
-        //TODO("Not yet implemented")
-    }
-
-}
-
-class AppValueEventListener(val onSuccess: (DataSnapshot) -> Unit) : ValueEventListener {
-
-    override fun onDataChange(snapshot: DataSnapshot) {
-        onSuccess(snapshot)
-    }
-
-    override fun onCancelled(error: DatabaseError) {
-
-    }
-}
 
 class AppTextWatcher(val onSuccess: (CharSequence?) -> Unit) : TextWatcher {
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

@@ -2,6 +2,7 @@ package org.otunjargych.tamtam.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.formats.OnAdManagerAdViewLoadedListener
 import com.google.android.material.transition.MaterialSharedAxis
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.NodesAdapter
@@ -39,7 +44,6 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
     private val mViewModel: NodeViewModel by activityViewModels()
 
-    private lateinit var mLayoutManager: GridLayoutManager
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,11 +54,10 @@ class MainFragment : Fragment() {
         }
         itemListener = try {
             context as OnBottomAppBarItemsEnabledListener
-        }catch (e : Exception){
+        } catch (e: Exception) {
             throw ClassCastException("Activity not attached!")
         }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +72,9 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+
+        initAdBanner()
+
         return binding.root
     }
 
@@ -123,11 +129,11 @@ class MainFragment : Fragment() {
         }
         binding.apply {
             recyclerView.setHasFixedSize(true)
-            mLayoutManager = GridLayoutManager(requireContext(), 2)
-            recyclerView.layoutManager = mLayoutManager
+            recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
             recyclerViewVip.setHasFixedSize(true)
-            recyclerViewVip.layoutManager = LinearLayoutManager(requireContext(),
+            recyclerViewVip.layoutManager = LinearLayoutManager(
+                requireContext(),
                 HORIZONTAL, false
             )
         }
@@ -155,7 +161,7 @@ class MainFragment : Fragment() {
             }
         })
         mViewModel.vip.observe(viewLifecycleOwner, {
-            if(it != null){
+            if (it != null) {
                 mAdapterVip.update(it, nodeClick)
                 binding.recyclerViewVip.adapter = mAdapterVip
             }
@@ -178,6 +184,10 @@ class MainFragment : Fragment() {
         showBottomAppBar()
     }
 
+    override fun onPause() {
+        super.onPause()
+        //binding.adView.pause()
+    }
 
     private fun boom() {
         binding.apply {
@@ -188,6 +198,33 @@ class MainFragment : Fragment() {
             Boom(category.caseTransport)
             Boom(category.caseWork)
         }
+    }
+
+    private fun initAdBanner(){
+        val adRequest: AdRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+        binding.adView.adListener = object : AdListener(){
+            override fun onAdClosed() {
+                Log.d("AdViewBanner", "Closed")
+
+            }
+
+            override fun onAdLoaded() {
+                binding.cvBanner.visibility = View.VISIBLE
+                Log.d("AdViewBanner", "Loaded")
+            }
+
+            override fun onAdClicked() {
+                Log.d("AdViewBanner", "Cicked")
+
+            }
+
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                binding.cvBanner.visibility = View.GONE
+                Log.d("AdViewBanner", "Error" + p0.message)
+            }
+        }
+
     }
 
 

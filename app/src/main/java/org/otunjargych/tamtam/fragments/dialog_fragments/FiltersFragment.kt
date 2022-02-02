@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.FragmentFiltersBinding
 import org.otunjargych.tamtam.extensions.LocalSourceMetroStations
+import org.otunjargych.tamtam.extensions.boom.Boom
 
 
 class FiltersFragment(val onData: (String) -> Unit) : BottomSheetDialogFragment() {
@@ -70,6 +71,7 @@ class FiltersFragment(val onData: (String) -> Unit) : BottomSheetDialogFragment(
         binding.tvMetro.setOnClickListener {
             showMetroStationsList()
         }
+        Boom(binding.btnApply)
         binding.btnApply.setOnClickListener {
             onData(mSelectedStation)
             dismiss()

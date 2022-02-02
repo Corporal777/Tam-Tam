@@ -36,7 +36,6 @@
 
 
         </androidx.appcompat.widget.Toolbar>
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -49,6 +48,15 @@
         android:paddingBottom="100dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
-
+    <com.airbnb.lottie.LottieAnimationView
+        android:visibility="gone"
+        android:id="@+id/progressView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/infinity_line_anim"
+        app:lottie_speed="2" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

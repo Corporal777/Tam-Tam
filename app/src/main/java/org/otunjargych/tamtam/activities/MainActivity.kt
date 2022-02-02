@@ -3,11 +3,22 @@ package org.otunjargych.tamtam.activities
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
+import com.google.android.gms.ads.MobileAds
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
@@ -16,20 +27,27 @@ import com.google.firebase.storage.FirebaseStorage
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ActivityMainBinding
 import org.otunjargych.tamtam.extensions.*
-import org.otunjargych.tamtam.fragments.*
-import java.util.*
+import org.otunjargych.tamtam.fragments.LikedNodesFragment
+import org.otunjargych.tamtam.fragments.MainFragment
+import org.otunjargych.tamtam.fragments.NewNodeFragment
+import org.otunjargych.tamtam.fragments.SettingsFragment
 
 
 class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener,
     OnBottomAppBarItemsEnabledListener {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mAppUpdateManager: AppUpdateManager
+    private val UPDATE_CODE = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        MobileAds.initialize(this)
+
+        initUpdateManager()
         initFields()
 
         if (savedInstanceState == null) {
@@ -48,14 +66,14 @@ class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener,
             setShowMotionSpecResource(R.animator.fab_show)
             setHideMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
-                if (hasConnection(this@MainActivity)){
+                if (hasConnection(this@MainActivity)) {
                     if (AUTH.currentUser != null) {
                         replaceFragment(NewNodeFragment())
                     } else {
                         val intent = Intent(this@MainActivity, RegistrationActivity::class.java)
                         startActivity(intent)
                     }
-                }else{
+                } else {
                     toastMessage(this@MainActivity, getString(R.string.no_connection))
                 }
 
@@ -130,7 +148,6 @@ class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener,
         }
     }
 
-
     private fun clearBackStack() {
         val manager: FragmentManager = supportFragmentManager
         if (manager.backStackEntryCount > 0) {
@@ -156,7 +173,6 @@ class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener,
             USER_ID = FirebaseAuth.getInstance().currentUser?.uid.toString()
         }
     }
-
 
     private fun replaceFragment(status: Int) {
         var fragment: Fragment = MainFragment()
@@ -215,4 +231,77 @@ class MainActivity : BaseActivity(), OnBottomAppBarStateChangeListener,
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == UPDATE_CODE) {
+            if (resultCode != RESULT_OK) {
+                Log.d("Error", "error")
+                toastMessage(this, "Обновление отклонено!")
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+    }
+
+
+    private fun initUpdateManager() {
+        mAppUpdateManager = AppUpdateManagerFactory.create(this)
+        mAppUpdateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(
+                    AppUpdateType.FLEXIBLE
+                )
+            ) {
+                if (!this.isFinishing) {
+                    try {
+                        mAppUpdateManager.startUpdateFlowForResult(
+                            it,
+                            AppUpdateType.FLEXIBLE,
+                            this,
+                            UPDATE_CODE
+                        )
+                    } catch (e: Exception) {
+                        Log.e("Error", "SendError: $e");
+                    }
+                }
+            }
+        }
+        mAppUpdateManager.registerListener(onRegisterListener())
+    }
+
+    private fun onRegisterListener(): InstallStateUpdatedListener {
+        val listener = InstallStateUpdatedListener {
+            if (it.installStatus() == InstallStatus.DOWNLOADED) {
+                showUpdateMessage()
+            }
+        }
+        return listener
+    }
+
+    private fun showUpdateMessage() {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            "Обновление готово",
+            Snackbar.LENGTH_INDEFINITE
+        ).also { snackbar ->
+            snackbar.setBackgroundTint(this.resources.getColor(R.color.app_main_color))
+            snackbar.setActionTextColor(this.resources.getColor(R.color.white))
+            val textview =
+                snackbar.view.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+            textview.textSize = 16F
+            val font = Typeface.createFromAsset(this.assets, "commons_medium.ttf")
+            textview.typeface = font
+            snackbar.setAction("Установка") {
+                mAppUpdateManager.completeUpdate()
+            }
+        }.show()
+    }
+
+
+    override fun onStop() {
+        if (mAppUpdateManager != null) {
+            mAppUpdateManager.unregisterListener(onRegisterListener())
+        }
+        super.onStop()
+
+    }
 }

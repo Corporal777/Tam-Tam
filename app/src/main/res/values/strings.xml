@@ -80,8 +80,14 @@
     <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="not_accepted">Не указано</string>
     <string name="about_user">О пользователе</string>
-    <string name="version_app">version 3.1</string>
+    <string name="version_app">version 4.1</string>
     <string name="apply">Применить</string>
 
+
+
+    <string name="app_id">ca-app-pub-4256551117237688~6320150164</string>
+    <string name="ad_mob_id">ca-app-pub-4256551117237688/5237512098</string>
+
+    <string name="test_ad_mob_id">ca-app-pub-3940256099942544/6300978111</string>
 
 </resources>

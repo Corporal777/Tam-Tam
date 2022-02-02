@@ -427,7 +427,7 @@
                 android:fontFamily="@font/commons_demi_bold"
                 android:gravity="bottom"
                 android:text="@string/version_app"
-                android:textColor="#595959"
+                android:textColor="@color/app_main_color"
                 android:textSize="14sp" />
 
 

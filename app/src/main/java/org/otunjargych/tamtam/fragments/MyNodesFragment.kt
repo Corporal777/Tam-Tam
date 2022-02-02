@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.otunjargych.tamtam.adapter.MyNodesAdapter
@@ -95,25 +96,24 @@ class MyNodesFragment : BaseSettingsFragment() {
     }
 
     private fun initData() {
-        mViewModel.data.observe(viewLifecycleOwner, {state->
+        mViewModel.data.observe(viewLifecycleOwner) { state ->
             when(state){
                 is State.Loading -> {
-
+                    binding.progressView.isVisible = true
                 }
                 is State.Success -> {
                     state.data.let {
-                        if (!it.isNullOrEmpty()){
+                        if (it != null) {
+                            binding.progressView.isVisible = false
                             mAdapter.update(it, nodeClick)
                             binding.listMyNodes.adapter = mAdapter
                         }
                     }
                 }
-                is State.NoItem -> {
-
-                }
             }
 
-        })
+
+        }
 
     }
 
