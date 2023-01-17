@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        app:elevation="10dp">
+
+        <include layout="@layout/custom_toolbar" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="90dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/commons_bold"
+                android:text="@string/choose_category"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="140dp"
+                android:overScrollMode="never"
+                android:scrollbarThumbHorizontal="@null"
+                android:scrollbarThumbVertical="@null"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <ScrollView
+                    android:id="@+id/nestedScrollView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:scrollIndicators="none"
+                    android:scrollbarThumbHorizontal="@null"
+                    android:scrollbarThumbVertical="@null">
+
+                    <include
+                        android:id="@+id/category"
+                        layout="@layout/category" />
+                </ScrollView>
+            </HorizontalScrollView>
+
+
+            <androidx.cardview.widget.CardView
+                android:visibility="gone"
+                android:id="@+id/cv_banner"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp">
+
+                <com.google.android.gms.ads.AdView
+                    android:layout_gravity="center"
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    ads:adSize="LARGE_BANNER"
+                    ads:adUnitId="@string/test_ad_mob_id">
+                </com.google.android.gms.ads.AdView>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/commons_bold"
+                android:text="VIP объявления:"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_vip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/commons_bold"
+                android:text="Недавние объявления:"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:overScrollMode="never"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/progressView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:visibility="invisible"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/infinity_line_anim"
+                    app:lottie_speed="2" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

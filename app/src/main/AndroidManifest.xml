@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.otunjargych.tamtam">
+
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+
+
+    <application
+        android:name="org.otunjargych.tamtam.activities.App"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TamTam">
+        <activity
+            android:name="org.otunjargych.tamtam.activities.SplashActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:theme="@style/Theme.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:hardwareAccelerated="true"
+            android:name="org.otunjargych.tamtam.activities.MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="org.otunjargych.tamtam.activities.RegistrationActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true" />
+        <activity
+            android:name=".extensions.imagepicker.ui.Gallery"
+            android:configChanges="orientation|screenSize"
+            android:exported="true" />
+        <activity
+            android:name=".extensions.imagepicker.ui.Detail"
+            android:configChanges="orientation|screenSize"
+            android:exported="true" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/app_id"/>
+    </application>
+
+</manifest>

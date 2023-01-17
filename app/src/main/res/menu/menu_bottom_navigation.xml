@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/main"
+        android:icon="@drawable/ic_home"
+        android:title=""
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/liked_nodes"
+        android:icon="@drawable/ic_liked_ads"
+        android:title=""
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title=""
+        app:showAsAction="always" />
+
+</menu>

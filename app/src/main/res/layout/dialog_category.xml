@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbarThumbHorizontal="@null"
+        android:scrollbarThumbVertical="@null">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scrollbarThumbHorizontal="@null"
+            android:scrollbarThumbVertical="@null">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_tag_first"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/tag_background"
+                    android:fontFamily="@font/commons_demi_bold"
+                    android:text="@string/short_time_work"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_tag_second"
+                    android:layout_width="110dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/tag_background"
+                    android:fontFamily="@font/commons_demi_bold"
+                    android:text="Халтура"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_tag_third"
+                    android:layout_width="170dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/tag_background"
+                    android:fontFamily="@font/commons_demi_bold"
+                    android:text="@string/full_work"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_tag_fourth"
+                    android:layout_width="115dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/tag_background"
+                    android:fontFamily="@font/commons_demi_bold"
+                    android:text="@string/looking_for_work"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+        </ScrollView>
+    </HorizontalScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2mm"
+        android:layout_marginTop="1.5mm"
+        android:fontFamily="@font/commons_medium"
+        android:text="Выберите категорию:"
+        android:textColor="@color/app_main_color"
+        android:textSize="20sp" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/category_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1mm" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3mm" />
+
+
+</LinearLayout>
