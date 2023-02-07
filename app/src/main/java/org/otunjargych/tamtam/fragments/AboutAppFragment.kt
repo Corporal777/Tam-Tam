@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.otunjargych.tamtam.databinding.FragmentAboutAppBinding
-import org.otunjargych.tamtam.extensions.BaseSettingsFragment
+import org.otunjargych.tamtam.util.extensions.BaseSettingsFragment
 
 
 class AboutAppFragment : BaseSettingsFragment() {

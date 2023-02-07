@@ -16,13 +16,15 @@ import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.MyImagesAdapter
 import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentEditMyNodesBinding
-import org.otunjargych.tamtam.extensions.*
-import org.otunjargych.tamtam.extensions.boom.Boom
+
 import org.otunjargych.tamtam.model.Node
+import org.otunjargych.tamtam.util.extensions.OnBottomAppBarStateChangeListener
+import org.otunjargych.tamtam.util.extensions.boom.Boom
+import org.otunjargych.tamtam.util.extensions.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class EditMyNodesFragment : BaseFragment() {
+class EditMyNodesFragment : org.otunjargych.tamtam.util.extensions.BaseFragment() {
 
     private var listener: OnBottomAppBarStateChangeListener? = null
     private var _binding: FragmentEditMyNodesBinding? = null

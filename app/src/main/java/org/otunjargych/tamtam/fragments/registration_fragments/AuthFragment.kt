@@ -8,15 +8,13 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import org.otunjargych.tamtam.R
-import org.otunjargych.tamtam.activities.MainActivity
+import org.otunjargych.tamtam.ui.main.MainActivity
 import org.otunjargych.tamtam.databinding.FragmentAuthBinding
-import org.otunjargych.tamtam.extensions.AUTH
-import org.otunjargych.tamtam.extensions.BaseFragment
-import org.otunjargych.tamtam.extensions.boom.Boom
-import org.otunjargych.tamtam.extensions.hasConnection
-import org.otunjargych.tamtam.extensions.toastMessage
 
-class AuthFragment() : BaseFragment() {
+import org.otunjargych.tamtam.util.extensions.boom.Boom
+import org.otunjargych.tamtam.util.extensions.*
+
+class AuthFragment() : org.otunjargych.tamtam.util.extensions.BaseFragment() {
 
     private var _binding: FragmentAuthBinding? = null
     private val binding get() = _binding!!

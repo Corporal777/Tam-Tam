@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ItemVipNodeBinding
-import org.otunjargych.tamtam.extensions.DiffUtilCallbackN
-import org.otunjargych.tamtam.extensions.OnNodeClickListener
-import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.Node
+import org.otunjargych.tamtam.util.extensions.DiffUtilCallbackN
+import org.otunjargych.tamtam.util.extensions.OnNodeClickListener
+import org.otunjargych.tamtam.util.extensions.boom.Boom
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

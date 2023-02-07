@@ -11,9 +11,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.otunjargych.tamtam.extensions.*
 import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.State
+import org.otunjargych.tamtam.util.extensions.NODE_WORKS
+import org.otunjargych.tamtam.util.extensions.*
 
 
 class DataViewModel : ViewModel() {
@@ -84,7 +85,7 @@ class DataViewModel : ViewModel() {
             val subscription = eventDocument.addSnapshotListener { snapshot, error ->
                 if (!snapshot!!.isEmpty) {
                     val nodeList = snapshot.toObjects(Node::class.java)
-                    offer(nodeList)
+                    //offer(nodeList)
                 }
             }
 

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home_fragment">
+
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="org.otunjargych.tamtam.ui.auth.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/login_to_home"
+            app:destination="@+id/home_fragment"
+            app:popUpTo="@id/nav_graph" />
+
+        <action
+            android:id="@+id/login_to_profile"
+            app:destination="@+id/profile_fragment"
+            app:popUpTo="@id/nav_graph" />
+
+        <action
+            android:id="@+id/login_to_register"
+            app:destination="@+id/register_fragment" />
+
+        <argument
+            android:name="fromNote"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <argument
+            android:name="fromProfile"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/register_fragment"
+        android:name="org.otunjargych.tamtam.ui.auth.register.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register">
+
+        <action
+            android:id="@+id/register_to_home"
+            app:destination="@+id/home_fragment"
+            app:popUpTo="@id/nav_graph" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="org.otunjargych.tamtam.ui.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"></fragment>
+
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="org.otunjargych.tamtam.ui.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profile_settings_fragment"
+        android:name="org.otunjargych.tamtam.ui.profileSettings.ProfileSettingsFragment"
+        android:label="ProfileSettingsFragment"
+        tools:layout="@layout/fragment_profile_settings" />
+
+    <fragment
+        android:id="@+id/town_fragment"
+        android:name="org.otunjargych.tamtam.ui.town.TownFragment"
+        android:label="TownFragment"
+        tools:layout="@layout/fragment_town" />
+
+    <fragment
+        android:id="@+id/create_note_fragment"
+        android:name="org.otunjargych.tamtam.ui.createNote.CreateNoteFragment"
+        android:label="CreateNoteFragment"
+        tools:layout="@layout/fragment_create_note" />
+
+</navigation>

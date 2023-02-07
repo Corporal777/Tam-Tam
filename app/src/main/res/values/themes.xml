@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar</item>
         <item name="searchViewStyle">@style/CustomSearchViewStyle</item>
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">@color/app_main_color</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="colorPrimary">@color/app_main_color</item>
         <item name="colorPrimaryDark">@color/app_main_color</item>
@@ -15,8 +15,10 @@
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="android:statusBarColor">@color/app_main_color</item>
-        <item name="android:windowBackground">@color/app_main_color</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowBackground">@color/main_background</item>
     </style>
 
     <style name="Theme.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -61,11 +63,155 @@
     </style>
 
     <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
-
         <item name="queryBackground">@drawable/search_background</item>
         <item name="submitBackground">@drawable/search_background</item>
     </style>
 
 
+    <!--    new view styles-->
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/background_bottom_sheet</item>
+    </style>
+
+    <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/white</item>
+    </style>
+
+    <style name="MainBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
+        <item name="itemIconSize">@dimen/bottom_nav_icon_size</item>
+        <item name="background">@color/white</item>
+        <item name="itemBackground">@color/white</item>
+        <item name="itemTextAppearanceActive">@style/CustomNavigationView.TextAppearance</item>
+        <item name="itemTextAppearanceInactive">@style/CustomNavigationView.TextAppearance</item>
+    </style>
+
+    <style name="CustomNavigationView.TextAppearance" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">10sp</item>
+        <item name="android:itemPadding">0dp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="fontFamily">@font/noto_sans_medium</item>
+    </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxBackgroundColor">@color/input_field_color</item>
+        <item name="boxStrokeColor">@color/input_field_color</item>
+        <item name="hintEnabled">false</item>
+        <item name="errorTextColor">@color/error_text_color</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+    </style>
+
+    <style name="CustomTextInputEditText">
+        <item name="fontFamily">@font/noto_sans_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textColorHint">@color/input_field_hint_color</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:backgroundTint">@color/background_input_field</item>
+        <item name="colorControlActivated">@color/app_main_color</item>
+        <item name="android:colorControlActivated">@color/app_main_color</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="CustomTextInputHintStyle" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/noto_sans_regular</item>
+    </style>
+
+    <style name="AuthTitleTextStyle">
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/noto_sans_semibold</item>
+        <item name="android:textSize">19sp</item>
+
+    </style>
+
+    <style name="InputTextTitleStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textColor">@color/color_of_textview_border</item>
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+        <item name="android:textSize">13sp</item>
+
+    </style>
+
+
+    <style name="BtnMainStyle">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/main_btn_color</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:minHeight">49dp</item>
+        <item name="android:background">@drawable/custom_btn_main_selectable</item>
+        <item name="fontFamily">@font/noto_sans_extra_bold</item>
+        <item name="android:textSize">16.5sp</item>
+    </style>
+
+    <style name="BtnWhiteStyle">
+        <item name="android:textColor">@color/white_btn_color</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:minHeight">49dp</item>
+        <item name="android:background">@drawable/custom_btn_white_selectable</item>
+        <item name="fontFamily">@font/noto_sans_bold</item>
+        <item name="android:textSize">16.5sp</item>
+    </style>
+
+    <style name="ProfileSectionsTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/custom_btn_text_selectable</item>
+        <item name="fontFamily">@font/noto_sans_semibold</item>
+        <item name="android:paddingHorizontal">20dp</item>
+        <item name="android:paddingVertical">13dp</item>
+        <item name="android:drawablePadding">20dp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textSize">16.5sp</item>
+    </style>
+
+    <style name="CreateNoteFieldsTitleStyle">
+        <item name="android:textColor">@color/color_of_textview_border</item>
+        <item name="fontFamily">@font/noto_sans_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="CustomCheckboxStyle">
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:background">@color/trans</item>
+        <item name="android:button">@drawable/drawable_checkbox</item>
+    </style>
 
 </resources>

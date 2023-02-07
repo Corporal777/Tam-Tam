@@ -10,10 +10,11 @@ import com.chauthai.swipereveallayout.SwipeRevealLayout
 import com.chauthai.swipereveallayout.ViewBinderHelper
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.SwipeLikedItemBinding
-import org.otunjargych.tamtam.extensions.DiffUtilCallbackN
-import org.otunjargych.tamtam.extensions.asTime
-import org.otunjargych.tamtam.extensions.boom.Boom
+
 import org.otunjargych.tamtam.model.Node
+import org.otunjargych.tamtam.util.asTime
+import org.otunjargych.tamtam.util.extensions.DiffUtilCallbackN
+import org.otunjargych.tamtam.util.extensions.boom.Boom
 
 class LikedNodesAdapter : RecyclerView.Adapter<LikedNodesAdapter.AdOneViewHolder>() {
 

@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
 import org.otunjargych.tamtam.adapter.FullScreenImageAdapter
 import org.otunjargych.tamtam.databinding.FragmentFullImagesBinding
-import org.otunjargych.tamtam.extensions.BaseFragment
-import org.otunjargych.tamtam.extensions.OnBottomAppBarStateChangeListener
+import org.otunjargych.tamtam.util.extensions.BaseFragment
+import org.otunjargych.tamtam.util.extensions.OnBottomAppBarStateChangeListener
 
-class FullScreenImagesFragment : BaseFragment() {
+class FullScreenImagesFragment : org.otunjargych.tamtam.util.extensions.BaseFragment() {
 
     private lateinit var adapter: FullScreenImageAdapter
     private var listener: OnBottomAppBarStateChangeListener? = null

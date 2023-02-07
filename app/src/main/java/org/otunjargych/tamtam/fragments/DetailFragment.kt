@@ -9,21 +9,20 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
-import coil.load
 import com.google.android.material.tabs.TabLayoutMediator
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.adapter.ViewPagerAdapter
 import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentDetailBinding
-import org.otunjargych.tamtam.extensions.*
-import org.otunjargych.tamtam.extensions.boom.Boom
 import org.otunjargych.tamtam.model.Node
+import org.otunjargych.tamtam.util.asTime
+import org.otunjargych.tamtam.util.extensions.*
+import org.otunjargych.tamtam.util.extensions.boom.Boom
 import org.otunjargych.tamtam.viewmodel.LikedNodesViewModel
 import org.otunjargych.tamtam.viewmodel.UserViewModel
-import java.util.*
 
 
-class DetailFragment : BaseFragment() {
+class DetailFragment : org.otunjargych.tamtam.util.extensions.BaseFragment() {
 
     private lateinit var adapter: ViewPagerAdapter
     private lateinit var category: String
@@ -134,7 +133,6 @@ class DetailFragment : BaseFragment() {
             btnLike.setOnClickListener {
                 if (AUTH.currentUser != null && hasConnection(requireContext())) {
                     changeLikes()
-                    mLikedNodesViewModel.insertNodesData(node)
                     btnLike.setImageResource(R.drawable.ic_liked)
                     btnLike.isClickable = false
                     val animScale: Animation =
@@ -153,16 +151,7 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun initAuthor() {
-        mViewModel.user.observe(viewLifecycleOwner, { user ->
-            if (!user.name.isNullOrEmpty() || !user.last_name.isNullOrEmpty()) {
-                binding.tvDetailUserName.text = user.name + " " + user.last_name
-            } else binding.tvDetailUserName.text =
-                getString(R.string.not_accepted)
 
-            if (!user.image.isEmpty()) {
-                binding.ivDetailUserPhoto.load(user.image)
-            } else binding.ivDetailUserPhoto.load(R.drawable.empty_avatar)
-        })
 
     }
 
@@ -170,8 +159,6 @@ class DetailFragment : BaseFragment() {
         super.onResume()
         changeViewings()
         if (hasConnection(requireContext())) {
-            mLikedNodesViewModel.checkLikedNode()
-            mViewModel.loadUserData(mDetailUserId)
             if (AUTH.currentUser != null) {
                 checkLikedNodes(node)
             }
@@ -200,15 +187,6 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun checkLikedNodes(node: Node) {
-        mLikedNodesViewModel.check.observe(viewLifecycleOwner, {
-            it.forEach { liked ->
-                if (node.uuid.contentEquals(liked.uuid)) {
-                    binding.btnLike.setImageResource(R.drawable.ic_liked)
-                    binding.btnLike.isClickable = false
-                }
-            }
-
-        })
     }
 
     private fun getFields() {

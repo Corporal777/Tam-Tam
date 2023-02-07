@@ -5,20 +5,28 @@
     <item
         android:id="@+id/main"
         android:icon="@drawable/ic_home"
-        android:title=""
-        app:showAsAction="always" />
-
-
-    <item
-        android:id="@+id/liked_nodes"
-        android:icon="@drawable/ic_liked_ads"
-        android:title=""
+        android:title="Главная"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_settings"
-        android:title=""
+        android:id="@+id/favorites"
+        android:icon="@drawable/ic_favorite"
+        android:title="Избранное"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/placeholder"
+        android:title="" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="Поиск"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_account"
+        android:title="Профиль"
         app:showAsAction="always" />
 
 </menu>

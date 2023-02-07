@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import org.otunjargych.tamtam.api.FireBaseHelper
 import org.otunjargych.tamtam.databinding.FragmentChangeNameBinding
-import org.otunjargych.tamtam.extensions.BaseFragment
-import org.otunjargych.tamtam.extensions.USER_ID
-import org.otunjargych.tamtam.extensions.toastMessage
+import org.otunjargych.tamtam.util.extensions.BaseFragment
+import org.otunjargych.tamtam.util.extensions.USER_ID
+import org.otunjargych.tamtam.util.extensions.toastMessage
 
 
-class ChangeNameFragment : BaseFragment() {
+class ChangeNameFragment : org.otunjargych.tamtam.util.extensions.BaseFragment() {
 
     private var _binding: FragmentChangeNameBinding? = null
     private val binding get() = _binding!!

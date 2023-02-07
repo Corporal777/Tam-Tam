@@ -14,8 +14,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.FragmentFiltersBinding
-import org.otunjargych.tamtam.extensions.LocalSourceMetroStations
-import org.otunjargych.tamtam.extensions.boom.Boom
+
+import org.otunjargych.tamtam.util.extensions.LocalSourceMetroStations
+import org.otunjargych.tamtam.util.extensions.boom.Boom
 
 
 class FiltersFragment(val onData: (String) -> Unit) : BottomSheetDialogFragment() {

@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/auth_toolbar"
-        layout="@layout/custom_toolbar_auth" />
+        layout="@layout/layout_toolbar" />
 
     <RelativeLayout
         android:layout_gravity="center_horizontal"

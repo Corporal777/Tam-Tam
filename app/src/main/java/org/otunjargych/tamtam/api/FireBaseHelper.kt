@@ -4,14 +4,13 @@ import android.content.Context
 import android.net.Uri
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import org.otunjargych.tamtam.extensions.*
+
 import org.otunjargych.tamtam.model.Node
 import org.otunjargych.tamtam.model.Note
 import org.otunjargych.tamtam.model.User
+import org.otunjargych.tamtam.util.extensions.*
+import org.otunjargych.tamtam.util.extensions.NODE_SERVICES
+import org.otunjargych.tamtam.util.extensions.NODE_WORKS
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,38 +25,6 @@ object FireBaseHelper {
     private val imagesUrlList = ArrayList<String>()
     private lateinit var mRefAds: DatabaseReference
 
-
-    suspend fun DatabaseReference.valuesEventFlow(): Flow<EventResponse> = callbackFlow {
-        val valueEventListener = object : ValueEventListener {
-
-            override fun onDataChange(snapshot: DataSnapshot): Unit =
-                sendBlocking(EventResponse.Changed(snapshot))
-
-            override fun onCancelled(error: DatabaseError): Unit =
-                sendBlocking(EventResponse.Cancelled(error))
-        }
-        addListenerForSingleValueEvent(valueEventListener)
-        awaitClose {
-            removeEventListener(valueEventListener)
-        }
-    }
-
-
-    suspend fun DatabaseReference.lastValuesEventFlow(count: Int): Flow<EventResponse> =
-        callbackFlow {
-            val valueEventListener = object : ValueEventListener {
-
-                override fun onDataChange(snapshot: DataSnapshot): Unit =
-                    sendBlocking(EventResponse.Changed(snapshot))
-
-                override fun onCancelled(error: DatabaseError): Unit =
-                    sendBlocking(EventResponse.Cancelled(error))
-            }
-            limitToLast(count).addListenerForSingleValueEvent(valueEventListener)
-            awaitClose {
-                removeEventListener(valueEventListener)
-            }
-        }
 
     fun addNewData(category: String, note: Note) {
         mRefAds = FirebaseDatabase.getInstance().reference

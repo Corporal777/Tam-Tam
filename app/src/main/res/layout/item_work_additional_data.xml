@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/noto_sans_bold"
+            android:text="@string/additional_information"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            style="@style/CreateNoteFieldsTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Подкатегория" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_note_category"
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            app:endIconMode="dropdown_menu"
+            app:errorIconDrawable="@null"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <org.otunjargych.tamtam.ui.views.CustomAutoCompleteTextView
+                android:id="@+id/et_note_category"
+                style="@style/CustomTextInputEditText"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="textCapSentences"
+                android:textSize="16sp"
+                app:customHint="@string/enter_note_category" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            style="@style/CreateNoteFieldsTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="15dp"
+            android:includeFontPadding="false"
+            android:text="@string/work_schedule" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_note_name"
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            app:errorIconDrawable="@null"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <org.otunjargych.tamtam.ui.views.CustomInputEditText
+                android:id="@+id/et_note_name"
+                style="@style/CustomTextInputEditText"
+                android:inputType="textCapSentences"
+                android:textSize="16sp"
+                app:customHint="@string/enter_work_schedule" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            style="@style/CreateNoteFieldsTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/work_experience" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_note_title"
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            app:errorIconDrawable="@null"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <org.otunjargych.tamtam.ui.views.CustomInputEditText
+                android:id="@+id/et_note_title"
+                style="@style/CustomTextInputEditText"
+                android:inputType="textCapSentences"
+                android:textSize="16sp"
+                app:customHint="@string/enter_work_experience" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            style="@style/CreateNoteFieldsTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/work_salary" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_work_salary"
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            app:errorIconDrawable="@null"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <org.otunjargych.tamtam.ui.views.CustomInputEditText
+                android:id="@+id/et_work_salary"
+                style="@style/CustomTextInputEditText"
+                android:inputType="textCapSentences"
+                android:textSize="16sp"
+                app:customHint="@string/enter_work_salary" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            style="@style/CreateNoteFieldsTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/note_description" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_note_description"
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            app:errorIconDrawable="@null"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <org.otunjargych.tamtam.ui.views.CustomInputEditText
+                android:id="@+id/et_note_description"
+                style="@style/CustomTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:maxLines="150"
+                android:minHeight="150dp"
+                android:singleLine="false"
+                android:textSize="16sp"
+                app:customHint="@string/enter_note_description" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+
+</layout>
