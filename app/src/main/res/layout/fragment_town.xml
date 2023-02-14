@@ -94,6 +94,7 @@
             tools:layout_editor_absoluteX="0dp">
 
             <TextView
+                android:includeFontPadding="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
@@ -116,10 +117,7 @@
 
                 <org.otunjargych.tamtam.ui.views.CitiesAutoCompleteTextView
                     android:id="@+id/et_city"
-                    android:minHeight="51dp"
                     style="@style/CustomTextInputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:inputType="textCapSentences"
                     app:customHint="@string/enter_city" />
 

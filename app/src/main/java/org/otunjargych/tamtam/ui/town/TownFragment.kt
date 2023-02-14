@@ -1,28 +1,38 @@
 package org.otunjargych.tamtam.ui.town
 
+import android.app.Activity
+import android.content.Intent
+import android.content.IntentSender.SendIntentException
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.PendingResult
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.location.*
 import org.otunjargych.tamtam.R
-import org.otunjargych.tamtam.databinding.FragmentRegisterBinding
 import org.otunjargych.tamtam.databinding.FragmentTownBinding
-import org.otunjargych.tamtam.model.request.LocationResponseModel
-import org.otunjargych.tamtam.ui.auth.register.RegisterViewModel
 import org.otunjargych.tamtam.ui.base.BaseFragment
 import org.otunjargych.tamtam.ui.interfaces.ToolbarFragment
-import org.otunjargych.tamtam.util.rxtakephoto.getRxPermission
+import org.otunjargych.tamtam.util.locationUtils.LocationUtils
 import kotlin.reflect.KClass
+
 
 class TownFragment : BaseFragment<TownViewModel, FragmentTownBinding>(),
     ToolbarFragment {
 
+    private lateinit var locationUtils: LocationUtils
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.initLocation(getRxPermission())
+        locationUtils = LocationUtils(this)
+        viewModel.initLocation(locationUtils.getLocation())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,4 +92,11 @@ class TownFragment : BaseFragment<TownViewModel, FragmentTownBinding>(),
     override val layoutId: Int = R.layout.fragment_town
     override fun getViewModelClass(): KClass<TownViewModel> = TownViewModel::class
     override val title: CharSequence by lazy { getString(R.string.city) }
+    override fun toolbarIconsContainer(viewGroup: ViewGroup) {}
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        locationUtils.clearFields()
+    }
 }

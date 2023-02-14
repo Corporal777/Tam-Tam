@@ -13,8 +13,9 @@
             android:id="@+id/create_note_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:overScrollMode="never"
             android:clipToPadding="false"
-            android:paddingBottom="70dp"
+            android:paddingBottom="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
             tools:listitem="@layout/item_note" />

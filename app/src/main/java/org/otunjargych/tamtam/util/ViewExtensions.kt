@@ -15,8 +15,13 @@ import coil.size.Scale
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import coil.transform.Transformation
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import org.otunjargych.tamtam.R
 import java.io.File
+
 
 fun TextView.onTextChanged(onTextChanged: (text: CharSequence?) -> Unit): TextWatcher {
     val watcher = object : TextWatcher {
@@ -77,6 +82,29 @@ fun ImageView.setUserImage(
             setParams(crossfad, placeholder, error, transformations)
         }
     }
+}
+
+fun ImageView.loadImage(image: Any?, height: Int = 0, width: Int = 0) {
+    Glide
+        .with(context)
+        .load(image)
+        .optionalCenterCrop()
+        .into(this)
+}
+
+fun ImageView.setNoteImage(image: Any?, height: Int = 0, width: Int = 0) {
+    Glide
+        .with(context)
+        .load(image)
+        .let {
+            if (image == null) it.optionalCenterCrop()
+            else it
+        }
+        .placeholder(R.drawable.background_image_placeholder)
+        .error(R.drawable.item_no_photo)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .transition(DrawableTransitionOptions.withCrossFade(500))
+        .into(this)
 }
 
 fun ImageView.setImage(

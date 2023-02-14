@@ -10,16 +10,11 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.transition.MaterialSharedAxis
-import kotlinx.android.synthetic.main.fragment_metro_stations.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.ui.main.MainActivity
-import org.otunjargych.tamtam.util.ScreenUtils
 import kotlin.reflect.KClass
 
 abstract class BaseBottomSheetFragment<V : BaseViewModel, Binding : ViewDataBinding>(val fullScreen: Boolean = false) :

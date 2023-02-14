@@ -2,6 +2,7 @@ package org.otunjargych.tamtam.ui.auth.login
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.otunjargych.tamtam.R
@@ -83,4 +84,5 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>(), Tool
     override fun getViewModelClass(): KClass<LoginViewModel> = LoginViewModel::class
     override val layoutId: Int = R.layout.fragment_login
     override val title: CharSequence by lazy { getString(R.string.authorization) }
+    override fun toolbarIconsContainer(viewGroup: ViewGroup) {}
 }

@@ -97,6 +97,8 @@ dependencies {
     implementation 'com.github.Commit451.coil-transformations:transformations:1.0.0'
     implementation "com.airbnb.android:lottie:3.4.0"
     implementation 'com.isseiaoki:simplecropview:1.1.8'
+    implementation 'com.github.shts:StoriesProgressView:3.0.0'
+    implementation "com.github.skydoves:powermenu:2.2.2"
 
 
     // Coroutines

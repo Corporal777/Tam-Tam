@@ -30,3 +30,13 @@ data class NoteAddressModel(
     val lat: String?,
     val lon: String?
 )
+
+data class NoteRequestBody(
+    val name: String,
+    val description: String?,
+    val salary: String?,
+    val category : String,
+    val images: List<String>?,
+    val contacts: NoteContactsModel,
+    val address: NoteAddressModel,
+)

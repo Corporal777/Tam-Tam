@@ -13,7 +13,11 @@ import com.isseiaoki.simplecropview.CropImageView
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.subjects.SingleSubject
 import org.otunjargych.tamtam.ui.main.MainActivity
+import org.otunjargych.tamtam.util.extensions.RESULT_NAME
+import org.otunjargych.tamtam.util.extensions.imagepicker.ui.ImagePickerView
+import org.otunjargych.tamtam.util.extensions.openImagePicker
 import java.io.IOException
 
 
@@ -40,6 +44,18 @@ class RxTakePhoto(private val context: MainActivity) {
 //                else Observable.error<ResultRotation>(PermissionNotGrantedException())
 //            }
         return rxImagePicker.openGallery(context).findRotation()
+    }
+
+    fun takeMultipleImages(): Single<List<Bitmap>> {
+        ImagePickerView.Builder()
+            .setup {
+                name { RESULT_NAME }
+                max { 6 }
+                title { "Галлерея" }
+                single { false }
+            }
+            .start(context)
+        return CropCallbackHelper.createMultiplePickSubject()
     }
 
     fun crop(

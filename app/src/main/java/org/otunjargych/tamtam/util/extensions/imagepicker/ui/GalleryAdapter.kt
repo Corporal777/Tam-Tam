@@ -55,20 +55,24 @@ internal class ImagePickerViewHolder(
             binding.imageCheckbox.isVisible = false
         } else {
             binding.itemImage.transitionName = image.id.toString()
-            binding.root.setOnClickListener {
-                if (listener.isMultipleChecked) {
-                    listener.onChecked(image)
-                } else {
-                    listener.onClick(binding.itemImage, image)
-                }
+            itemView.setOnClickListener {
+                listener.onChecked(image)
             }
-
-            itemView.setOnLongClickListener {
-                if (!listener.isMultipleChecked) {
-                    listener.onChecked(image)
-                }
-                return@setOnLongClickListener true
-            }
+//            binding.root.setOnClickListener {
+//                if (listener.isMultipleChecked) {
+//                    listener.onChecked(image)
+//                } else {
+//                    listener.onShowDetail(binding.itemImage, image)
+//                }
+//            }
+//
+//
+//            itemView.setOnLongClickListener {
+//                if (!listener.isMultipleChecked) {
+//                    listener.onChecked(image)
+//                }
+//                return@setOnLongClickListener true
+//            }
 
             if (image.selected) {
                 binding.imageCheckbox.setBackgroundResource(R.drawable.bg_checked)

@@ -3,20 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:icon="@drawable/ic_menu"
-        android:title=""
-        app:showAsAction="ifRoom">
-        <menu>
-            <item
-                android:id="@+id/change_name"
-                android:icon="@drawable/ic_edit"
-                android:title="  Изменить имя" />
+        app:showAsAction="collapseActionView"
+        android:id="@+id/change_name"
+        android:icon="@drawable/ic_edit"
+        android:title="  Изменить имя" />
 
-            <item
-                android:id="@+id/change_photo"
-                android:icon="@drawable/ic_change_photo"
-                android:title="  Изменить фото" />
-
-        </menu>
-    </item>
+    <item
+        android:id="@+id/change_photo"
+        android:icon="@drawable/ic_change_photo"
+        android:title="  Изменить фото" />
 </menu>

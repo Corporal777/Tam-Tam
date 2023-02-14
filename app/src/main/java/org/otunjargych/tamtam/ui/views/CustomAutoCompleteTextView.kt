@@ -19,7 +19,7 @@ class CustomAutoCompleteTextView : AppCompatAutoCompleteTextView {
     }
 
     init {
-        setPadding(30, 0, 20, 0)
+        setPadding(40, 0, 20, 0)
     }
 
     private fun obtainAttributes(attrs: AttributeSet?) {

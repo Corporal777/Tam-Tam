@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
 
@@ -43,6 +43,15 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".util.extensions.imagepicker.ui.Gallery"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".util.extensions.imagepicker.ui.Detail"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

@@ -64,7 +64,9 @@
             <org.otunjargych.tamtam.ui.views.CustomInputEditText
                 android:id="@+id/et_note_name"
                 style="@style/CustomTextInputEditText"
-                android:inputType="textCapSentences"
+                android:inputType="textMultiLine"
+                android:maxLines="150"
+                android:singleLine="false"
                 app:customHint="@string/enter_note_name" />
 
         </com.google.android.material.textfield.TextInputLayout>

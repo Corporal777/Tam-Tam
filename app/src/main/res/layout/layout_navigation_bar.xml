@@ -36,7 +36,7 @@
         android:id="@+id/iv_new_note"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/custom_btn_text_selectable"
+        android:background="@drawable/custom_btn_toolbar_selectable"
         android:src="@drawable/fab_background_new"
         app:layout_constraintBottom_toBottomOf="@id/ln_nav_bar"
         app:layout_constraintEnd_toEndOf="@id/ln_nav_bar"

@@ -2,6 +2,7 @@ package org.otunjargych.tamtam.ui.profileSettings
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.doOnLayout
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.FragmentProfileSettingsBinding
@@ -88,4 +89,5 @@ class ProfileSettingsFragment :
         ProfileSettingsViewModel::class
 
     override val title: CharSequence by lazy { getString(R.string.profile_settings) }
+    override fun toolbarIconsContainer(viewGroup: ViewGroup) {}
 }

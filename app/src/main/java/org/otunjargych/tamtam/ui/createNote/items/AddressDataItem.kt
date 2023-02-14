@@ -32,21 +32,22 @@ class AddressDataItem(
                     selectedCity = it
                 }
             }
-            etRegion.initInput("") {
+            etRegion.initInput(selectedRegion) {
                 selectedRegion = it.toString()
             }
-            etStation.initInputClick() {
+            etStation.initInputClick(selectedStations.getStationsFromList()) {
                 showMetroStations(selectedCity, selectedStations)
             }
+            isAddressDataValid()
         }
     }
 
 
     fun isAddressDataValid(): Boolean {
         var valid = true
-        if (selectedCity.isNullOrEmpty()) {
+        if (selectedCity.isNullOrBlank()) {
             valid = false
-            mBinding.tilCity.error = mBinding.root.context.getString(R.string.empty_field)
+            mBinding.tilCity.error = mBinding.root.context.getString(R.string.require_enter)
         }
         return valid
     }
@@ -70,10 +71,13 @@ class AddressDataItem(
             selectedStations.clear()
             selectedStations.addAll(it)
             stationsFragment.dismiss()
-            if (!selectedStations.isNullOrEmpty()) {
-                mBinding.etStation.setText(selectedStations.joinToString(", ") { s -> s })
-            } else mBinding.etStation.text = null
+            mBinding.etStation.setText(selectedStations.getStationsFromList())
         }
+    }
+
+    private fun List<String>.getStationsFromList(): String? {
+        return if (selectedStations.isNullOrEmpty()) null
+        else selectedStations.joinToString(", ") { s -> s }
     }
 
     override fun getLayout(): Int = R.layout.item_address_data

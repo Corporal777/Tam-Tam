@@ -6,21 +6,25 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.bumptech.glide.Glide
+import io.reactivex.Maybe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.SingleSubject
+import kotlinx.android.synthetic.main.activity_crop.*
 import org.otunjargych.tamtam.R
-import org.otunjargych.tamtam.databinding.GalleryBinding
-
-import org.otunjargych.tamtam.util.extensions.EXTRA_SETUP
+import org.otunjargych.tamtam.databinding.ActivityGalleryBinding
 import org.otunjargych.tamtam.util.extensions.*
 import org.otunjargych.tamtam.util.extensions.imagepicker.core.ImageLoader
 import org.otunjargych.tamtam.util.extensions.imagepicker.core.ImageLoaderImpl
@@ -30,26 +34,15 @@ import org.otunjargych.tamtam.util.extensions.imagepicker.utils.GridSpacingItemD
 import org.otunjargych.tamtam.util.extensions.imagepicker.utils.PermissionUtil
 import org.otunjargych.tamtam.util.extensions.imagepicker.utils.StringUtil
 import org.otunjargych.tamtam.util.extensions.imagepicker.utils.toOptionCompat
+import org.otunjargych.tamtam.util.rxtakephoto.CropCallbackHelper
+import org.otunjargych.tamtam.util.rxtakephoto.PermissionNotGrantedException
 
 internal class Gallery() : AppCompatActivity(), GalleryListener {
 
-    private lateinit var binding: GalleryBinding
-    private var mHandler: Handler? = null
-    private var mRunnable: Runnable? = null
+    private lateinit var binding: ActivityGalleryBinding
+    private lateinit var pickSubject: SingleSubject<List<Bitmap>>
+    private val compositeDisposable = CompositeDisposable()
 
-    companion object {
-        private const val TAG = "ImagePickerView"
-        private const val REQUEST_GALLERY = 1011
-        private const val REQUEST_PERMISSION = 1013
-
-        private const val MAXIMUM_SELECTION = 30
-
-        fun starterIntent(context: Context, setup: SetUp?): Intent {
-            return Intent(context, Gallery::class.java).apply {
-                putExtra(EXTRA_SETUP, setup)
-            }
-        }
-    }
 
     private val setUp by lazy {
         intent.getParcelableExtra<SetUp>(
@@ -57,8 +50,7 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
         )
     }
 
-    private var maxSize =
-        MAXIMUM_SELECTION
+    private var maxSize = MAXIMUM_SELECTION
 
     private val imageList = mutableListOf<Image>()
     private val selectedList = mutableListOf<Image>()
@@ -74,9 +66,10 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = GalleryBinding.inflate(layoutInflater)
+        binding = ActivityGalleryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Toast.makeText(this, "Долгое нажатие для выбора картинки", Toast.LENGTH_SHORT).show()
+        pickSubject = CropCallbackHelper.getMultiplePickSubject()
+
         setUp?.let {
             maxSize = it.max
             resultName = it.name
@@ -86,18 +79,8 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
         initToolbar()
 
         binding.recyclerView.apply {
-            adapter = ImagePickerAdapter(
-                imageList,
-                this@Gallery,
-                isSingle
-            )
-            addItemDecoration(
-                GridSpacingItemDecoration(
-                    3,
-                    1,
-                    true
-                )
-            )
+            adapter = ImagePickerAdapter(imageList, this@Gallery, isSingle)
+            addItemDecoration(GridSpacingItemDecoration(3, 1, true))
             setHasFixedSize(true)
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
             postponeEnterTransition()
@@ -132,6 +115,7 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
             ) {
                 loadImages()
             } else {
+                pickSubject.onError(PermissionNotGrantedException())
                 Log.d("Missing Permission", "Check for permission")
             }
         }
@@ -149,23 +133,6 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (!isSingle) {
-            menuInflater.inflate(R.menu.gallery_toolbar_menu, menu)
-        }
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.gallery_done -> {
-                onGalleryDone()
-                return false
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun loadImages() {
         imageLoader.load {
             imageList.addAll(it)
@@ -176,16 +143,14 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
 
     @SuppressLint("ResourceAsColor")
     private fun initToolbar() {
-        setSupportActionBar(binding.toolBar)
-        supportActionBar?.title = selectedText
-        // set left icon , inflate menu
-        binding.toolBar.apply {
-            setNavigationIcon(R.drawable.ic_arrow_24dp)
-        }
-
-        // left icon click event
-        binding.toolBar.setNavigationOnClickListener {
-            finish()
+        binding.apply {
+            ivBack.setOnClickListener {
+                finish()
+            }
+            ivDone.setOnClickListener {
+                onGalleryDone()
+            }
+            tvTitle.text = selectedText
         }
     }
 
@@ -226,7 +191,7 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
                 setUp?.title ?: ""
             }
         }
-        binding.toolBar.title = selectedText
+        binding.tvTitle.text = selectedText
     }
 
     override fun onChecked(image: Image) {
@@ -234,7 +199,7 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
         selectedImage(image)
     }
 
-    override fun onClick(view: View, image: Image) {
+    override fun onShowDetail(view: View, image: Image) {
         Log.d(TAG, "item Clicked")
         startActivity(
             Detail.starterIntent(
@@ -252,21 +217,59 @@ internal class Gallery() : AppCompatActivity(), GalleryListener {
     }
 
     private fun onGalleryDone() {
-        selectedList()?.let { uris -> receiveImages(uris) }
+        selectedList().let { list ->
+            if (list.isNullOrEmpty()){
+                pickSubject.onError(java.lang.NullPointerException())
+                finish()
+            }else {
+                receiveImages(list)
+            }
+        }
     }
 
     private fun receiveImages(uris: List<Uri>) {
-        toastMessage(this, "Загрузка фото...")
-        val resultIntent = Intent().apply {
-            putParcelableArrayListExtra(resultName, ArrayList(uris))
+        compositeDisposable += Maybe.fromCallable {
+            uris.map {
+                Glide.with(this).asBitmap()
+                    .load(it).submit().get()
+            }
         }
-        setResult(Activity.RESULT_OK, resultIntent)
-        finish()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onError = {
+                    it.printStackTrace()
+                    pickSubject.onError(it)
+                },
+                onSuccess = {
+                    pickSubject.onSuccess(it)
+                    finish()
+                }
+            )
+    }
 
+    companion object {
+        private const val TAG = "ImagePickerView"
+        private const val REQUEST_GALLERY = 1011
+        private const val REQUEST_PERMISSION = 1013
+
+        private const val MAXIMUM_SELECTION = 30
+
+
+        fun starterIntent(context: Context, setup: SetUp?): Intent {
+            return Intent(context, Gallery::class.java).apply {
+                putExtra(EXTRA_SETUP, setup)
+            }
+        }
     }
 
     private fun isImageMultipleSelected(): Boolean {
         return imageList.find { it.selected } != null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 
 }

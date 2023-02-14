@@ -12,44 +12,31 @@
 
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/noto_sans_bold"
-            android:text="@string/additional_information"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <TextView
             style="@style/CreateNoteFieldsTitleStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
-            android:text="Подкатегория" />
+            android:text="@string/sub_category_title" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_note_category"
+            android:id="@+id/til_sub_category"
             style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="5dp"
+            app:endIconDrawable="@drawable/ic_dropdown"
             app:endIconMode="dropdown_menu"
             app:errorIconDrawable="@null"
             app:layout_constraintTop_toBottomOf="@id/tv_title">
 
             <org.otunjargych.tamtam.ui.views.CustomAutoCompleteTextView
-                android:id="@+id/et_note_category"
+                android:id="@+id/et_sub_category"
                 style="@style/CustomTextInputEditText"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 android:inputType="textCapSentences"
-                android:textSize="16sp"
-                app:customHint="@string/enter_note_category" />
+                app:customHint="@string/enter_note_sub_category" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,26 +46,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:includeFontPadding="false"
             android:text="@string/work_schedule" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_note_name"
+            android:id="@+id/til_schedule"
             style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="5dp"
+            app:endIconDrawable="@drawable/ic_dropdown"
+            app:endIconMode="dropdown_menu"
             app:errorIconDrawable="@null"
             app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-            <org.otunjargych.tamtam.ui.views.CustomInputEditText
-                android:id="@+id/et_note_name"
+            <org.otunjargych.tamtam.ui.views.CustomAutoCompleteTextView
+                android:id="@+id/et_schedule"
                 style="@style/CustomTextInputEditText"
                 android:inputType="textCapSentences"
-                android:textSize="16sp"
                 app:customHint="@string/enter_work_schedule" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -88,11 +76,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:text="@string/work_experience" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_note_title"
+            android:id="@+id/til_experience"
             style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,10 +91,9 @@
             app:layout_constraintTop_toBottomOf="@id/tv_title">
 
             <org.otunjargych.tamtam.ui.views.CustomInputEditText
-                android:id="@+id/et_note_title"
+                android:id="@+id/et_experience"
                 style="@style/CustomTextInputEditText"
                 android:inputType="textCapSentences"
-                android:textSize="16sp"
                 app:customHint="@string/enter_work_experience" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -116,11 +103,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:text="@string/work_salary" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_work_salary"
+            android:id="@+id/til_salary"
             style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -131,10 +118,9 @@
             app:layout_constraintTop_toBottomOf="@id/tv_title">
 
             <org.otunjargych.tamtam.ui.views.CustomInputEditText
-                android:id="@+id/et_work_salary"
+                android:id="@+id/et_salary"
                 style="@style/CustomTextInputEditText"
                 android:inputType="textCapSentences"
-                android:textSize="16sp"
                 app:customHint="@string/enter_work_salary" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -144,11 +130,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/note_description" />
+            android:layout_marginTop="20dp"
+            android:text="@string/work_comment" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_note_description"
+            android:id="@+id/til_comment"
             style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -159,17 +145,16 @@
             app:layout_constraintTop_toBottomOf="@id/tv_title">
 
             <org.otunjargych.tamtam.ui.views.CustomInputEditText
-                android:id="@+id/et_note_description"
+                android:id="@+id/et_comment"
                 style="@style/CustomTextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
                 android:inputType="textMultiLine"
                 android:maxLines="150"
-                android:minHeight="150dp"
+                android:minHeight="100dp"
                 android:singleLine="false"
-                android:textSize="16sp"
-                app:customHint="@string/enter_note_description" />
+                app:customHint="@string/enter_text" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

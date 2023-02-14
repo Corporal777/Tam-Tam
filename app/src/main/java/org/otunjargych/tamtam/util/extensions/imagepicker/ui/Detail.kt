@@ -10,14 +10,14 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import org.otunjargych.tamtam.databinding.DetailBinding
+import org.otunjargych.tamtam.databinding.ActivityDetailBinding
 import org.otunjargych.tamtam.util.extensions.EXTRA_IMAGE
 import org.otunjargych.tamtam.util.extensions.imagepicker.model.Image
 
 
 internal class Detail : AppCompatActivity() {
 
-    private lateinit var binding: DetailBinding
+    private lateinit var binding: ActivityDetailBinding
 
     companion object {
 
@@ -36,7 +36,7 @@ internal class Detail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DetailBinding.inflate(layoutInflater)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if (image == null) {

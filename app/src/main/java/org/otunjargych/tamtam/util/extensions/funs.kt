@@ -81,6 +81,30 @@ fun getCategoriesList(): List<String> {
     return categoriesList
 }
 
+fun getWorkSchedulesList() : MutableList<String>{
+    return mutableListOf<String>(
+        "Полный день",
+        "Не полный день",
+        "Свободный график",
+        "Сменный график",
+        "Гибкий график",
+        "Без выходных",
+        "5/2",
+        "6/1",
+        "Вахта"
+    )
+}
+
+fun getWorkSubCategoriesList() : MutableList<String>{
+    return mutableListOf<String>(
+        "Вакансия",
+        "Подработка",
+        "Стажировка",
+        "Ищу работу",
+        "Ищу подработку"
+    )
+}
+
 fun getEmptyImage(): String {
     return "https://firebasestorage.googleapis.com/v0/b/tam-tam-8b2a7.appspot.com/o/notes_images%2Fplaceholder.png?alt=media&token=c8c79ca4-a95c-465e-9b06-f0c7d6ed5c91"
 }

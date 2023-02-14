@@ -49,7 +49,7 @@
     <string name="enter_note_description">Введите описание</string>
 
     <string name="work_schedule">График работы</string>
-    <string name="enter_work_schedule">Введите график работы</string>
+    <string name="enter_work_schedule">Выберите график работы</string>
 
     <string name="work_experience">Опыт работы</string>
     <string name="enter_work_experience">Введите опыт работы</string>
@@ -93,6 +93,7 @@
     <string name="success">Успешно!</string>
     <string name="empty_fields">Заполните все поля!</string>
     <string name="empty_field">Заполните поле!</string>
+    <string name="require_enter">Обязательно к заполнению</string>
     <string name="full_work">Постоянная работа</string>
     <string name="publicate">Опубликовать</string>
     <string name="ad_was_pushed">Объявление опубликовано</string>
@@ -100,6 +101,7 @@
     <string name="auth_login_title">Введите логин и пароль</string>
     <string name="and_password">и пароль</string>
     <string name="accept">Принять</string>
+    <string name="go_home">На главную</string>
     <string name="yes">Да</string>
     <string name="change_city">Изменить город</string>
     <string name="name_city">Название города</string>
@@ -112,8 +114,8 @@
     <string name="city">Выбор города</string>
     <string name="new_note">Объявление</string>
 
-    <string name="test_text">Магазинге уaevaevaevaevaevavaervw vwrvwvwvw vwevwevwevwrvwwv wrvwvwvwevwevwevw vwevwevwevwvwevwevw vwevwevwevwevwevwevwvwv vwevwevwevwvwvavaevaevaevaevaevavavaevaevaevaevaevaevaevaevaevaevaevaecvaevaevaevaevбоvaevaevaevaevaevaevaevaedaecaavavavaevavavaркаccqcqeveveveqqevevaevaevaevaга упаковкага грузчике балдар кыздар керек мед книжка менен"
-</string>
+    <string name="test_text_long">Магазинге уaevaevaevaevaevavaervw vwrvwvwvw vwevwevwevwrvwwv wrvwvwvwevwevwevw vwevwevwevwvwevwevw vwevwevwevwevwevwevwvwv vwevwevwevwvwvavaevaevaevaevaevavavaevaevaevaevaevaevaevaevaevaevaevaecvaevaevaevaevбоvaevaevaevaevaevaevaevaedaecaavavavaevavavaркаccqcqeveveveqqevevaevaevaevaга упаковкага грузчике балдар кыздар керек мед книжка менен"</string>
+    <string name="test_text_short">Магазинге уaevaevaevaeva"</string>
 
     <integer-array name="img_id_arr">
         <item>@drawable/splash_test</item>
@@ -180,6 +182,16 @@
     <string name="selected_stations">Выбранные станции</string>
     <string name="enter_station_name">Введите название</string>
     <string name="add_phone">Добавить номер</string>
+    <string name="sub_category_title">Подкатегория</string>
+    <string name="enter_note_sub_category">Выберите подкатегорию</string>
+    <string name="work_comment">Примечание</string>
+    <string name="enter_text">Введите текст</string>
+    <string name="add_photo">Добавить фото</string>
+    <string name="select_photo">Выбрать фото</string>
+    <string name="photos_title">Фотографии</string>
+    <string name="special_offer">Специальное предложение</string>
+    <string name="call">Позвонить</string>
+    <string name="write_on_whatsapp">Написать в whatsapp</string>
 
 
     <string-array name="custom_months">

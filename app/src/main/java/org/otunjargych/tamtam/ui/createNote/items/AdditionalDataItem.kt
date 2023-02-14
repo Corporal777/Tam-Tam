@@ -7,4 +7,5 @@ abstract class AdditionalDataItem<T : ViewDataBinding> : BindableItem<T>() {
 
 
     abstract fun getDataToSave() : MutableMap<String, String>
+    abstract fun isAdditionalDataValid() : Boolean
 }

@@ -2,8 +2,6 @@
     <!-- Base application theme. -->
     <style name="Theme.TamTam" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="snackbarStyle">@style/Widget.MaterialComponents.Snackbar</item>
-        <item name="searchViewStyle">@style/CustomSearchViewStyle</item>
         <item name="colorAccent">@color/app_main_color</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="colorPrimary">@color/app_main_color</item>
@@ -70,6 +68,31 @@
 
     <!--    new view styles-->
 
+    <style name="CustomPopupMenuStyle" parent="@style/Widget.AppCompat.Light.PopupMenu">
+        <item name="textAppearanceLargePopupMenu">@style/PopupMenuTextAppearanceLarge</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/PopupMenuTextAppearanceLarge</item>
+        <item name="textAppearanceSmallPopupMenu">@style/PopupMenuTextAppearanceSmall</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/PopupMenuTextAppearanceSmall</item>
+        <item name="android:windowAnimationStyle">@style/PopupAnimationStyle</item>
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+
+    <style name="PopupMenuTextAppearanceSmall" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">
+        <item name="android:textColor">#000000</item>
+        <item name="fontFamily">@font/noto_sans_medium</item>
+    </style>
+
+    <style name="PopupMenuTextAppearanceLarge" parent="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large">
+        <item name="android:textColor">#000000</item>
+        <item name="fontFamily">@font/noto_sans_medium</item>
+    </style>
+
+    <style name="PopupAnimationStyle">
+        <item name="android:windowEnterAnimation">@anim/fab_show</item>
+        <item name="android:windowExitAnimation">@anim/fab_hide</item>
+    </style>
+
     <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -130,10 +153,10 @@
     <style name="CustomTextInputEditText">
         <item name="fontFamily">@font/noto_sans_regular</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:minHeight">48dp</item>
+        <item name="android:minHeight">51dp</item>
         <item name="android:textColorHint">@color/input_field_hint_color</item>
         <item name="android:textSize">17sp</item>
         <item name="android:backgroundTint">@color/background_input_field</item>
@@ -162,10 +185,18 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:letterSpacing">-0.01</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/color_of_textview_border</item>
         <item name="android:fontFamily">@font/noto_sans_regular</item>
         <item name="android:textSize">13sp</item>
 
+    </style>
+
+    <style name="CreateNoteFieldsTitleStyle">
+        <item name="android:textColor">@color/color_of_textview_border</item>
+        <item name="fontFamily">@font/noto_sans_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
 
@@ -201,12 +232,6 @@
         <item name="android:textSize">16.5sp</item>
     </style>
 
-    <style name="CreateNoteFieldsTitleStyle">
-        <item name="android:textColor">@color/color_of_textview_border</item>
-        <item name="fontFamily">@font/noto_sans_regular</item>
-        <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">13sp</item>
-    </style>
 
     <style name="CustomCheckboxStyle">
         <item name="android:stateListAnimator">@null</item>

@@ -1,6 +1,9 @@
 package org.otunjargych.tamtam.ui.main
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -19,9 +22,12 @@ import org.otunjargych.tamtam.ui.home.HomeFragment
 import org.otunjargych.tamtam.ui.interfaces.ToolbarFragment
 import org.otunjargych.tamtam.ui.profile.ProfileFragment
 import org.otunjargych.tamtam.ui.profileSettings.ProfileSettingsFragment
+import org.otunjargych.tamtam.ui.stories.StoriesFragment
 import org.otunjargych.tamtam.ui.town.TownFragment
 import org.otunjargych.tamtam.ui.views.CustomSnackBar
 import org.otunjargych.tamtam.ui.views.LoadingProgressDialog
+import org.otunjargych.tamtam.util.cancelWindowTransparency
+import org.otunjargych.tamtam.util.doEdgeWindow
 import org.otunjargych.tamtam.util.getFragmentLifecycleCallback
 
 
@@ -40,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 is RegisterFragment,
                 is TownFragment,
                 is CreateNoteFragment,
+                is StoriesFragment,
                 is ProfileSettingsFragment -> hideNavBar()
                 else -> showNavBar()
             }
@@ -47,11 +54,22 @@ class MainActivity : AppCompatActivity() {
                 binding.apply {
                     mainAppBar.isVisible = true
                     authToolbar.customTitle.text = f.title
+                    f.toolbarIconsContainer(authToolbar.iconsContainer.apply { removeAllViews() })
                 }
             } else {
                 binding.mainAppBar.isVisible = false
             }
-        }, onViewDestroyed = {}
+        },
+        onViewDestroyed = {},
+        onFragmentStarted = { f ->
+            when (f) {
+                is StoriesFragment-> doEdgeWindow()
+                else -> cancelWindowTransparency()
+            }
+        },
+        onFragmentStopped = { f ->
+
+        }
     )
 
 
@@ -110,13 +128,14 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    private fun showCreateNote(){
+    private fun showCreateNote() {
         findNavController().navigate(R.id.create_note_fragment)
     }
 
     private fun setupNavBarItems(f: Fragment) {
         when (f) {
-            is HomeFragment -> binding.navInclude.mainBottomNavView.menu.findItem(R.id.main).isChecked = true
+            is HomeFragment -> binding.navInclude.mainBottomNavView.menu.findItem(R.id.main).isChecked =
+                true
             is ProfileFragment -> binding.navInclude.mainBottomNavView.menu.findItem(R.id.profile).isChecked =
                 true
         }
@@ -173,17 +192,19 @@ class MainActivity : AppCompatActivity() {
     private fun hideNavBar() {
         binding.navInclude.navBarContainer.isVisible = false
         //binding.fab.hide()
-       // binding.mainNavBar.performHide(true)
+        // binding.mainNavBar.performHide(true)
     }
 
 
     private fun showNavBar() {
-       // binding.fab.show()
-    binding.navInclude.navBarContainer.isVisible = true
+        // binding.fab.show()
+        binding.navInclude.navBarContainer.isVisible = true
     }
 
     companion object {
         private var mainActivity: MainActivity? = null
         fun getInstance() = this.mainActivity
     }
+
+
 }

@@ -51,9 +51,8 @@ fun String.formatToDayMonth(): String {
         date = "Вчера" + ", в " + time.time.timeHoursAndMinutes()
     } else if (noteDay.isSameMonth(today)) {
         date = noteDay.get(Calendar.DAY_OF_MONTH).toString() + " " +
-                noteDay.getDisplayName(
-                    Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault()
-                )
+                noteDay.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault()) +
+                ", в " + time.time.timeHoursAndMinutes()
     } else {
         noteDay.toString().asTime()
     }

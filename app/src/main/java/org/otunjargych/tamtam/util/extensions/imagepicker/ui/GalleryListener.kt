@@ -9,7 +9,7 @@ internal interface GalleryListener {
     fun onChecked(image: Image)
 
     // Move to Detail View
-    fun onClick(view: View, image: Image)
+    fun onShowDetail(view: View, image: Image)
 
     // single selected
     fun onClick(image: Image)

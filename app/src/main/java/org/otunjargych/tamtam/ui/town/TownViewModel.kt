@@ -5,13 +5,13 @@ import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.*
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import org.otunjargych.tamtam.di.data.AppData
@@ -38,8 +38,8 @@ class TownViewModel(
 
     var userTown = ""
 
-    fun initLocation(rxPermissions: RxPermissions) {
-        compositeDisposable += getLocation(rxPermissions)
+    fun initLocation(request: Observable<Location>) {
+        compositeDisposable += request.firstElement()
             .flatMap {
                 locationRepository.checkUserLocation(
                     LocationRequestModel(
@@ -70,15 +70,14 @@ class TownViewModel(
             .withDelay(1000)
             .performOnBackgroundOutOnMain()
             .withLoadingDialog(progressData)
-            .subscribeBy {
+            .subscribeSimple {
                 _townSavedSuccess.postValue(true)
             }
     }
 
     @SuppressLint("MissingPermission")
-    private fun getLocation(rxPermissions: RxPermissions): Maybe<Location> {
-        return rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION)
-            .firstElement()
+    private fun getLocation(request: Observable<Boolean>): Maybe<Location> {
+        return request.firstElement()
             .flatMap { isGranted ->
                 if (isGranted) {
                     Maybe.create<Location> { emitter ->

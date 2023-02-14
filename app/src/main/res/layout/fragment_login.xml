@@ -52,7 +52,6 @@
 
                 <org.otunjargych.tamtam.ui.views.CustomInputEditText
                     android:id="@+id/et_login"
-
                     app:customHint="@string/phone_number_or_email"
                     style="@style/CustomTextInputEditText"
                     android:inputType="textEmailAddress" />

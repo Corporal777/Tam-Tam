@@ -2,6 +2,7 @@ package org.otunjargych.tamtam.ui.auth.register
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
@@ -99,4 +100,5 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
     override val layoutId: Int = R.layout.fragment_register
     override fun getViewModelClass(): KClass<RegisterViewModel> = RegisterViewModel::class
     override val title: CharSequence by lazy { getString(R.string.registration) }
+    override fun toolbarIconsContainer(viewGroup: ViewGroup) {}
 }
