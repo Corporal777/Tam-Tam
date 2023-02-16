@@ -16,11 +16,11 @@ data class UserNew(
     val id: String,
     val firstName: String,
     val lastName: String,
-    val login: String,
+    var login: String,
     var image: String?,
     @SerializedName("contactsInformation")
     val contacts: ContactInformation,
-    val userNotes: UserNotesModel
+    val userNotes: UserNotesModel?
 ) {
     val nameLastName: String
         get() = "$firstName $lastName"
@@ -38,6 +38,6 @@ data class ContactInformation(
 )
 
 data class UserNotesModel(
-    var activeNotes: List<String>?,
-    var moderationNotes: List<String>?
+    val activeNotes: String,
+    val pendingNotes: String
 )

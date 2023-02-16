@@ -7,9 +7,6 @@ import com.xwray.groupie.databinding.BindableItem
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ItemStoryBinding
 import org.otunjargych.tamtam.model.request.StoriesModel
-import org.otunjargych.tamtam.model.request.StoryModel
-import org.otunjargych.tamtam.util.setImage
-import org.otunjargych.tamtam.util.setNoteImage
 
 class StoryItem(
     private val story: StoriesModel,

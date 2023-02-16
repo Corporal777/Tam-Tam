@@ -13,8 +13,8 @@ class NoteItem(private val note: NoteModel) : BindableItem<ItemNoteBinding>() {
 
     override fun bind(viewBinding: ItemNoteBinding, position: Int) {
         viewBinding.apply {
-            ivNoteImage.setNoteImage(note.images?.get(0))
-            tvCategory.text = getCategory(root.context)
+            ivNoteImage.loadNoteImage(note.images?.get(0))
+            tvCategory.text = note.getCategory(root.context)
 
             tvSalary.text =
                 if (note.salary.isNullOrEmpty()) root.context.getString(R.string.not_chosen) else note.salary
@@ -23,27 +23,10 @@ class NoteItem(private val note: NoteModel) : BindableItem<ItemNoteBinding>() {
                 text = if (note.description.isNullOrEmpty()) note.name.replace("\n", " ")
                 else note.description.replace("\n", " ")
             }
-            tvLocation.text = getLocation()
+            tvLocation.text = note.getLocation()
             tvDate.text = note.createdAt.formatToDayMonth()
         }
     }
-
-
-    private fun getCategory(context: Context): String {
-        return when (note.category) {
-            "work" -> context.getString(R.string.work_category)
-            else -> context.getString(R.string.not_chosen)
-        }
-    }
-
-    private fun getLocation(): String {
-        var location = note.address.city
-        if (!note.address.metro.isNullOrEmpty()) {
-            location = note.address.city + ", " + note.address.metro.first()
-        }
-        return location
-    }
-
 
     override fun getLayout(): Int = R.layout.item_note
 }

@@ -1,10 +1,20 @@
 package org.otunjargych.tamtam.ui.auth.login
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.FragmentLoginBinding
 import org.otunjargych.tamtam.ui.base.BaseFragment
@@ -12,10 +22,12 @@ import org.otunjargych.tamtam.ui.interfaces.ToolbarFragment
 import org.otunjargych.tamtam.util.onTextChanged
 import kotlin.reflect.KClass
 
+
 class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>(), ToolbarFragment {
 
 
     private val args: LoginFragmentArgs by navArgs()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +76,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>(), Tool
             else showHome()
         }
     }
+
 
     private fun showGreetings(userName: String) {
         showSnackBar("Здравствуйте, $userName", R.drawable.ic_hello)

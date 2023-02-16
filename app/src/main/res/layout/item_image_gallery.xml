@@ -24,6 +24,16 @@
                 android:layout_height="match_parent"
                 app:srcCompat="@drawable/ic_choose_photo" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_close"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/custom_btn_toolbar_selectable"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_close" />
+
             <LinearLayout
                 android:id="@+id/ln_no_image"
                 android:layout_width="match_parent"

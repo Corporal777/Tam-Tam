@@ -22,4 +22,20 @@ class AuthRepositoryImpl(val appData: AppData, val apiService: ApiService) : Aut
     override fun register(body: Map<String, String>): Maybe<LoginResponse> {
         return apiService.register(body)
     }
+
+    override fun checkUserPassword(password: String): Completable {
+        return apiService.checkUserPassword(appData.getUserId(), password)
+    }
+
+    override fun updateUserPassword(password: Map<String, String>): Completable {
+       return apiService.updateUserPassword(appData.getUserId(), password)
+    }
+
+    override fun updateUserLogin(login: Map<String, String>): Completable {
+        return apiService.updateUserLogin(appData.getUserId(), login)
+    }
+
+    override fun checkIfLoginExists(login: String): Completable {
+        return apiService.checkLoginExists(login)
+    }
 }

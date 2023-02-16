@@ -1,19 +1,22 @@
 package org.otunjargych.tamtam.ui.createNote.items
 
 import android.content.Context
+import android.util.Log
 import com.xwray.groupie.Group
 import com.xwray.groupie.NestedGroup
 import com.xwray.groupie.Section
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.model.request.NoteContactsModel
+import org.otunjargych.tamtam.model.request.NoteModel
 import org.otunjargych.tamtam.util.findItemBy
 
 class MainDataGroup(private val context: Context) : NestedGroup() {
 
     private val mainDataItem = MainDataItem().apply {
         onCategoryChangeCallback = {
-            if (!it.isNullOrEmpty()) {
-                additionalDataSection.update(listOf(WorkAdditionalDataItem()))
+            when (it) {
+                "work" -> additionalDataSection.update(listOf(WorkAdditionalDataItem()))
+                "house" -> {}
             }
         }
     }

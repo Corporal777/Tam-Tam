@@ -54,7 +54,7 @@
                     android:id="@+id/et_login"
                     app:customHint="@string/phone_number_or_email"
                     style="@style/CustomTextInputEditText"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress|textNoSuggestions" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 app:endIconMode="password_toggle"
                 app:errorIconDrawable="@null"
                 app:layout_constraintTop_toBottomOf="@+id/til_login">
@@ -94,7 +94,7 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_btn_text_selectable"
-                android:fontFamily="@font/noto_sans_medium"
+                android:fontFamily="@font/noto_sans_semibold"
                 android:gravity="center"
                 android:textColor="@color/app_main_color"
                 android:paddingHorizontal="20dp"

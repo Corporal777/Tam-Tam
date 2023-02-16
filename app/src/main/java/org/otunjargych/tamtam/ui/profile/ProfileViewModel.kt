@@ -3,6 +3,7 @@ package org.otunjargych.tamtam.ui.profile
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
@@ -23,8 +24,8 @@ class ProfileViewModel(
 ) : BaseViewModel() {
 
     private var isFirstLaunch = true
-    private val _user = MutableLiveData<UserNew?>()
-    val user: LiveData<UserNew?> get() = _user
+    private val _userData = MutableLiveData<UserNew?>()
+    val userData: LiveData<UserNew?> get() = _userData
 
     private val _successLoggedOut = MutableLiveData<Boolean>()
     val successLoggedOut: LiveData<Boolean> get() = _successLoggedOut
@@ -42,16 +43,15 @@ class ProfileViewModel(
                 if (isFirstLaunch) {
                     isFirstLaunch = false
                     it.withLoadingDialog(loadingData)
-                }
-                else it
+                } else it
             }
             .subscribeSimple(
                 onError = {
                     it.printStackTrace()
-                    _user.postValue(null)
+                    _userData.postValue(null)
                 },
                 onNext = {
-                    _user.postValue(it.value)
+                    _userData.postValue(it.value)
                 }
             )
     }
@@ -66,15 +66,16 @@ class ProfileViewModel(
                 onError = { it.printStackTrace() },
                 onComplete = {
                     _successLoggedOut.postValue(true)
-                    _user.postValue(null)
+                    _userData.postValue(null)
                 }
             )
     }
 
 
-    fun clearSuccessLoggedOut(logged : Boolean){
+    fun clearSuccessLoggedOut(logged: Boolean) {
         _successLoggedOut.value = logged
     }
+
     fun getCurrentTown() = appData.getUserTown()
     fun isUserLoggedOut() = appData.isLoggedOut()
 }

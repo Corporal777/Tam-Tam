@@ -100,18 +100,25 @@ class AppData(private val appPrefs: AppPrefs) {
 
     fun updateUser(newUser: UserNew) {
         val changed = this.user != newUser
-        this.user = newUser
         if (changed){
+            this.user = newUser
             userChangeSubject.onNext(user.asOptional())
         }
+    }
+
+    fun updateUserField(newUser: UserNew.() -> Unit) {
+        userChangeSubject.onNext(this.user?.apply(newUser).asOptional())
+    }
+
+    fun initUserTown(town: String) {
+        this.userTown = town
     }
 
     fun getUserId(): String = this.userId.toString()
     fun isLoggedOut() = this.isLoggedOut
 
+    fun isUserAuthorized() = !token.isNullOrEmpty() && (userId != null || userId != -1) && user != null
 
     fun getUserTown() = this.userTown
-    fun initUserTown(town: String) {
-        this.userTown = town
-    }
+
 }

@@ -73,11 +73,11 @@ fun Long.calendar(): Calendar = Calendar.getInstance().apply { timeInMillis = th
 fun getCategoriesList(): List<String> {
     val categoriesList = ArrayList<String>()
     categoriesList.add("Работа, Вакансии")
-    categoriesList.add("Транспорт, Перевозки")
-    categoriesList.add("Медицина, Красота")
-    categoriesList.add("Продажа, Покупка")
+    //categoriesList.add("Транспорт, Перевозки")
+    //categoriesList.add("Медицина, Красота")
+    //categoriesList.add("Продажа, Покупка")
     categoriesList.add("Квартиры, Гостиницы")
-    categoriesList.add("Обучение, Услуги")
+    //categoriesList.add("Обучение, Услуги")
     return categoriesList
 }
 
@@ -88,7 +88,7 @@ fun getWorkSchedulesList() : MutableList<String>{
         "Свободный график",
         "Сменный график",
         "Гибкий график",
-        "Без выходных",
+        "Индивидуальный график",
         "5/2",
         "6/1",
         "Вахта"

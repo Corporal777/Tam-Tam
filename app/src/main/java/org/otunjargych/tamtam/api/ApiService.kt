@@ -24,6 +24,27 @@ interface ApiService {
     @POST("v1/register")
     fun register(@Body body: Map<String, String>): Maybe<LoginResponse>
 
+    @GET("v1/check-password/{id}")
+    fun checkUserPassword(
+        @Path("id") id: String,
+        @Query("password") password: String
+    ): Completable
+
+    @PATCH("v1/change-password/{id}")
+    fun updateUserPassword(
+        @Path("id") id: String,
+        @Body map: Map<String, String>
+    ): Completable
+
+    @GET("v1/check-login/{login}")
+    fun checkLoginExists(@Path("login") login: String): Completable
+
+    @PATCH("v1/change-login/{id}")
+    fun updateUserLogin(
+        @Path("id") id: String,
+        @Body map: Map<String, String>
+    ): Completable
+
 
     // user routes
     @GET("/users")
@@ -64,20 +85,20 @@ interface ApiService {
     @POST("v1/create-note/{id}")
     fun createNote(
         @Path("id") id: String,
-        @Body body : NoteRequestBody
-    ) : Maybe<NoteModel>
+        @Body body: NoteRequestBody
+    ): Maybe<NoteModel>
 
     @POST("v1/create-note-data/{id}")
     fun createNoteData(
         @Path("id") id: String,
         @Body map: Map<String, String?>
-    ) : Maybe<JsonElement>
+    ): Maybe<JsonElement>
 
     @POST("v1/change-note-images/{id}")
     fun changeNoteImages(
         @Path("id") id: String,
         @Body image: RequestBody
-    ) : Maybe<NoteModel>
+    ): Maybe<NoteModel>
 
 
     // story routes

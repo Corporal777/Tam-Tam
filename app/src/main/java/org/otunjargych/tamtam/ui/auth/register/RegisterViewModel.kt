@@ -47,6 +47,7 @@ class RegisterViewModel(
 
     private val _successResponse = MutableLiveData<UserNew>()
     val successResponse: LiveData<UserNew> get() = _successResponse
+
     private val _errorResponse = MutableLiveData<String>()
     val errorResponse: LiveData<String> get() = _errorResponse
 
@@ -112,8 +113,8 @@ class RegisterViewModel(
     }
 
     private fun showErrors() {
-        _firstNameError.postValue(firstName.isNullOrEmpty())
-        _lastNameError.postValue(lastName.isNullOrEmpty())
+        _firstNameError.postValue(firstName.isNullOrBlank())
+        _lastNameError.postValue(lastName.isNullOrBlank())
 
         if (isPhone(email)) _emailError.postValue(!isPhoneIsValid(email))
         else _emailError.postValue(!AuthValidateUtil.isValidEmail(email))
@@ -147,6 +148,12 @@ class RegisterViewModel(
 
             }
         }
+    }
+
+    fun setFieldsWithGoogleAccountData(name: String, familyName: String, email: String) {
+        this.firstName = name
+        this.lastName = familyName
+        this.email = email
     }
 
     enum class RegisterDataErrorType {

@@ -1,5 +1,7 @@
 package org.otunjargych.tamtam.ui.createNote.items
 
+import android.widget.TextView
+import androidx.core.view.isVisible
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ItemWorkAdditionalDataBinding
 import org.otunjargych.tamtam.ui.views.adapters.NoFilterArrayAdapter
@@ -31,7 +33,10 @@ class WorkAdditionalDataItem : AdditionalDataItem<ItemWorkAdditionalDataBinding>
 
                 )
                 initInput(subCategory) {
-                    tilSubCategory.error = null
+                    tvNoteSubCategoryRequired.apply {
+                        if (!it.toString().isNullOrBlank()) changeRequiredTextColor(true)
+                        isVisible = it.toString().isNullOrBlank()
+                    }
                     subCategory = it.toString()
                 }
             }
@@ -61,7 +66,6 @@ class WorkAdditionalDataItem : AdditionalDataItem<ItemWorkAdditionalDataBinding>
             etComment.initInput(workComment) {
                 workComment = it.toString()
             }
-            isAdditionalDataValid()
         }
     }
 
@@ -70,9 +74,7 @@ class WorkAdditionalDataItem : AdditionalDataItem<ItemWorkAdditionalDataBinding>
         var valid = true
         if (subCategory.isNullOrBlank()){
             valid = false
-            mBinding.apply {
-                tilSubCategory.error = root.context.getString(R.string.require_enter)
-            }
+            mBinding.tvNoteSubCategoryRequired.changeRequiredTextColor(false)
         }
         return valid
     }
@@ -85,6 +87,11 @@ class WorkAdditionalDataItem : AdditionalDataItem<ItemWorkAdditionalDataBinding>
             put("workComment", workComment)
             put("salary", workSalary)
         }
+    }
+
+    private fun TextView.changeRequiredTextColor(isCorrect: Boolean) {
+        if (!isCorrect) setTextColor(context.getColor(R.color.error_text_color))
+        else setTextColor(context.getColor(R.color.app_main_color))
     }
 
 

@@ -73,6 +73,16 @@ class CreateNoteViewModel(
             }
     }
 
+    fun removeSelectedImage(bitmap : Bitmap){
+        compositeDisposable += Completable.fromAction {
+            listSelectedImages.remove(bitmap)
+        }
+            .performOnBackgroundOutOnMain()
+            .subscribeSimple {
+                _selectedImages.postValue(listSelectedImages)
+            }
+    }
+
     private fun getImageRequest(noteId: String): Completable {
         if (listSelectedImages.isNullOrEmpty()) {
             return Completable.complete()

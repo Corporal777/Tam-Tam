@@ -8,6 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import org.otunjargych.tamtam.di.data.AppData
+import org.otunjargych.tamtam.di.repo.auth.AuthRepository
 import org.otunjargych.tamtam.di.repo.user.UserRepository
 import org.otunjargych.tamtam.model.ContactInformation
 import org.otunjargych.tamtam.model.UserNew
@@ -31,10 +32,11 @@ class ProfileSettingsViewModel(
     private val _user = MutableLiveData<UserNew?>()
     val user: LiveData<UserNew?> get() = _user
 
+    private val _userUpdated = MutableLiveData<Boolean>()
+    val userUpdated: LiveData<Boolean> get() = _userUpdated
+
     private var firstName = appData.getUser()?.firstName
     private var lastName = appData.getUser()?.lastName
-    private var login = appData.getUser()?.login
-    private var password = ""
     private var email = appData.getUser()?.contacts?.email
     private var phone = appData.getUser()?.contacts?.phone
 
@@ -69,7 +71,7 @@ class ProfileSettingsViewModel(
                 )
             }
             .flatMap { userRepository.changeUserImage(it) }
-            .doOnSuccess { appData.updateUserImage(it.image) }
+            .doOnSuccess { appData.updateUserField { image = it.image } }
             .performOnBackgroundOutOnMain()
             .withLoadingDialog(progressData)
             .subscribeBy(
@@ -90,6 +92,7 @@ class ProfileSettingsViewModel(
                     },
                     onSuccess = {
                         _user.postValue(it)
+                        _userUpdated.postValue(true)
                     })
         }
     }
@@ -102,16 +105,6 @@ class ProfileSettingsViewModel(
 
     fun performChangeLastName(lastName: String) {
         this.lastName = lastName
-        _enableBtnSave.postValue(isDataValid())
-    }
-
-    fun performChangeLogin(login: String) {
-        this.login = login
-        _enableBtnSave.postValue(isDataValid())
-    }
-
-    fun performChangePassword(password: String) {
-        this.password = password
         _enableBtnSave.postValue(isDataValid())
     }
 
@@ -128,8 +121,7 @@ class ProfileSettingsViewModel(
     private fun isDataValid(): Boolean {
         val nameValid = !firstName.isNullOrBlank()
         val lastNameValid = !lastName.isNullOrBlank()
-        val loginValid = !login.isNullOrBlank()
-        //val passwordValid = !password.isNullOrBlank()
+        val loginValid = !appData.getUser()?.login.isNullOrBlank()
         return nameValid && lastNameValid && loginValid
     }
 
@@ -137,8 +129,6 @@ class ProfileSettingsViewModel(
         return mutableMapOf<String, String?>().apply {
             put("firstName", firstName)
             put("lastName", lastName)
-            put("login", login)
-            put("password", "")
             put("email", email)
             put("phone", phone)
         }

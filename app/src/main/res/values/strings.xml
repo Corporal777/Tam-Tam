@@ -70,6 +70,7 @@
     <string name="enter_email">Введите email</string>
     <string name="enter_login">Введите логин</string>
     <string name="enter_password">Введите пароль</string>
+    <string name="current_password">Текущий пароль</string>
     <string name="enter_city">Введите город</string>
     <string name="title_city">Город</string>
     <string name="title_region">Район</string>
@@ -94,6 +95,13 @@
     <string name="empty_fields">Заполните все поля!</string>
     <string name="empty_field">Заполните поле!</string>
     <string name="require_enter">Обязательно к заполнению</string>
+    <string name="require_category_title">Необходимо выбрать категорию. Поле обязательно к заполнению</string>
+    <string name="require_note_name_title">Необходимо ввести название. Поле обязательно к заполнению</string>
+    <string name="require_city_title">Необходимо выбрать город. Поле обязательно к заполнению</string>
+    <string name="require_sub_category_title">Необходимо выбрать подкатегорию. Поле обязательно к заполнению</string>
+    <string name="enter_current_password_for_security_title">Введите свой текущий пароль. Это необходимая мера для обеспечения безопасности.\nВ случае если забыли свой пароль, обратитесь в службу поддержки.</string>
+    <string name="enter_new_password_for_security_title">Введите новый пароль. Он будет использоваться для авторизации.</string>
+    <string name="enter_new_login_for_security_title">Введите новый логин. Он будет использоваться для авторизации.</string>
     <string name="full_work">Постоянная работа</string>
     <string name="publicate">Опубликовать</string>
     <string name="ad_was_pushed">Объявление опубликовано</string>
@@ -161,6 +169,7 @@
     <string name="auth_password_title">Пароль должен содержать латинские буквы, минимум одну цифру, минимум одну заглавную букву и не менее 6 символов.</string>
     <string name="register_login_title">Логин</string>
     <string name="edit_profile">Редактировать профиль</string>
+    <string name="edit">Редактировать</string>
     <string name="user_unauthorized">Не авторизован</string>
     <string name="logout_from_account">Выйти из аккаунта</string>
     <string name="login_to_account">Войти в аккаунт</string>
@@ -192,6 +201,13 @@
     <string name="special_offer">Специальное предложение</string>
     <string name="call">Позвонить</string>
     <string name="write_on_whatsapp">Написать в whatsapp</string>
+    <string name="change_password_title">Смена пароля</string>
+    <string name="change_login_title">Смена логина</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="do_continue">Продолжить</string>
+    <string name="new_login">Новый логин</string>
+    <string name="login_success_changed">Логин успешно изменен</string>
+    <string name="data_success_updated">Данные успешно сохранены</string>
 
 
     <string-array name="custom_months">
@@ -208,5 +224,7 @@
         <item>Ноябрь</item>
         <item>Декабрь</item>
     </string-array>
+
+    <string name="com_vk_sdk_AppId">org.otunjargych.tamtam</string>
 
 </resources>

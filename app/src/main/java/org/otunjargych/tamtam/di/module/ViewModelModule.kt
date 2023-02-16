@@ -4,12 +4,14 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.otunjargych.tamtam.ui.auth.login.LoginViewModel
 import org.otunjargych.tamtam.ui.auth.register.RegisterViewModel
+import org.otunjargych.tamtam.ui.profileSettings.changePassword.ChangePasswordViewModel
 import org.otunjargych.tamtam.ui.createNote.CreateNoteViewModel
 import org.otunjargych.tamtam.ui.home.HomeViewModel
 import org.otunjargych.tamtam.ui.location.MetroStationsViewModel
 import org.otunjargych.tamtam.ui.main.MainViewModel
 import org.otunjargych.tamtam.ui.profile.ProfileViewModel
 import org.otunjargych.tamtam.ui.profileSettings.ProfileSettingsViewModel
+import org.otunjargych.tamtam.ui.profileSettings.changeLogin.ChangeLoginViewModel
 import org.otunjargych.tamtam.ui.stories.StoriesViewModel
 import org.otunjargych.tamtam.ui.town.CitiesViewModel
 import org.otunjargych.tamtam.ui.town.TownViewModel
@@ -26,4 +28,6 @@ val viewModelModule = module {
     viewModel { CreateNoteViewModel(get(), get(), get()) }
     viewModel { MetroStationsViewModel(get(), get()) }
     viewModel { StoriesViewModel() }
+    viewModel { ChangePasswordViewModel(get()) }
+    viewModel { ChangeLoginViewModel(get(), get()) }
 }

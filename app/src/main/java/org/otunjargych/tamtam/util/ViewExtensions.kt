@@ -54,6 +54,31 @@ fun EditText.initInputClick(text: String? = "", onClickListener: (text: CharSequ
     }
 }
 
+
+fun ImageView.loadImage(image: Any?, height: Int = 0, width: Int = 0) {
+    Glide
+        .with(context)
+        .load(image)
+        .optionalCenterCrop()
+        .into(this)
+}
+
+fun ImageView.loadNoteImage(image: Any?, height: Int = 0, width: Int = 0) {
+    Glide
+        .with(context)
+        .load(image)
+        .let {
+            if (image == null) it.optionalCenterCrop()
+            else it
+        }
+        .placeholder(R.drawable.background_image_placeholder)
+        .error(R.drawable.item_no_photo)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .transition(DrawableTransitionOptions.withCrossFade(500))
+        .into(this)
+}
+
+
 fun ImageView.setUserImage(
     image: Any?, crossfad: Int? = 500,
     placeholder: Int? = R.drawable.background_image_placeholder,
@@ -82,29 +107,6 @@ fun ImageView.setUserImage(
             setParams(crossfad, placeholder, error, transformations)
         }
     }
-}
-
-fun ImageView.loadImage(image: Any?, height: Int = 0, width: Int = 0) {
-    Glide
-        .with(context)
-        .load(image)
-        .optionalCenterCrop()
-        .into(this)
-}
-
-fun ImageView.setNoteImage(image: Any?, height: Int = 0, width: Int = 0) {
-    Glide
-        .with(context)
-        .load(image)
-        .let {
-            if (image == null) it.optionalCenterCrop()
-            else it
-        }
-        .placeholder(R.drawable.background_image_placeholder)
-        .error(R.drawable.item_no_photo)
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .transition(DrawableTransitionOptions.withCrossFade(500))
-        .into(this)
 }
 
 fun ImageView.setImage(

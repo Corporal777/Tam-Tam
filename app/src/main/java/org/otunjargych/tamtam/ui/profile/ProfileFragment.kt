@@ -39,7 +39,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
 
     private fun observeUser() {
         mBinding.apply {
-            viewModel.user.observe(viewLifecycleOwner) { user ->
+            viewModel.userData.observe(viewLifecycleOwner) { user ->
                 lnActiveNotes.isVisible = user != null
                 lnModerationNotes.isVisible = user != null
                 tvUserId.isVisible = user != null
@@ -49,8 +49,8 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
                     ivUserPhoto.setUserImage(it?.image ?: R.drawable.avatar_empty_square)
                     tvUserName.text = it?.nameLastName?:getString(R.string.user_unauthorized)
                     tvUserId.text = it?.publicId
-                    tvActiveNotes.text = (it?.userNotes?.activeNotes?.size ?: 0).toString()
-                    tvModerationNotes.text = (it?.userNotes?.moderationNotes?.size ?: 0).toString()
+                    tvActiveNotes.text = it?.userNotes?.activeNotes
+                    tvModerationNotes.text = it?.userNotes?.pendingNotes
                 }
             }
         }

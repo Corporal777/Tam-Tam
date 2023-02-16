@@ -38,6 +38,16 @@
                 android:inputType="textCapSentences"
                 app:customHint="@string/enter_note_sub_category" />
 
+            <TextView
+                style="@style/CreateNoteFieldsTitleStyle"
+                android:id="@+id/tv_note_sub_category_required"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/require_sub_category_title"
+                android:textColor="@color/app_main_color"
+                android:textSize="12sp" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -93,7 +103,7 @@
             <org.otunjargych.tamtam.ui.views.CustomInputEditText
                 android:id="@+id/et_experience"
                 style="@style/CustomTextInputEditText"
-                android:inputType="textCapSentences"
+                android:inputType="textCapSentences|textNoSuggestions"
                 app:customHint="@string/enter_work_experience" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -120,7 +130,7 @@
             <org.otunjargych.tamtam.ui.views.CustomInputEditText
                 android:id="@+id/et_salary"
                 style="@style/CustomTextInputEditText"
-                android:inputType="textCapSentences"
+                android:inputType="textCapSentences|textNoSuggestions"
                 app:customHint="@string/enter_work_salary" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -150,7 +160,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textNoSuggestions"
                 android:maxLines="150"
                 android:minHeight="100dp"
                 android:singleLine="false"

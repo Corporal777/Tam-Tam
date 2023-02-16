@@ -6,9 +6,11 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.view.allViews
 import androidx.core.view.doOnLayout
 import androidx.core.view.forEachIndexed
+import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.xwray.groupie.databinding.BindableItem
 import org.otunjargych.tamtam.R
@@ -36,7 +38,10 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
         mBinding = viewBinding
         viewBinding.apply {
             etNoteName.initInput(noteName) {
-                tilNoteName.error = null
+                tvNoteNameRequired.apply {
+                    if (!it.toString().isNullOrBlank()) changeRequiredTextColor(true)
+                    isVisible = it.toString().isNullOrBlank()
+                }
                 noteName = it.toString()
             }
             etNoteDescription.initInput(noteDescription) {
@@ -54,13 +59,18 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
 
                 )
                 initInput(noteCategory) {
-                    tilNoteCategory.error = null
+                    tvNoteCategoryRequired.apply {
+                        if (!it.toString().isNullOrBlank()) changeRequiredTextColor(true)
+                        isVisible = it.toString().isNullOrBlank()
+                    }
                     noteCategory = it.toString()
                 }
                 setOnItemClickListener { _, _, _, _ ->
-                    onCategoryChangeCallback.invoke(formatCategory(noteCategory))
+                    if (!noteCategory.isNullOrBlank())
+                        onCategoryChangeCallback.invoke(formatCategory(noteCategory))
                 }
             }
+
             //call phone number
             lnCallNumbers.apply {
                 removeAllViews()
@@ -100,7 +110,6 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
                     }
                 }
             }
-            isMainDataValid()
         }
     }
 
@@ -158,8 +167,11 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
     }
 
     private fun formatCategory(category: String): String {
-        if (category == "Работа, Вакансии") return "work"
-        else return ""
+        return when (category) {
+            "Работа, Вакансии" -> "work"
+            "Квартиры, Гостиницы" -> "house"
+            else -> ""
+        }
     }
 
 
@@ -167,15 +179,11 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
         var valid = true
         if (noteName.isNullOrBlank()) {
             valid = false
-            mBinding.apply {
-                tilNoteName.error = root.context.getString(R.string.require_enter)
-            }
+            mBinding.tvNoteNameRequired.changeRequiredTextColor(false)
         }
         if (noteCategory.isNullOrBlank()) {
             valid = false
-            mBinding.apply {
-                tilNoteCategory.error = root.context.getString(R.string.require_enter)
-            }
+            mBinding.tvNoteCategoryRequired.changeRequiredTextColor(false)
 
         }
         return valid
@@ -206,6 +214,10 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
         return callPhonesList.filter { x -> !x.value.isNullOrBlank() }.map { x -> x.value }
     }
 
+    private fun TextView.changeRequiredTextColor(isCorrect: Boolean) {
+        if (!isCorrect) setTextColor(context.getColor(R.color.error_text_color))
+        else setTextColor(context.getColor(R.color.app_main_color))
+    }
 
     override fun getLayout(): Int = R.layout.item_main_data
 }

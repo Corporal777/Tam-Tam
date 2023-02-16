@@ -47,17 +47,13 @@ class PasswordView : FrameLayout {
         mBinding.apply {
             etPassword.doAfterTextChanged {
                 firstPasswordIsValid = validatePassword(mBinding.tvPasswordError, it.toString())
+                validatePasswordsSame()
+                onPasswordValid.invoke(PasswordData(matchPasswords(), it.toString()))
             }
             etAgainPassword.doAfterTextChanged {
-                againPasswordIsValid =
-                    validatePassword(mBinding.tvAgainPasswordError, it.toString())
+                againPasswordIsValid = validatePassword(mBinding.tvAgainPasswordError, it.toString())
                 validatePasswordsSame()
-                onPasswordValid.invoke(
-                    PasswordData(
-                        matchPasswords(),
-                        it.toString()
-                    )
-                )
+                onPasswordValid.invoke(PasswordData(matchPasswords(), it.toString()))
             }
         }
     }
@@ -81,7 +77,9 @@ class PasswordView : FrameLayout {
     }
 
     private fun validatePasswordsSame() {
-        if (firstPasswordIsValid && againPasswordIsValid) {
+        if (!firstPasswordIsValid || !againPasswordIsValid) {
+            mBinding.tvPasswordsNotSameError.isVisible = false
+        } else {
             mBinding.tvPasswordsNotSameError.isVisible =
                 mBinding.etPassword.text.toString() != mBinding.etAgainPassword.text.toString()
         }
@@ -122,12 +120,16 @@ class PasswordView : FrameLayout {
 
 
     fun setPasswordsNotCorrect(visible: Boolean) {
-       mBinding.tvPasswordsNotCorrectError.isVisible = visible
+        mBinding.tvPasswordsNotCorrectError.isVisible = visible
     }
 
     fun setPasswordChanged(block: (password: PasswordData) -> Unit): PasswordView {
         onPasswordValid = block
         return this
+    }
+
+    fun requestInputFocus(){
+        mBinding.etPassword.requestFocus()
     }
 
     companion object {

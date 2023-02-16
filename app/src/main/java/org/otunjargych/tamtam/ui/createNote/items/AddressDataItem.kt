@@ -2,6 +2,8 @@ package org.otunjargych.tamtam.ui.createNote.items
 
 import android.app.Activity
 import android.util.Log
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import com.xwray.groupie.databinding.BindableItem
 import org.otunjargych.tamtam.R
@@ -13,7 +15,7 @@ import org.otunjargych.tamtam.util.initInputClick
 
 class AddressDataItem(
     private val context: FragmentActivity,
-    private val city: String?
+    city: String?
 ) : BindableItem<ItemAddressDataBinding>() {
 
     private var selectedCity = city ?: ""
@@ -26,9 +28,16 @@ class AddressDataItem(
         mBinding = viewBinding
         viewBinding.apply {
             etCity.apply {
-                setTextWithoutSearch(city)
+                tvCityRequired.isVisible = selectedCity.isNullOrBlank()
+                setTextWithoutSearch(selectedCity)
+                onDataChangedListener = {
+                    tvCityRequired.apply {
+                        if (!it.isNullOrBlank()) changeRequiredTextColor(true)
+                        isVisible = it.isNullOrBlank()
+                    }
+                    selectedCity = it
+                }
                 onDataSelectedListener = {
-                    tilCity.error = null
                     selectedCity = it
                 }
             }
@@ -38,7 +47,6 @@ class AddressDataItem(
             etStation.initInputClick(selectedStations.getStationsFromList()) {
                 showMetroStations(selectedCity, selectedStations)
             }
-            isAddressDataValid()
         }
     }
 
@@ -47,7 +55,7 @@ class AddressDataItem(
         var valid = true
         if (selectedCity.isNullOrBlank()) {
             valid = false
-            mBinding.tilCity.error = mBinding.root.context.getString(R.string.require_enter)
+            mBinding.tvCityRequired.changeRequiredTextColor(false)
         }
         return valid
     }
@@ -78,6 +86,11 @@ class AddressDataItem(
     private fun List<String>.getStationsFromList(): String? {
         return if (selectedStations.isNullOrEmpty()) null
         else selectedStations.joinToString(", ") { s -> s }
+    }
+
+    private fun TextView.changeRequiredTextColor(isCorrect: Boolean) {
+        if (!isCorrect) setTextColor(context.getColor(R.color.error_text_color))
+        else setTextColor(context.getColor(R.color.app_main_color))
     }
 
     override fun getLayout(): Int = R.layout.item_address_data

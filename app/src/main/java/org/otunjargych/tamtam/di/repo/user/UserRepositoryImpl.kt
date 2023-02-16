@@ -13,7 +13,8 @@ import org.otunjargych.tamtam.util.toBodyPart
 class UserRepositoryImpl(val appData: AppData, val apiService: ApiService) : UserRepository {
 
     override fun getCurrentUser(): Maybe<UserNew> {
-        return if (appData.userId == null || appData.userId == -1) Maybe.empty()
+        return if (appData.userId == null || appData.userId == -1)
+            Maybe.error(NullPointerException("User is not authorized!"))
         else apiService.getUserById(appData.getUserId())
             .doOnSuccess { appData.initUser(it) }
     }

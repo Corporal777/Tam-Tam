@@ -57,14 +57,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="5dp"
                 app:errorIconDrawable="@null"
                 app:layout_constraintTop_toBottomOf="@id/tv_last_name_title">
 
                 <org.otunjargych.tamtam.ui.views.CustomInputEditText
                     android:id="@+id/et_last_name"
                     style="@style/CustomTextInputEditText"
-
-                    android:inputType="textCapSentences"
+                    android:inputType="textCapSentences|textNoSuggestions"
                     app:customHint="@string/enter_last_name" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -73,7 +73,7 @@
                 android:id="@+id/tv_first_name_title"
                 style="@style/InputTextTitleStyle"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:text="@string/first_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,14 +85,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="5dp"
                 app:errorIconDrawable="@null"
                 app:layout_constraintTop_toBottomOf="@id/tv_first_name_title">
 
                 <org.otunjargych.tamtam.ui.views.CustomInputEditText
                     android:id="@+id/et_first_name"
                     style="@style/CustomTextInputEditText"
-
-                    android:inputType="textCapSentences"
+                    android:inputType="textCapSentences|textNoSuggestions"
                     app:customHint="@string/enter_first_name" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:text="@string/register_login_title"
                 app:layout_constraintTop_toBottomOf="@id/til_first_name" />
 
@@ -114,14 +114,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="5dp"
                 app:errorIconDrawable="@null"
                 app:layout_constraintTop_toBottomOf="@id/tv_email_title">
 
                 <org.otunjargych.tamtam.ui.views.CustomInputEditText
                     android:id="@+id/et_email"
                     style="@style/CustomTextInputEditText"
-
-                    android:inputType="textEmailAddress"
+                    android:inputType="textEmailAddress|textNoSuggestions"
                     app:customHint="@string/phone_number_or_email" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -133,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:text="@string/password"
                 app:layout_constraintTop_toBottomOf="@id/til_email" />
 
@@ -141,6 +141,8 @@
                 android:id="@+id/password_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_password_info" />
 
             <androidx.appcompat.widget.AppCompatButton

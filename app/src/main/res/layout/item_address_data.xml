@@ -34,6 +34,16 @@
                 android:inputType="textCapSentences"
                 app:customHint="@string/enter_city" />
 
+            <TextView
+                android:id="@+id/tv_city_required"
+                android:textColor="@color/app_main_color"
+                style="@style/CreateNoteFieldsTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="12sp"
+                android:text="@string/require_city_title" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -59,7 +69,7 @@
             <org.otunjargych.tamtam.ui.views.CustomInputEditText
                 android:id="@+id/et_region"
                 style="@style/CustomTextInputEditText"
-                android:inputType="textCapSentences"
+                android:inputType="textCapSentences|textNoSuggestions"
                 app:customHint="@string/enter_region" />
 
         </com.google.android.material.textfield.TextInputLayout>

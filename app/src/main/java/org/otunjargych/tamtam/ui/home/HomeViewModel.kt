@@ -34,7 +34,7 @@ class HomeViewModel(
     private fun getNotesList() {
         _notesList.postValue(List(6) { null })
         compositeDisposable += notesRepository.getNotesList()
-            .withDelay(3000)
+            .withDelay(1000)
             .performOnBackgroundOutOnMain()
             .subscribeSimple(
                 onError = {

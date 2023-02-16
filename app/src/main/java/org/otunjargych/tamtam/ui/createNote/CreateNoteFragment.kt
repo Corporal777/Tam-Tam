@@ -1,6 +1,7 @@
 package org.otunjargych.tamtam.ui.createNote
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
@@ -15,8 +16,7 @@ import org.otunjargych.tamtam.ui.createNote.items.*
 import org.otunjargych.tamtam.ui.holders.MainButtonItem
 import org.otunjargych.tamtam.ui.interfaces.ToolbarFragment
 import org.otunjargych.tamtam.ui.views.dialogs.NoteCreatedBottomSheetDialog
-import org.otunjargych.tamtam.util.findGroupBy
-import org.otunjargych.tamtam.util.findItemBy
+import org.otunjargych.tamtam.util.*
 import kotlin.reflect.KClass
 
 class CreateNoteFragment : BaseFragment<CreateNoteViewModel, FragmentCreateNoteBinding>(),
@@ -78,16 +78,19 @@ class CreateNoteFragment : BaseFragment<CreateNoteViewModel, FragmentCreateNoteB
 
     private fun initSections() {
         mainDataSection.apply {
-            update(listOf(MainDataGroup(requireContext())))
+            updateGroup(MainDataGroup(requireContext()))
         }
         addressDataSection.apply {
-            update(listOf(AddressDataItem(requireActivity(), viewModel.getCurrentTown())))
+            updateItem(AddressDataItem(requireActivity(), viewModel.getCurrentTown()))
         }
 
         imagesSection.apply {
-            update(listOf(ImagesListItem(null) {
-                viewModel.showGallery()
-            }))
+            updateItem(
+                ImagesListItem(null,
+                    { viewModel.showGallery() },
+                    { viewModel.removeSelectedImage(it) }
+                )
+            )
         }
 
 
@@ -96,9 +99,10 @@ class CreateNoteFragment : BaseFragment<CreateNoteViewModel, FragmentCreateNoteB
     private fun createNote() {
         val mainDataItem = mainDataSection.findGroupBy<MainDataGroup> { true }
         val addressDataItem = addressDataSection.findItemBy<AddressDataItem> { true }
+
         if (mainDataItem != null && addressDataItem != null) {
             if (mainDataItem.isMainDataValid() && addressDataItem.isAddressDataValid()) {
-                if (mainDataItem.isAdditionalDataValid()){
+                if (mainDataItem.isAdditionalDataValid()) {
                     viewModel.createNote(
                         mainDataItem.getMainData(),
                         addressDataItem.getAddressData(),

@@ -1,23 +1,17 @@
 package org.otunjargych.tamtam.util.rxtakephoto
 
-import android.Manifest
-import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.exifinterface.media.ExifInterface
-import androidx.fragment.app.FragmentActivity
-import org.otunjargych.tamtam.util.rxtakephoto.CropActivity.Companion.CROP_MODE_DEFAULT
-import org.otunjargych.tamtam.util.rxtakephoto.rx_image_picker.core.RxImagePicker
-import org.otunjargych.tamtam.util.rxtakephoto.rx_image_picker.entity.Result
 import com.isseiaoki.simplecropview.CropImageView
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.subjects.SingleSubject
 import org.otunjargych.tamtam.ui.main.MainActivity
 import org.otunjargych.tamtam.util.extensions.RESULT_NAME
 import org.otunjargych.tamtam.util.extensions.imagepicker.ui.ImagePickerView
-import org.otunjargych.tamtam.util.extensions.openImagePicker
+import org.otunjargych.tamtam.util.rxtakephoto.CropActivity.Companion.CROP_MODE_DEFAULT
+import org.otunjargych.tamtam.util.rxtakephoto.rx_image_picker.core.RxImagePicker
+import org.otunjargych.tamtam.util.rxtakephoto.rx_image_picker.entity.Result
 import java.io.IOException
 
 
