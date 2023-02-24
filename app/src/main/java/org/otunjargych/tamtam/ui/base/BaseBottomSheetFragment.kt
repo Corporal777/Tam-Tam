@@ -1,11 +1,13 @@
 package org.otunjargych.tamtam.ui.base
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -91,6 +93,13 @@ abstract class BaseBottomSheetFragment<V : BaseViewModel, Binding : ViewDataBind
 
     fun showSnackBar(message: String, icon: Int) {
         (requireActivity() as MainActivity).showSnackBar(message, icon)
+    }
+
+    fun hideKeyboard(view: View) {
+        view.clearFocus()
+        val inn: InputMethodManager? =
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+        inn?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun setupFullHeight(bottomSheetDialog: BottomSheetDialog) {

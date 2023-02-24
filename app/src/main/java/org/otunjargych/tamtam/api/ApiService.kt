@@ -15,14 +15,17 @@ import retrofit2.http.*
 interface ApiService {
 
     // auth routes
+    @GET("v1/get-token/{deviceId}")
+    fun getToken(@Path("deviceId") deviceId: String) : Maybe<TokenModel>
+
     @POST("v1/logout/{id}")
     fun logout(@Path("id") id: String): Completable
 
     @POST("v1/login")
-    fun login(@Body body: LoginRequestBody): Maybe<LoginResponse>
+    fun login(@Body body: LoginRequestBody): Maybe<UserNew>
 
     @POST("v1/register")
-    fun register(@Body body: Map<String, String>): Maybe<LoginResponse>
+    fun register(@Body body: Map<String, String>): Maybe<UserNew>
 
     @GET("v1/check-password/{id}")
     fun checkUserPassword(
@@ -44,6 +47,15 @@ interface ApiService {
         @Path("id") id: String,
         @Body map: Map<String, String>
     ): Completable
+
+    @POST("v1/save-fcm-token")
+    fun sendFcmToken(@Body body: Map<String, String>): Completable
+
+    @POST("v1/send-verify-code")
+    fun sendVerifyCode(@Body body: RegisterLoginModel): Completable
+
+    @POST("v1/check-verify-code")
+    fun checkVerifyCode(@Body body: VerifyLoginModel): Completable
 
 
     // user routes
@@ -77,10 +89,17 @@ interface ApiService {
     @GET("v1/metro-stations")
     fun getMetroStations(@Query("city") city: String): Maybe<List<MetroStationsModel>>
 
+    //specialities route
+    @GET("v1/specialities-list")
+    fun getSpecialities(@Query("speciality") speciality: String): Maybe<List<SpecialityModel>>
+
 
     //note routes
     @GET("v1/notes")
     fun getNotes(): Maybe<List<NoteModel>>
+
+    @GET("v1/notes-list")
+    fun getNotesByParams(@QueryMap map: Map<String, String>): Maybe<List<NoteModel>>
 
     @POST("v1/create-note/{id}")
     fun createNote(
@@ -100,6 +119,23 @@ interface ApiService {
         @Body image: RequestBody
     ): Maybe<NoteModel>
 
+    @POST("v1/create-note-draft/{id}")
+    fun createNoteDraft(
+        @Path("id") id: String,
+        @Body body: NoteDraftModel
+    ): Maybe<NoteDraftResponseModel>
+
+    @GET("v1/get-note-draft/{id}")
+    fun getNoteDraft(@Path("id") id: String): Maybe<NoteDraftResponseModel>
+
+    @PATCH("v1/add-note-favorite")
+    fun addNoteToFavorite(@Body body: NoteLikeBody) : Maybe<NoteModel>
+
+    @PATCH("v1/delete-note-favorite")
+    fun removeNoteFromFavorite(@Body body: NoteLikeBody) : Maybe<NoteModel>
+
+    @GET("v1/note-detail/{id}")
+    fun getNoteDetail(@Path("id") id: String): Maybe<NoteDetailModel>
 
     // story routes
     @GET("v1/stories")

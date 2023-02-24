@@ -2,8 +2,12 @@ package org.otunjargych.tamtam.ui.auth.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Completable
+import io.reactivex.Maybe
+import io.reactivex.rxkotlin.Maybes
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.CompletableDeferred
 import org.otunjargych.tamtam.di.data.AppData
 import org.otunjargych.tamtam.di.repo.auth.AuthRepository
 import org.otunjargych.tamtam.di.repo.user.UserRepository
@@ -46,10 +50,6 @@ class LoginViewModel(
     fun login() {
         if (isDataValid()) {
             compositeDisposable += authRepository.login(LoginRequestBody(login, password))
-                .withDelay(1000)
-                .doOnSuccess { appData.logIn(it.token, it.id.toInt()) }
-                .flatMap { userRepository.getUserById(appData.getUserId()) }
-                .doOnSuccess { appData.initUser(it) }
                 .performOnBackgroundOutOnMain()
                 .withLoadingDialog(progressData)
                 .subscribeBy(

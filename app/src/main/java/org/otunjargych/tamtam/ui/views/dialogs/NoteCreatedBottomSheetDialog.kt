@@ -13,6 +13,7 @@ class NoteCreatedBottomSheetDialog(val context: Context) {
     private var mDialog = BottomSheetDialog(context)
 
     init {
+
         mDialog.setContentView(mBinding.root)
         mDialog.setCancelable(false)
 

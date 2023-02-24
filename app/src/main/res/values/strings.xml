@@ -24,6 +24,7 @@
     <string name="sell">Покупка</string>
     <string name="choose_category">Выберите категорию:</string>
     <string name="actual_notes">Недавние объявления</string>
+    <string name="favorite_notes_tite">Объявления в избранном</string>
     <string name="title">Заголовок:</string>
     <string name="salary">Оплата:</string>
     <string name="text_of_work">Описание:</string>
@@ -54,8 +55,23 @@
     <string name="work_experience">Опыт работы</string>
     <string name="enter_work_experience">Введите опыт работы</string>
 
+    <string name="work_speciality">Специальность</string>
+    <string name="enter_work_speciality">Введите специальность</string>
+
     <string name="work_salary">Заработная плата</string>
     <string name="enter_work_salary">Введите сумму</string>
+
+    <string name="house_type">Тип объекта</string>
+    <string name="enter_house_type">Выберите тип объекта</string>
+
+    <string name="house_price">Цена</string>
+    <string name="enter_house_price">Введите цену</string>
+
+    <string name="house_rooms">Количество комнат</string>
+    <string name="enter_house_rooms">Введите количество</string>
+
+    <string name="house_term">На какой период</string>
+    <string name="enter_house_term">Введите период</string>
 
 
     <string name="personal_data">Персональные данные</string>
@@ -121,6 +137,8 @@
     <string name="profile">Профиль</string>
     <string name="city">Выбор города</string>
     <string name="new_note">Объявление</string>
+    <string name="my_notes">Мои объявления</string>
+    <string name="favorite_notes">Избранное</string>
 
     <string name="test_text_long">Магазинге уaevaevaevaevaevavaervw vwrvwvwvw vwevwevwevwrvwwv wrvwvwvwevwevwevw vwevwevwevwvwevwevw vwevwevwevwevwevwevwvwv vwevwevwevwvwvavaevaevaevaevaevavavaevaevaevaevaevaevaevaevaevaevaevaecvaevaevaevaevбоvaevaevaevaevaevaevaevaedaecaavavavaevavavaркаccqcqeveveveqqevevaevaevaevaга упаковкага грузчике балдар кыздар керек мед книжка менен"</string>
     <string name="test_text_short">Магазинге уaevaevaevaeva"</string>
@@ -165,6 +183,7 @@
     <string name="password_has_not_minimum_big_letter">-минимум один заглавный символ</string>
     <string name="password_has_not_minimum_length">-не менее 6 символов</string>
     <string name="password_incorrect">Введите корректный пароль</string>
+    <string name="code_incorrect">Введите корректный код</string>
     <string name="auth_register_title">Чтобы зарегистрироваться\nзаполните все поля ввода</string>
     <string name="auth_password_title">Пароль должен содержать латинские буквы, минимум одну цифру, минимум одну заглавную букву и не менее 6 символов.</string>
     <string name="register_login_title">Логин</string>
@@ -179,12 +198,13 @@
     <string name="cancel">Отменить</string>
     <string name="active_notes">Активных объявлений:</string>
     <string name="moderation_notes">Объявлений на модерации:</string>
-    <string name="current_town">Выбранный город:</string>
+    <string name="current_town">Текущий город:</string>
 
     <string name="is_your_city_is">Ваш город %s?</string>
     <string name="city_info_title">Объявления будут отображаться по выбранному городу. Изменить выбранный город можно в профиле.</string>
     <string name="error_location_not_determinet">Не удалось определить местоположение</string>
     <string name="not_chosen">Не указано</string>
+    <string name="no_description">Нет описания</string>
     <string name="open_gallery">Открыть галлерею</string>
     <string name="open_camera">Открыть камеру</string>
     <string name="station_name">Название станции</string>
@@ -225,6 +245,34 @@
         <item>Декабрь</item>
     </string-array>
 
+    <plurals name="seconds_timer">
+        <item quantity="zero">%d секунд</item>
+        <item quantity="one">%d секунду</item>
+        <item quantity="two">%d секунды</item>
+        <item quantity="few">%d секунды</item>
+        <item quantity="many">%d секунд</item>
+        <item quantity="other">%d секунд</item>
+    </plurals>
+    <plurals name="minutes_timer">
+        <item quantity="zero">%d минут</item>
+        <item quantity="one">%d минуту</item>
+        <item quantity="two">%d минуты</item>
+        <item quantity="few">%d минуты</item>
+        <item quantity="many">%d минуты</item>
+        <item quantity="other">%d минуты</item>
+    </plurals>
+
     <string name="com_vk_sdk_AppId">org.otunjargych.tamtam</string>
+    <string name="confirm_login">Подтверждение %s</string>
+    <string name="confirmation_code">Код подтверждения</string>
+    <string name="enter_code">Введите код</string>
+
+
+    <string name="email_confirmation_info">На вашу почту %s отправлено письмо с кодом из 6 цифр. Введите его для подтверждения.\n Если не нашли письмо во входящих, то возможно письмо попало в спамы.</string>
+    <string name="phone_confirmation_info">На ваш номер %s отправлено SMS с кодом из 6 цифр. Введите его для подтверждения.</string>
+    <string name="send_again">Отправить повторно</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="again_send_possible_after_text">Повторная отправка возможна через %s</string>
+
 
 </resources>

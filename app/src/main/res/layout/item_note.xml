@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
@@ -26,6 +27,43 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/dev1" />
+
+            <org.otunjargych.tamtam.ui.views.ActionLikeView
+                android:id="@+id/like_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="30dp"-->
+<!--                android:id="@+id/cl_like"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:background="@drawable/circle_alpha_background"-->
+<!--                android:foreground="@drawable/custom_btn_toolbar_selectable"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent">-->
+
+
+<!--                <androidx.appcompat.widget.AppCompatImageView-->
+<!--                    android:layout_width="23dp"-->
+<!--                    android:layout_height="23dp"-->
+<!--                    android:paddingTop="2dp"-->
+<!--                    android:tint="@color/app_main_color"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:srcCompat="@drawable/ic_like_empty" />-->
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_category"

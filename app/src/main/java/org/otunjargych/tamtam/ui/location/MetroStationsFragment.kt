@@ -37,6 +37,7 @@ class MetroStationsFragment(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.loadMetroStations(city, selectedStations)
+        isCancelable = false
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,6 +52,9 @@ class MetroStationsFragment(
             }
             btnAccept.setOnClickListener {
                 onSelectedStations.invoke(viewModel.getSelectedStations())
+            }
+            ivClose.setOnClickListener {
+                dismiss()
             }
         }
         observeStations()

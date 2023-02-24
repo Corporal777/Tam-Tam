@@ -5,6 +5,7 @@ import android.text.InputFilter
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.allViews
@@ -19,24 +20,46 @@ import org.otunjargych.tamtam.databinding.LayoutPhoneFieldBinding
 import org.otunjargych.tamtam.model.request.NoteContactsModel
 import org.otunjargych.tamtam.ui.views.adapters.NoFilterArrayAdapter
 import org.otunjargych.tamtam.util.extensions.getCategoriesList
+import org.otunjargych.tamtam.util.extensions.getWorkSubCategoriesList
+import org.otunjargych.tamtam.util.extensions.setAdapterData
 import org.otunjargych.tamtam.util.initInput
 import org.otunjargych.tamtam.util.setUserImage
 
-class MainDataItem() : BindableItem<ItemMainDataBinding>() {
+class MainDataItem(
+    val name: String?,
+    val description: String?,
+    val category: String?,
+    val phones: List<String>?,
+    val whatsapp: List<String>?
+) : BindableItem<ItemMainDataBinding>() {
 
     var onCategoryChangeCallback: (category: String) -> Unit = {}
 
-    private var noteName = ""
-    private var noteDescription = ""
-    private var noteCategory = ""
-    private val callPhonesList = arrayListOf(PhoneData(""))
-    private val whatsAppPhonesList = arrayListOf(PhoneData(""))
+    private var noteName = name ?: ""
+    private var noteDescription = description ?: ""
+    private var noteCategory = reformatCategory(category)
+
+    private val callPhonesList = arrayListOf(PhoneData("")).apply {
+        if (!phones.isNullOrEmpty()) {
+            clear()
+            phones.map { x -> add(PhoneData(x)) }
+        }
+    }
+    private val whatsAppPhonesList = arrayListOf(PhoneData("")).apply {
+        if (!whatsapp.isNullOrEmpty()) {
+            clear()
+            whatsapp.map { x -> add(PhoneData(x)) }
+        }
+    }
 
 
     private lateinit var mBinding: ItemMainDataBinding
     override fun bind(viewBinding: ItemMainDataBinding, position: Int) {
         mBinding = viewBinding
         viewBinding.apply {
+            tvNoteNameRequired.isVisible = noteName.isNullOrBlank()
+            tvNoteCategoryRequired.isVisible = noteCategory.isNullOrBlank()
+
             etNoteName.initInput(noteName) {
                 tvNoteNameRequired.apply {
                     if (!it.toString().isNullOrBlank()) changeRequiredTextColor(true)
@@ -48,16 +71,7 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
                 noteDescription = it.toString()
             }
             etNoteCategory.apply {
-                keyListener = null
-                setAdapter(
-                    NoFilterArrayAdapter(
-                        context,
-                        R.layout.layout_town,
-                        android.R.id.text1,
-                        getCategoriesList().toMutableList()
-                    )
-
-                )
+                setAdapterData(getCategoriesList().toMutableList())
                 initInput(noteCategory) {
                     tvNoteCategoryRequired.apply {
                         if (!it.toString().isNullOrBlank()) changeRequiredTextColor(true)
@@ -174,6 +188,14 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
         }
     }
 
+    private fun reformatCategory(category: String?): String {
+        return when (category) {
+            "work" -> "Работа, Вакансии"
+            "house" -> "Квартиры, Гостиницы"
+            else -> ""
+        }
+    }
+
 
     fun isMainDataValid(): Boolean {
         var valid = true
@@ -187,6 +209,20 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
 
         }
         return valid
+    }
+
+    fun isFieldsIsEmpty(): Boolean {
+        var isEmpty = true
+        if (!noteName.isNullOrBlank()) {
+            isEmpty = false
+        }
+        if (!noteCategory.isNullOrBlank()) {
+            isEmpty = false
+        }
+        if (!noteDescription.isNullOrBlank()){
+            isEmpty = false
+        }
+        return isEmpty
     }
 
     fun getMainData(): MutableMap<String, String> {
@@ -218,6 +254,8 @@ class MainDataItem() : BindableItem<ItemMainDataBinding>() {
         if (!isCorrect) setTextColor(context.getColor(R.color.error_text_color))
         else setTextColor(context.getColor(R.color.app_main_color))
     }
+
+
 
     override fun getLayout(): Int = R.layout.item_main_data
 }

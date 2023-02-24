@@ -1,5 +1,6 @@
 package org.otunjargych.tamtam.ui.views;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextPaint;
@@ -12,6 +13,11 @@ public class CustomTypefaceSpan extends TypefaceSpan {
     public CustomTypefaceSpan(String family, Typeface type) {
         super(family);
         newType = type;
+    }
+
+    public CustomTypefaceSpan(Context context, String path){
+        super("");
+        newType = Typeface.createFromAsset(context.getAssets(), path);
     }
 
     @Override

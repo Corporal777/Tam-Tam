@@ -16,7 +16,7 @@ class UserRepositoryImpl(val appData: AppData, val apiService: ApiService) : Use
         return if (appData.userId == null || appData.userId == -1)
             Maybe.error(NullPointerException("User is not authorized!"))
         else apiService.getUserById(appData.getUserId())
-            .doOnSuccess { appData.initUser(it) }
+            .doOnSuccess { appData.updateUser(it) }
     }
 
     override fun getUserById(id: String): Maybe<UserNew> = apiService.getUserById(id)

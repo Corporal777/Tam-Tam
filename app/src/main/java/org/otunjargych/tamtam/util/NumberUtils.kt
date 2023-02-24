@@ -1,6 +1,9 @@
 package org.otunjargych.tamtam.util
 
+import android.content.Context
 import android.content.res.Resources
+import org.otunjargych.tamtam.R
+import kotlin.math.ceil
 
 val Float.dp: Float
     get() = (this * Resources.getSystem().displayMetrics.density + 0.5f)
@@ -46,3 +49,22 @@ fun isContainLetters(text: String?): Boolean {
     val regex = Regex(pattern = "[A-Za-z]+")
     return regex.containsMatchIn(text)
 }
+
+fun validatePhoneBeforeSend(phone: String): String {
+    if (phone == "") return ""
+    val phoneResult = if (!phone.contains("+")) "+$phone" else phone
+    val sb = StringBuilder(phoneResult)
+    if (phone.substring(0, 1) == "8")
+        sb.setCharAt(1, '7')
+    return sb.toString()
+}
+
+fun timerFormatter(time: Int, context: Context): String =
+    if (time > 119) {
+        val seconds = time - 60
+        val minute = ceil((time - seconds).toDouble() / 60).toInt()
+        context.resources.getQuantityString(R.plurals.minutes_timer, minute, minute)
+    } else if (time > 59) {
+        val minute = ceil(time.toDouble() / 60).toInt()
+        context.resources.getQuantityString(R.plurals.minutes_timer, minute, minute)
+    } else context.resources.getQuantityString(R.plurals.seconds_timer, time, time)

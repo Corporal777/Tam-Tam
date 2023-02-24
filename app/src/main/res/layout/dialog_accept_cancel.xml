@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/noto_sans_semibold"
+        android:fontFamily="@font/noto_sans_bold"
         android:includeFontPadding="false"
         tools:text="Испрользовать данные Google аккаунта?"
         android:textColor="@color/app_main_color"

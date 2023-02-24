@@ -41,7 +41,7 @@ class CitiesAutoCompleteTextView : AppCompatAutoCompleteTextView {
     }
 
     init {
-        setPadding(32, 0, 20, 0)
+        setPadding(35, 0, 20, 0)
         setAdapter(adapter)
         addTextChangedListener(simpleTextWatcher)
     }

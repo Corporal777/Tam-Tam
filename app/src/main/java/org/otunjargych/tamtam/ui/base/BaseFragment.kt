@@ -1,9 +1,11 @@
 package org.otunjargych.tamtam.ui.base
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -59,12 +61,21 @@ abstract class BaseFragment<V : BaseViewModel, Binding : ViewDataBinding>(privat
         }
     }
 
+    fun getMainAppBar() = (requireActivity() as MainActivity).getMainAppBar()
+
     fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        (requireActivity() as MainActivity).showToast(message)
     }
 
     fun showSnackBar(message: String, icon: Int) {
         (requireActivity() as MainActivity).showSnackBar(message, icon)
+    }
+
+    fun hideKeyboard(view: View) {
+        view.clearFocus()
+        val inn: InputMethodManager? =
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+        inn?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun showEnterAnimation() {

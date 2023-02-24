@@ -14,7 +14,7 @@ class ImagesListItem(
     val list: List<Bitmap>?,
     val onShowGalleryClick: () -> Unit,
     val onRemoveImageClick: (bitmap: Bitmap) -> Unit
-) : GridListItem<GroupieViewHolder>() {
+) : GridListItem<GroupieViewHolder>(-500L) {
 
     private val addImageItem = GalleryImageItem(null,
         { onShowGalleryClick.invoke() }, { }

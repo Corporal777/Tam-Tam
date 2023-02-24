@@ -11,6 +11,9 @@ import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.otunjargych.tamtam.model.request.ErrorResponse
+import org.otunjargych.tamtam.model.request.NoteModel
+import org.otunjargych.tamtam.util.toSingleEvent
 import retrofit2.HttpException
 
 open class BaseViewModel : ViewModel() {
@@ -20,7 +23,15 @@ open class BaseViewModel : ViewModel() {
     val compositeDisposable = CompositeDisposable()
 
 
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage get() = _errorMessage.toSingleEvent()
 
+    fun HttpException.getErrorResponse(): ErrorResponse? {
+        return Gson().fromJson(
+            this.response()?.errorBody()?.string(),
+            ErrorResponse::class.java
+        )
+    }
 
     override fun onCleared() {
         super.onCleared()
@@ -79,9 +90,12 @@ open class BaseViewModel : ViewModel() {
         )
     }
 
-    private fun createOnErrorConsumer(onError: ((Throwable) -> Unit)?, ): Consumer<Throwable> {
+    private fun createOnErrorConsumer(onError: ((Throwable) -> Unit)?): Consumer<Throwable> {
         return Consumer {
             if (onError != null) onError(it)
+            if (it is NullPointerException && it.message == "User is not authorized!") {
+                _errorMessage.postValue("Необходимо войти в аккаунт")
+            }
         }
     }
 

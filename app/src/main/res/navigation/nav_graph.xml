@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/home_fragment">
+    app:startDestination="@id/splash_fragment">
 
     <fragment
         android:id="@+id/login_fragment"
@@ -46,6 +46,21 @@
             android:id="@+id/register_to_home"
             app:destination="@+id/home_fragment"
             app:popUpTo="@id/nav_graph" />
+
+        <action
+            android:id="@+id/register_to_profile"
+            app:destination="@+id/profile_fragment"
+            app:popUpTo="@id/nav_graph" />
+
+        <argument
+            android:name="fromNote"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <argument
+            android:name="fromProfile"
+            android:defaultValue="false"
+            app:argType="boolean" />
 
     </fragment>
 
@@ -92,6 +107,37 @@
             android:name="story"
             app:argType="org.otunjargych.tamtam.model.request.StoriesModel"
             app:nullable="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/splash_fragment"
+        android:name="org.otunjargych.tamtam.ui.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash" />
+
+    <fragment
+        android:id="@+id/my_notes_fragment"
+        android:name="org.otunjargych.tamtam.ui.my.MyNotesFragment"
+        android:label="MyNotesFragment"
+        tools:layout="@layout/fragment_my_notes" />
+
+    <fragment
+        android:id="@+id/favorite_notes_fragment"
+        android:name="org.otunjargych.tamtam.ui.favoriteNotes.FavoriteNotesFragment"
+        android:label="FavoriteNotesFragment"
+        tools:layout="@layout/fragment_favorite_notes" />
+
+    <fragment
+        android:id="@+id/note_detail_fragment"
+        android:name="org.otunjargych.tamtam.ui.detailNote.NoteDetailFragment"
+        android:label="NoteDetailFragment"
+        tools:layout="@layout/fragment_note_detail">
+
+        <argument
+            android:name="noteId"
+            app:argType="string"
+            app:nullable="false" />
+
     </fragment>
 
 </navigation>

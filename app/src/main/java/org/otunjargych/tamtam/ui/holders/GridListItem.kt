@@ -5,7 +5,7 @@ import com.xwray.groupie.databinding.BindableItem
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ItemGridListBinding
 
-open class GridListItem<VH : RecyclerView.ViewHolder> : BindableItem<ItemGridListBinding>() {
+open class GridListItem<VH : RecyclerView.ViewHolder>(id : Long) : BindableItem<ItemGridListBinding>(id) {
 
     var adapter: RecyclerView.Adapter<VH>? = null
 

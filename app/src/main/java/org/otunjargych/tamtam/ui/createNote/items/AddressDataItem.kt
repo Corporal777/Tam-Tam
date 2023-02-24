@@ -15,12 +15,16 @@ import org.otunjargych.tamtam.util.initInputClick
 
 class AddressDataItem(
     private val context: FragmentActivity,
-    city: String?
+    city: String?,
+    region: String?,
+    stations: List<String>?
 ) : BindableItem<ItemAddressDataBinding>() {
 
     private var selectedCity = city ?: ""
-    private var selectedRegion = ""
-    private var selectedStations = arrayListOf<String>()
+    private var selectedRegion = region ?: ""
+    private var selectedStations = arrayListOf<String>().apply {
+        if (!stations.isNullOrEmpty()) addAll(stations)
+    }
 
     private lateinit var mBinding: ItemAddressDataBinding
 
@@ -44,7 +48,7 @@ class AddressDataItem(
             etRegion.initInput(selectedRegion) {
                 selectedRegion = it.toString()
             }
-            etStation.initInputClick(selectedStations.getStationsFromList()) {
+            etStation.initInputClick(getStationsFromList()) {
                 showMetroStations(selectedCity, selectedStations)
             }
         }
@@ -79,11 +83,11 @@ class AddressDataItem(
             selectedStations.clear()
             selectedStations.addAll(it)
             stationsFragment.dismiss()
-            mBinding.etStation.setText(selectedStations.getStationsFromList())
+            mBinding.etStation.setText(getStationsFromList())
         }
     }
 
-    private fun List<String>.getStationsFromList(): String? {
+    private fun getStationsFromList(): String? {
         return if (selectedStations.isNullOrEmpty()) null
         else selectedStations.joinToString(", ") { s -> s }
     }

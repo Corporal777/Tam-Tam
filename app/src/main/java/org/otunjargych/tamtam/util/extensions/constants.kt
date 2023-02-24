@@ -48,3 +48,8 @@ const val PAGE_SIZE = 5
 
 
 const val IMAGE_MAX_SIZE_AVATAR = 1024
+
+const val FILTER_FAVORITE = "favorite"
+const val FILTER_USER = "userId"
+const val FILTER_STATUS = "status"
+const val FILTER_SUBCATEGORY = "subCategory"

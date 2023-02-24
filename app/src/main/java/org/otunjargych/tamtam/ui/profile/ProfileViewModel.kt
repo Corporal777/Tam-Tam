@@ -31,20 +31,27 @@ class ProfileViewModel(
     val successLoggedOut: LiveData<Boolean> get() = _successLoggedOut
 
     init {
-        loadUser()
+        getCurrentUser()
     }
 
-    private fun loadUser() {
+    private fun getCurrentUser() {
         compositeDisposable += userRepository.getCurrentUser().ignoreElement()
             .timeout(2000, TimeUnit.MILLISECONDS)
-            .andThen(appData.userChangeSubject)
-            .performOnBackgroundOutOnMain()
             .let {
                 if (isFirstLaunch) {
                     isFirstLaunch = false
                     it.withLoadingDialog(loadingData)
                 } else it
             }
+            .subscribeSimple(
+                onError = { it.printStackTrace() },
+                onComplete = {}
+            )
+    }
+
+    fun loadUser() {
+        compositeDisposable += appData.userChangeSubject
+            .performOnBackgroundOutOnMain()
             .subscribeSimple(
                 onError = {
                     it.printStackTrace()
@@ -58,15 +65,14 @@ class ProfileViewModel(
 
     fun logout() {
         compositeDisposable += authRepository.logout(appData.getUserId())
-            .doOnComplete { appData.logOut() }
             .withDelay(1000)
             .performOnBackgroundOutOnMain()
             .withLoadingDialog(progressData)
             .subscribeBy(
                 onError = { it.printStackTrace() },
                 onComplete = {
+                    appData.logOut()
                     _successLoggedOut.postValue(true)
-                    _userData.postValue(null)
                 }
             )
     }

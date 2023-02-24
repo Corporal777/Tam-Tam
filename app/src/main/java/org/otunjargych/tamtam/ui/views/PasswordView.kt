@@ -139,5 +139,5 @@ class PasswordView : FrameLayout {
 
 data class PasswordData(
     var isValid: Boolean,
-    var password: String?
+    var password: String
 )

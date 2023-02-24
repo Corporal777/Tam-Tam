@@ -12,6 +12,7 @@ class ActionsMessageDialog(
     val context: Context,
     val title: CharSequence,
     val message: CharSequence,
+    val btnAcceptText: String = "",
     val isCancelable: Boolean = true
 ) {
 
@@ -34,10 +35,15 @@ class ActionsMessageDialog(
         mBinding.apply {
             tvTitle.text = title
             tvMessage.text = message
-            btnAccept.setOnClickListener {
-                clickAccept.invoke()
-                mAlertDialog.dismiss()
+
+            btnAccept.apply {
+                if (!btnAcceptText.isNullOrBlank()) text = btnAcceptText
+                setOnClickListener {
+                    clickAccept.invoke()
+                    mAlertDialog.dismiss()
+                }
             }
+
             btnCancel.setOnClickListener {
                 clickCancel.invoke()
                 mAlertDialog.dismiss()

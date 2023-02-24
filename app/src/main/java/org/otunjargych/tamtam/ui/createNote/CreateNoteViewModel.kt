@@ -12,10 +12,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.otunjargych.tamtam.di.data.AppData
 import org.otunjargych.tamtam.di.repo.note.NotesRepository
-import org.otunjargych.tamtam.model.request.NoteAddressModel
-import org.otunjargych.tamtam.model.request.NoteContactsModel
-import org.otunjargych.tamtam.model.request.NoteModel
-import org.otunjargych.tamtam.model.request.NoteRequestBody
+import org.otunjargych.tamtam.model.request.*
 import org.otunjargych.tamtam.ui.base.BaseViewModel
 import org.otunjargych.tamtam.util.extensions.performOnBackgroundOutOnMain
 import org.otunjargych.tamtam.util.extensions.withLoadingDialog
@@ -28,6 +25,7 @@ class CreateNoteViewModel(
     private val notesRepository: NotesRepository
 ) : BaseViewModel() {
 
+    private var isFirstLaunch = true
     private val listSelectedImages = arrayListOf<Bitmap>()
 
     private val _selectedImages = MutableLiveData<List<Bitmap>>()
@@ -36,6 +34,29 @@ class CreateNoteViewModel(
     private val _noteCreated = MutableLiveData<Boolean>()
     val noteCreated: LiveData<Boolean> get() = _noteCreated
 
+    private val _draftCreated = MutableLiveData<Boolean>()
+    val draftCreated: LiveData<Boolean> get() = _draftCreated
+
+    private val _noteDraft = MutableLiveData<NoteDraftModel?>()
+    val noteDraft: LiveData<NoteDraftModel?> get() = _noteDraft
+
+    init {
+        loadNoteDraft()
+    }
+
+    private fun loadNoteDraft() {
+        compositeDisposable += notesRepository.loadNoteDraft()
+            .performOnBackgroundOutOnMain()
+            .subscribeSimple(
+                onError = {
+                    it.printStackTrace()
+                    _noteDraft.postValue(null)
+                },
+                onSuccess = {
+                    _noteDraft.postValue(it.draft)
+                })
+    }
+
     fun createNote(
         data: Map<String, String>,
         noteAddress: NoteAddressModel,
@@ -43,10 +64,10 @@ class CreateNoteViewModel(
         noteData: MutableMap<String, String>
     ) {
         val noteRequestBody = NoteRequestBody(
-            data["name"]!!,
+            data["name"]?:"",
             data["description"],
-            noteData["salary"],
-            data["category"]!!,
+            noteData["salary"]?:"",
+            data["category"]?:"",
             null,
             contacts,
             noteAddress
@@ -73,7 +94,7 @@ class CreateNoteViewModel(
             }
     }
 
-    fun removeSelectedImage(bitmap : Bitmap){
+    fun removeSelectedImage(bitmap: Bitmap) {
         compositeDisposable += Completable.fromAction {
             listSelectedImages.remove(bitmap)
         }
@@ -81,6 +102,19 @@ class CreateNoteViewModel(
             .subscribeSimple {
                 _selectedImages.postValue(listSelectedImages)
             }
+    }
+
+    fun createNoteDraft(draft: NoteDraftModel) {
+        compositeDisposable += notesRepository.createNoteDraft(draft)
+            .performOnBackgroundOutOnMain()
+            .withLoadingDialog(progressData)
+            .subscribeSimple(
+                onError = {
+                    it.printStackTrace()
+                },
+                onSuccess = {
+                    _draftCreated.postValue(true)
+                })
     }
 
     private fun getImageRequest(noteId: String): Completable {

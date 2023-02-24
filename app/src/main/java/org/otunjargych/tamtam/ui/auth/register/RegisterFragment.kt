@@ -2,23 +2,23 @@ package org.otunjargych.tamtam.ui.auth.register
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnLayout
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.snackbar.Snackbar
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.FragmentRegisterBinding
-import org.otunjargych.tamtam.model.request.ErrorResponse.Companion.USER_ALREADY_EXISTS_ERROR
-import org.otunjargych.tamtam.ui.auth.login.LoginFragmentDirections
+import org.otunjargych.tamtam.ui.auth.register.RegisterViewModel.Companion.ERROR_LOGIN_CORRECT
+import org.otunjargych.tamtam.ui.auth.register.RegisterViewModel.Companion.ERROR_LOGIN_EXISTS
+import org.otunjargych.tamtam.ui.auth.register.RegisterViewModel.Companion.ERROR_LOGIN_INCORRECT
 import org.otunjargych.tamtam.ui.base.BaseFragment
+import org.otunjargych.tamtam.ui.confirmCode.ConfirmCodeFragment
 import org.otunjargych.tamtam.ui.interfaces.ToolbarFragment
 import org.otunjargych.tamtam.ui.views.dialogs.ActionsMessageDialog
 import org.otunjargych.tamtam.util.onTextChanged
@@ -27,8 +27,18 @@ import kotlin.reflect.KClass
 class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding>(true),
     ToolbarFragment {
 
+    private var fromNote : Boolean = false
+    private var fromProfile : Boolean = false
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireArguments().let {
+            fromNote = RegisterFragmentArgs.fromBundle(it).fromNote
+            fromProfile = RegisterFragmentArgs.fromBundle(it).fromProfile
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,6 +47,7 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
         observeBtnRegisterEnabled()
         observeErrors()
         observeRegisterSuccess()
+        observeLoginIsUnique()
 
         mBinding.apply {
             etFirstName.onTextChanged {
@@ -52,10 +63,18 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
                 viewModel.performPasswordChanged(password)
             }
 
-            btnRegister.setOnClickListener { viewModel.register() }
+            btnRegister.setOnClickListener {
+                hideKeyboard(it)
+                viewModel.checkLoginIsUnique()
+            }
         }
     }
 
+    private fun observeLoginIsUnique() {
+        viewModel.loginIsUnique.observe(viewLifecycleOwner) {
+            if (it) showConfirmCodeDialog()
+        }
+    }
 
     private fun observeBtnRegisterEnabled() {
         viewModel.enableBtnRegister.observe(viewLifecycleOwner) {
@@ -73,20 +92,20 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
                 if (it) tilLastName.error = getString(R.string.empty_field)
                 else tilLastName.error = null
             }
+
             viewModel.emailError.observe(viewLifecycleOwner) {
-                if (it) tilEmail.error = getString(R.string.email_or_phone_incorrect)
-                else tilEmail.error = null
+                when (it) {
+                    ERROR_LOGIN_CORRECT -> tilEmail.error = null
+                    ERROR_LOGIN_EXISTS -> {
+                        showToast("Логин занят. Введите другой логин!")
+                        tilEmail.error = getString(R.string.login_not_free_error)
+                    }
+                    ERROR_LOGIN_INCORRECT -> tilEmail.error = getString(R.string.email_or_phone_incorrect)
+                }
             }
+
             viewModel.passwordError.observe(viewLifecycleOwner) {
                 passwordView.setPasswordsNotCorrect(it)
-            }
-            viewModel.errorResponse.observe(viewLifecycleOwner) {
-                when (it) {
-                    USER_ALREADY_EXISTS_ERROR -> {
-                        showToast("Логин занят. Введите другой логин!")
-                        mBinding.tilEmail.error = getString(R.string.login_not_free_error)
-                    }
-                }
             }
         }
 
@@ -94,8 +113,13 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
 
     private fun observeRegisterSuccess() {
         viewModel.successResponse.observe(viewLifecycleOwner) {
-            showGreetings(it.firstName)
-            showHome()
+            if (it == null) showToast("Server error!")
+            else {
+                showGreetings(it.firstName)
+                if (fromNote) showCreateNote()
+                else if (fromProfile) showProfile()
+                else showHome()
+            }
         }
     }
 
@@ -105,6 +129,31 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
 
     private fun showHome() {
         findNavController().navigate(RegisterFragmentDirections.registerToHome())
+    }
+
+    private fun showCreateNote(){
+        findNavController().navigate(R.id.create_note_fragment, null, navOptions {
+            popUpTo(R.id.register_fragment) { inclusive = true }
+        })
+    }
+
+    private fun showProfile() {
+        if (!findNavController().popBackStack(R.id.profile_fragment, false)) {
+            findNavController().navigate(R.id.profile_fragment, null, navOptions {
+                popUpTo(R.id.register_fragment) { inclusive = true }
+            })
+        }
+    }
+
+    private fun showConfirmCodeDialog() {
+        val type = if (viewModel.loginType == "email") ConfirmCodeFragment.ConfirmType.EMAIL
+        else ConfirmCodeFragment.ConfirmType.PHONE
+
+        val confirmCode = ConfirmCodeFragment(type, viewModel.getValidatedLogin())
+        confirmCode.show(requireActivity().supportFragmentManager, "confirm_code_dialog")
+        confirmCode.setCodeCallback {
+            viewModel.register()
+        }
     }
 
     private fun showUseGoogleAccountDataDialog() {
@@ -152,7 +201,6 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
         val name = account.givenName ?: ""
         val lastName = account.familyName ?: ""
         val email = account.email ?: ""
-        viewModel.setFieldsWithGoogleAccountData(name, lastName, email)
         mBinding.apply {
             etFirstName.setText(name)
             etLastName.setText(lastName)

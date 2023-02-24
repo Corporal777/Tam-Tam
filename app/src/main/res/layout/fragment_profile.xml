@@ -203,10 +203,11 @@
                     android:background="#BDBDBD" />
 
                 <TextView
+                    android:id="@+id/tv_my_notes"
                     style="@style/ProfileSectionsTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Мои объявления"
+                    android:text="@string/my_notes"
                     app:drawableStartCompat="@drawable/ic_microphone" />
 
                 <View

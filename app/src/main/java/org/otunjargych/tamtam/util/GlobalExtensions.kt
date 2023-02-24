@@ -5,35 +5,44 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.PopupMenu
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.doOnDetach
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager.widget.ViewPager
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.koin.androidx.scope.lifecycleScope
-import org.koin.core.definition.BeanDefinition
-import org.koin.core.definition.IndexKey
-import org.koin.core.instance.InstanceFactory
-import org.koin.core.instance.SingleInstanceFactory
-import org.koin.core.scope.Scope
 import org.otunjargych.tamtam.R
 import java.io.ByteArrayOutputStream
 
+fun Fragment.onBackPressedCallback(
+    enabled: Boolean,
+    onBackClick: () -> Unit
+) {
+    requireActivity().onBackPressedDispatcher.addCallback(
+        viewLifecycleOwner,
+        object : OnBackPressedCallback(enabled) {
+            override fun handleOnBackPressed() {
+                onBackClick.invoke()
+            }
+        })
+}
 
 fun onPageChanged(onPageChanged: (position: Int) -> Unit): ViewPager.SimpleOnPageChangeListener {
     val pageChangeListener = object : ViewPager.SimpleOnPageChangeListener() {
@@ -123,7 +132,7 @@ object InsetUtil {
 fun Activity.setWindowTransparency(listener: OnSystemInsetsChangedListener = { _, _ -> }) {
     InsetUtil.removeSystemInsets(window.decorView, listener)
 //    window.navigationBarColor = Color.TRANSPARENT
-//    window.statusBarColor = Color.TRANSPARENT
+    window.statusBarColor = Color.TRANSPARENT
 }
 
 fun Activity.cancelWindowTransparency(listener: OnSystemInsetsChangedListener = { _, _ -> }) {
@@ -228,6 +237,25 @@ fun showPopupMenu(view: View, list: List<PowerMenuItem>, block: (item: PowerMenu
         popup.dismiss()
     }
 }
+
+fun Context.isConnectedToNetwork(): Boolean {
+    val connectivityManager =
+        this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+    return connectivityManager?.activeNetworkInfo?.isConnected ?: false
+}
+
+
+inline fun <reified T> JsonElement?.fromJson(deserializer: JsonDeserializer<T>? = null): T? {
+    if (this == null) return null
+    return GsonBuilder()
+        .apply {
+            if (deserializer != null) registerTypeAdapter(T::class.java, deserializer)
+        }
+        .create()
+        .fromJson(this, T::class.java)
+}
+
+
 
 
 

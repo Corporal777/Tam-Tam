@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.xwray.groupie.GroupAdapter
@@ -11,10 +12,12 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.FragmentCreateNoteBinding
+import org.otunjargych.tamtam.model.request.NoteDraftModel
 import org.otunjargych.tamtam.ui.base.BaseFragment
 import org.otunjargych.tamtam.ui.createNote.items.*
 import org.otunjargych.tamtam.ui.holders.MainButtonItem
 import org.otunjargych.tamtam.ui.interfaces.ToolbarFragment
+import org.otunjargych.tamtam.ui.views.dialogs.ActionsMessageDialog
 import org.otunjargych.tamtam.ui.views.dialogs.NoteCreatedBottomSheetDialog
 import org.otunjargych.tamtam.util.*
 import kotlin.reflect.KClass
@@ -26,17 +29,13 @@ class CreateNoteFragment : BaseFragment<CreateNoteViewModel, FragmentCreateNoteB
     private val mainDataSection by lazy {
         Section().apply {
             setHeader(TitleDataItem(getString(R.string.main_information)))
+            setHideWhenEmpty(true)
         }
     }
 
     private val addressDataSection by lazy {
         Section().apply {
             setHeader(TitleDataItem(getString(R.string.address_title)))
-        }
-    }
-    private val additionalDataSection by lazy {
-        Section().apply {
-            setHeader(TitleDataItem(getString(R.string.additional_information)))
             setHideWhenEmpty(true)
         }
     }
@@ -44,16 +43,11 @@ class CreateNoteFragment : BaseFragment<CreateNoteViewModel, FragmentCreateNoteB
     private val imagesSection by lazy {
         Section().apply {
             setHeader(TitleDataItem(getString(R.string.photos_title)))
+            setHideWhenEmpty(true)
         }
     }
 
-    private val saveButtonSection by lazy {
-        Section().apply {
-            add(MainButtonItem(true, getString(R.string.publicate)) {
-                createNote()
-            })
-        }
-    }
+    private val saveButtonSection by lazy { Section() }
 
     private val groupAdapter by lazy {
         GroupAdapter<GroupieViewHolder>().apply {
@@ -68,20 +62,32 @@ class CreateNoteFragment : BaseFragment<CreateNoteViewModel, FragmentCreateNoteB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        onBackPressedCallback(true) {
+            showSaveDraftDialog()
+        }
+
         mBinding.apply {
             createNoteList.adapter = groupAdapter
         }
-        initSections()
         observeSelectedImages()
         observeNoteSuccessCreated()
+        observeDraftSuccessCreated()
+        observeNoteDraft()
     }
 
-    private fun initSections() {
+    private fun initSections(draftModel: NoteDraftModel?) {
         mainDataSection.apply {
-            updateGroup(MainDataGroup(requireContext()))
+            updateGroup(MainDataGroup(requireContext(), draftModel))
         }
         addressDataSection.apply {
-            updateItem(AddressDataItem(requireActivity(), viewModel.getCurrentTown()))
+            updateItem(
+                AddressDataItem(
+                    requireActivity(),
+                    viewModel.getCurrentTown(),
+                    draftModel?.address?.region,
+                    draftModel?.address?.metro
+                )
+            )
         }
 
         imagesSection.apply {
@@ -92,7 +98,9 @@ class CreateNoteFragment : BaseFragment<CreateNoteViewModel, FragmentCreateNoteB
                 )
             )
         }
-
+        saveButtonSection.updateItem(MainButtonItem(true, getString(R.string.publicate)) {
+            createNote()
+        })
 
     }
 
@@ -114,6 +122,7 @@ class CreateNoteFragment : BaseFragment<CreateNoteViewModel, FragmentCreateNoteB
         }
     }
 
+
     private fun observeSelectedImages() {
         viewModel.selectedImages.observe(viewLifecycleOwner) {
             imagesSection.findItemBy<ImagesListItem> { true }?.update(it)
@@ -130,11 +139,54 @@ class CreateNoteFragment : BaseFragment<CreateNoteViewModel, FragmentCreateNoteB
         }
     }
 
+    private fun observeDraftSuccessCreated() {
+        viewModel.draftCreated.observe(viewLifecycleOwner) {
+            if (it) findNavController().navigateUp()
+        }
+    }
+
+
+    private fun observeNoteDraft() {
+        viewModel.noteDraft.observe(viewLifecycleOwner) {
+            if (it == null) initSections(null)
+            else showFillSavedDraftDialog(it)
+        }
+    }
+
+    private fun showSaveDraftDialog() {
+        val mainDataItem = mainDataSection.findGroupBy<MainDataGroup> { true }
+        val addressDataItem = addressDataSection.findItemBy<AddressDataItem> { true }
+        if (mainDataItem != null && addressDataItem != null && !mainDataItem.isFieldsEmpty()) {
+            ActionsMessageDialog(
+                requireContext(),
+                "Сохранить в черновик?",
+                "Записи с полей ввода будут сохранены в черновик. По желанию вы можете использовать их или заполнить поля ввода новыми данными.",
+                "Сохранить"
+            ).setAcceptCallback {
+                viewModel.createNoteDraft(mainDataItem.getDraftData(addressDataItem.getAddressData()))
+            }.setCancelCallback { findNavController().navigateUp() }
+        } else findNavController().navigateUp()
+    }
+
+    private fun showFillSavedDraftDialog(draft: NoteDraftModel?) {
+        ActionsMessageDialog(
+            requireContext(),
+            "Черновик",
+            "У вас есть сохраненный черновик. Заполнить поля ввода данными из черновика?",
+            "Заполнить",
+            false
+        )
+            .setAcceptCallback { initSections(draft) }
+            .setCancelCallback { initSections(null) }
+    }
+
     private fun showHome() {
-        findNavController().navigate(R.id.home_fragment, null,
-            navOptions {
-                popUpTo(R.id.nav_graph) { inclusive = true }
-            })
+        if (!findNavController().popBackStack(R.id.home_fragment, false)) {
+            findNavController().navigate(R.id.home_fragment, null,
+                navOptions {
+                    popUpTo(R.id.nav_graph) { inclusive = true }
+                })
+        }
     }
 
 

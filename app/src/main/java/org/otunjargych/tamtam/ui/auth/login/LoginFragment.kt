@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navOptions
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -31,6 +33,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>(), Tool
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         requireArguments().let {
             viewModel.fromNote = LoginFragmentArgs.fromBundle(it).fromNote
             viewModel.fromProfile = LoginFragmentArgs.fromBundle(it).fromProfile
@@ -42,7 +45,10 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>(), Tool
         mBinding.apply {
             etLogin.onTextChanged { viewModel.performChangeLogin(it.toString()) }
             etPassword.onTextChanged { viewModel.performChangePassword(it.toString()) }
-            btnEnter.setOnClickListener { viewModel.login() }
+            btnEnter.setOnClickListener {
+                hideKeyboard(it)
+                viewModel.login()
+            }
             btnRegister.setOnClickListener { showRegistration() }
         }
         observeErrors()
@@ -71,7 +77,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>(), Tool
         }
         viewModel.successResponse.observe(viewLifecycleOwner) {
             showGreetings(it.firstName)
-            if (viewModel.fromNote)
+            if (viewModel.fromNote) showCreateNote()
             else if (viewModel.fromProfile) showProfile()
             else showHome()
         }
@@ -83,15 +89,31 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>(), Tool
     }
 
     private fun showRegistration() {
-        findNavController().navigate(LoginFragmentDirections.loginToRegister())
+        findNavController().navigate(
+            R.id.register_fragment,
+            bundleOf(
+                "fromProfile" to viewModel.fromProfile,
+                "fromNote" to viewModel.fromNote
+            )
+        )
     }
 
     private fun showHome() {
         findNavController().navigate(LoginFragmentDirections.loginToHome())
     }
 
+    private fun showCreateNote(){
+        findNavController().navigate(R.id.create_note_fragment, null, navOptions {
+            popUpTo(R.id.login_fragment) { inclusive = true }
+        })
+    }
+
     private fun showProfile() {
-        findNavController().navigate(LoginFragmentDirections.loginToProfile())
+        if (!findNavController().popBackStack(R.id.profile_fragment, false)) {
+            findNavController().navigate(R.id.profile_fragment, null, navOptions {
+                popUpTo(R.id.login_fragment) { inclusive = true }
+            })
+        }
     }
 
     override fun getViewModelClass(): KClass<LoginViewModel> = LoginViewModel::class

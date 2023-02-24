@@ -8,35 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:935191350102:android:cdff7a5b8ab2aea32424f7",
-        "android_client_info": {
-          "package_name": "myapp.tamtam.zuhaapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "935191350102-mtisf0auajgkq95oehjo7d39u7f201ne.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCQUhGSSDgwKt7BXSFXRe6Q2MX9aodhtBM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "935191350102-mtisf0auajgkq95oehjo7d39u7f201ne.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:935191350102:android:0a82a3abdb9bf49e2424f7",
         "android_client_info": {
           "package_name": "org.otunjargych.tamtam"

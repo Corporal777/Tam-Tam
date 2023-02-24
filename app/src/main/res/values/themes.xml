@@ -19,22 +19,16 @@
         <item name="android:windowBackground">@color/main_background</item>
     </style>
 
-    <style name="Theme.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!--   Primary brand color.   -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!--   Secondary brand color.   -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!--   Status bar color.   -->
-        <item name="android:windowFullscreen">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@color/trans</item>
-        <item name="android:navigationBarColor" tools:targetApi="l">@color/trans</item>
-        <!--   Customize your theme here.   -->
+<!--    <style name="Theme.Splash" parent="Theme.SplashScreen">-->
+<!--        <item name="android:statusBarColor">@color/main_background</item>-->
+<!--        <item name="android:navigationBarColor">@color/white</item>-->
+<!--        <item name="android:windowBackground">@drawable/app_splash_background</item>-->
+<!--    </style>-->
+
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/main_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/app_splash_adaptive_round</item>
+        <item name="postSplashScreenTheme">@style/Theme.TamTam</item>
     </style>
 
 
@@ -199,6 +193,20 @@
         <item name="android:textSize">13sp</item>
     </style>
 
+    <style name="NoteDetailAdditionalInfoTitleStyle">
+        <item name="android:textColor">@color/message_information_text_color</item>
+        <item name="fontFamily">@font/noto_sans_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="NoteDetailAdditionalInfoMessageStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/noto_sans_medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 
     <style name="BtnMainStyle">
         <item name="android:includeFontPadding">false</item>
@@ -211,7 +219,19 @@
         <item name="android:textSize">16.5sp</item>
     </style>
 
+    <style name="BtnSmokeStyle">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:minHeight">49dp</item>
+        <item name="android:background">@drawable/custom_btn_smoke_selectable</item>
+        <item name="fontFamily">@font/noto_sans_extra_bold</item>
+        <item name="android:textSize">16.5sp</item>
+    </style>
+
     <style name="BtnWhiteStyle">
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/white_btn_color</item>
         <item name="textAllCaps">false</item>
         <item name="android:stateListAnimator">@null</item>
@@ -219,6 +239,40 @@
         <item name="android:background">@drawable/custom_btn_white_selectable</item>
         <item name="fontFamily">@font/noto_sans_bold</item>
         <item name="android:textSize">16.5sp</item>
+    </style>
+
+    <style name="BtnCustomTabStyle">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/text_color_custom_tab</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">13sp</item>
+        <item name="fontFamily">@font/noto_sans_bold</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:minHeight">34dp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="BtnFilterStyle">
+        <item name="android:includeFontPadding">false</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/noto_sans_bold</item>
+        <item name="android:textColor">@color/text_color_filter</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:minHeight">35dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:background">@drawable/background_filter</item>
+        <item name="android:layout_marginHorizontal">5dp</item>
     </style>
 
     <style name="ProfileSectionsTextStyle">

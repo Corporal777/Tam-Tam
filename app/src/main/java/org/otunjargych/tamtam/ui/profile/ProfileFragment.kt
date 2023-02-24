@@ -17,6 +17,7 @@ import org.otunjargych.tamtam.databinding.FragmentProfileBinding
 import org.otunjargych.tamtam.ui.base.BaseFragment
 import org.otunjargych.tamtam.ui.interfaces.ToolbarFragment
 import org.otunjargych.tamtam.ui.views.ToolbarIconView
+import org.otunjargych.tamtam.ui.views.dialogs.ProfileMenuBottomSheetDialog
 import org.otunjargych.tamtam.util.setUserImage
 import org.otunjargych.tamtam.util.showPopupMenu
 import kotlin.reflect.KClass
@@ -27,10 +28,10 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loadUser()
         mBinding.apply {
-            tvProfileSettings.setOnClickListener {
-                showProfileSettings()
-            }
+            tvProfileSettings.setOnClickListener { showProfileSettings() }
+            tvMyNotes.setOnClickListener { showMyNotes() }
         }
         observeUser()
         observeUserLogged()
@@ -75,21 +76,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     }
 
     private fun showPopup(view: View) {
-        val list = listOf(
-            PowerMenuItem("Изменить город", iconRes = R.drawable.ic_popup_edit, tag = "city"),
-            PowerMenuItem(
-                title = if (viewModel.isUserLoggedOut()) getString(R.string.login_to_account)
-                else getString(R.string.logout_from_account),
-                iconRes = R.drawable.ic_popup_logout,
-                tag = "auth"
-            )
-        )
-        showPopupMenu(view, list) {
-            when (it.tag) {
-                "city" -> showTown()
-                "auth" -> showLogin()
-            }
-            Log.e("ITEM", it.tag.toString())
+        ProfileMenuBottomSheetDialog(requireContext(), viewModel.isUserLoggedOut()).apply {
+            setChangeTownCallback { showTown() }
+            setLoginCallback { showLogin() }
         }
     }
 
@@ -101,6 +90,10 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
 
     private fun showProfileSettings() {
         findNavController().navigate(R.id.profile_settings_fragment)
+    }
+
+    private fun showMyNotes(){
+        findNavController().navigate(R.id.my_notes_fragment)
     }
 
     private fun showTown() {

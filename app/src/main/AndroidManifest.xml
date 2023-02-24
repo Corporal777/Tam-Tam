@@ -27,6 +27,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
+            android:theme="@style/Theme.Splash"
             android:name="org.otunjargych.tamtam.ui.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -52,6 +53,14 @@
             android:name=".util.extensions.imagepicker.ui.Detail"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <service
+            android:name=".services.FcmMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

@@ -51,7 +51,7 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_change_image"
-                        style="@style/BtnWhiteStyle"
+                        style="@style/BtnSmokeStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -67,7 +67,7 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_delete_image"
-                        style="@style/BtnWhiteStyle"
+                        style="@style/BtnSmokeStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"

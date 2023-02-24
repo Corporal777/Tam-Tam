@@ -39,6 +39,7 @@
                 app:customHint="@string/enter_note_sub_category" />
 
             <TextView
+                android:visibility="gone"
                 style="@style/CreateNoteFieldsTitleStyle"
                 android:id="@+id/tv_note_sub_category_required"
                 android:layout_width="match_parent"
@@ -114,6 +115,33 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="20dp"
+            android:text="@string/work_speciality" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_speciality"
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            app:errorIconDrawable="@null"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <org.otunjargych.tamtam.ui.views.SpecialitiesAutoCompleteTextView
+                android:id="@+id/et_speciality"
+                style="@style/CustomTextInputEditText"
+                android:inputType="textCapSentences|textNoSuggestions"
+                app:customHint="@string/enter_work_speciality" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            style="@style/CreateNoteFieldsTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp"
             android:text="@string/work_salary" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -167,6 +195,14 @@
                 app:customHint="@string/enter_text" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginHorizontal="13dp"
+            android:layout_marginTop="20dp"
+            android:background="#BDBDBD" />
+
     </LinearLayout>
 
 

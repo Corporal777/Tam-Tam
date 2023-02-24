@@ -1,37 +1,51 @@
 package org.otunjargych.tamtam.ui.createNote.items
 
+import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.core.view.isVisible
+import com.google.gson.Gson
+import com.xwray.groupie.Item
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.databinding.ItemWorkAdditionalDataBinding
+import org.otunjargych.tamtam.model.request.WorkNoteDataDraft
 import org.otunjargych.tamtam.ui.views.adapters.NoFilterArrayAdapter
 import org.otunjargych.tamtam.util.extensions.getWorkSchedulesList
 import org.otunjargych.tamtam.util.extensions.getWorkSubCategoriesList
+import org.otunjargych.tamtam.util.extensions.setAdapterData
 import org.otunjargych.tamtam.util.initInput
 
-class WorkAdditionalDataItem : AdditionalDataItem<ItemWorkAdditionalDataBinding>() {
+class WorkAdditionalDataItem(
+    val data: String? = null,
+    val salary: String? = null
+) : AdditionalDataItem<ItemWorkAdditionalDataBinding>() {
 
     private var subCategory = ""
     private var workSchedule = ""
     private var workExperience = ""
+    private var workSpeciality = ""
     private var workSalary = ""
     private var workComment = ""
 
-    private lateinit var mBinding : ItemWorkAdditionalDataBinding
+
+    init {
+        if (!data.isNullOrEmpty()) {
+            val draft = Gson().fromJson(data, WorkNoteDataDraft::class.java)
+            subCategory = draft.subCategory
+            workSchedule = draft.workSchedule ?: ""
+            workExperience = draft.workExperience ?: ""
+            workSpeciality = draft.workSpeciality ?: ""
+            workSalary = salary ?: ""
+            workComment = draft.workComment ?: ""
+        }
+    }
+
+    private lateinit var mBinding: ItemWorkAdditionalDataBinding
     override fun bind(viewBinding: ItemWorkAdditionalDataBinding, position: Int) {
         mBinding = viewBinding
         viewBinding.apply {
+            tvNoteSubCategoryRequired.isVisible = subCategory.isNullOrEmpty()
             etSubCategory.apply {
-                keyListener = null
-                setAdapter(
-                    NoFilterArrayAdapter(
-                        context,
-                        R.layout.layout_town,
-                        android.R.id.text1,
-                        getWorkSubCategoriesList()
-                    )
-
-                )
+                setAdapterData(getWorkSubCategoriesList())
                 initInput(subCategory) {
                     tvNoteSubCategoryRequired.apply {
                         if (!it.toString().isNullOrBlank()) changeRequiredTextColor(true)
@@ -41,18 +55,16 @@ class WorkAdditionalDataItem : AdditionalDataItem<ItemWorkAdditionalDataBinding>
                 }
             }
             etSchedule.apply {
-                keyListener = null
-                setAdapter(
-                    NoFilterArrayAdapter(
-                        context,
-                        R.layout.layout_town,
-                        android.R.id.text1,
-                        getWorkSchedulesList()
-                    )
-
-                )
+                setAdapterData(getWorkSchedulesList())
                 initInput(workSchedule) {
                     workSchedule = it.toString()
+                }
+            }
+
+            etSpeciality.apply {
+                setTextWithoutSearch(workSpeciality)
+                onDataChangedListener = {
+                    workSpeciality = it
                 }
             }
 
@@ -72,7 +84,7 @@ class WorkAdditionalDataItem : AdditionalDataItem<ItemWorkAdditionalDataBinding>
 
     override fun isAdditionalDataValid(): Boolean {
         var valid = true
-        if (subCategory.isNullOrBlank()){
+        if (subCategory.isNullOrBlank()) {
             valid = false
             mBinding.tvNoteSubCategoryRequired.changeRequiredTextColor(false)
         }
@@ -84,9 +96,29 @@ class WorkAdditionalDataItem : AdditionalDataItem<ItemWorkAdditionalDataBinding>
             put("subCategory", subCategory)
             put("workSchedule", workSchedule)
             put("workExperience", workExperience)
+            put("workSpeciality", workSpeciality)
             put("workComment", workComment)
             put("salary", workSalary)
         }
+    }
+
+    override fun getDraftToSave(): String {
+        val draft = WorkNoteDataDraft(
+            subCategory,
+            workSchedule,
+            workExperience,
+            workSpeciality,
+            workComment
+        )
+
+        return Gson().toJson(draft)
+    }
+
+
+    override fun hasSameContentAs(other: Item<*>?): Boolean {
+        if (other !is WorkAdditionalDataItem) return false
+        if (data != other.data) return false
+        return true
     }
 
     private fun TextView.changeRequiredTextColor(isCorrect: Boolean) {

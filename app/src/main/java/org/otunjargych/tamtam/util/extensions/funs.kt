@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import org.otunjargych.tamtam.R
 import org.otunjargych.tamtam.model.Node
+import org.otunjargych.tamtam.ui.views.adapters.NoFilterArrayAdapter
 import org.otunjargych.tamtam.util.extensions.imagepicker.ui.ImagePickerView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -81,7 +83,7 @@ fun getCategoriesList(): List<String> {
     return categoriesList
 }
 
-fun getWorkSchedulesList() : MutableList<String>{
+fun getWorkSchedulesList(): MutableList<String> {
     return mutableListOf<String>(
         "Полный день",
         "Не полный день",
@@ -95,13 +97,42 @@ fun getWorkSchedulesList() : MutableList<String>{
     )
 }
 
-fun getWorkSubCategoriesList() : MutableList<String>{
+fun getWorkSubCategoriesList(): MutableList<String> {
     return mutableListOf<String>(
         "Вакансия",
         "Подработка",
         "Стажировка",
         "Ищу работу",
         "Ищу подработку"
+    )
+}
+
+fun getHouseSubCategoriesList(): MutableList<String> {
+    return mutableListOf(
+        "Сдаю",
+        "Cниму"
+    )
+}
+
+fun getHouseTypesList(): MutableList<String> {
+    return mutableListOf<String>(
+        "Квартира",
+        "Гостиница",
+        "Комната",
+        "Койко место",
+        "Общежитие"
+    )
+}
+
+fun AutoCompleteTextView.setAdapterData(list: MutableList<String>) {
+    keyListener = null
+    setAdapter(
+        NoFilterArrayAdapter(
+            context,
+            R.layout.layout_town,
+            android.R.id.text1,
+            list
+        )
     )
 }
 
@@ -134,12 +165,6 @@ interface OnBottomAppBarItemsEnabledListener {
     fun disabledLikedItem()
 }
 
-fun Fragment.hideKeyboard(view: View) {
-    view.clearFocus()
-    val inn: InputMethodManager? =
-        requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-    inn?.hideSoftInputFromWindow(view.windowToken, 0)
-}
 
 fun onCompareText(note: String, word: String): Boolean {
     return (note.contains(word, true) || note.contentEquals(word, true))

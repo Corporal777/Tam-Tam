@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.ImageRequest
 import coil.size.Scale
@@ -181,4 +182,26 @@ fun ImageRequest.Builder.setParams(
     if (!transformations.isNullOrEmpty())
         transformations(transformations)
     scale(Scale.FILL)
+}
+
+fun RecyclerView.onScrolled(
+    onScrolled: (dx: Int, dy: Int) -> Unit,
+): RecyclerView.OnScrollListener {
+    val listener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) = onScrolled(dx, dy)
+    }
+    addOnScrollListener(listener)
+    return listener
+}
+
+fun RecyclerView.onScrollStateChanged(
+    onStateChange: (recyclerView: RecyclerView, newState: Int) -> Unit
+): RecyclerView.OnScrollListener {
+    val listener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) =
+            onStateChange(recyclerView, newState)
+
+    }
+    addOnScrollListener(listener)
+    return listener
 }

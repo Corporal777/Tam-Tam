@@ -5,6 +5,7 @@ import io.reactivex.subjects.BehaviorSubject
 import org.otunjargych.tamtam.model.ContactInformation
 import org.otunjargych.tamtam.model.UserNew
 import org.otunjargych.tamtam.model.UserNotesModel
+import java.util.*
 
 class AppData(private val appPrefs: AppPrefs) {
 
@@ -15,11 +16,9 @@ class AppData(private val appPrefs: AppPrefs) {
                 if (value.isNullOrEmpty()) {
                     field = null
                     appPrefs.userToken = null
-                    tokenChangeSubject.onNext(Optional())
                 } else {
                     field = value
                     appPrefs.userToken = value
-                    tokenChangeSubject.onNext(value.asOptional())
                 }
             }
         }
@@ -38,13 +37,13 @@ class AppData(private val appPrefs: AppPrefs) {
             }
         }
 
-    private var userTown: String? = appPrefs.userTown
+    private var userTown: String = appPrefs.userTown
         set(value) {
             val changed = field != value
             if (changed) {
-                if (value.isNullOrEmpty()) {
-                    field = null
-                    appPrefs.userTown = null
+                if (value.isNullOrBlank()) {
+                    field = ""
+                    appPrefs.userTown = ""
                 } else {
                     field = value
                     appPrefs.userTown = value
@@ -52,38 +51,48 @@ class AppData(private val appPrefs: AppPrefs) {
             }
         }
 
+    private var deviceId: String? = appPrefs.uniqueDeviceId
+        set(value) {
+            if (field.isNullOrEmpty()) {
+                field = value
+                appPrefs.uniqueDeviceId = value
+            }
+        }
+
 
     private var user: UserNew? = null
-    private var isLoggedOut =
-        token.isNullOrEmpty() && (userId == null || userId == -1) && user == null
-
-    val tokenChangeSubject = BehaviorSubject.createDefault(token.asOptional())
     val userChangeSubject = BehaviorSubject.createDefault(user.asOptional())
+    val userIdChangeSubject = BehaviorSubject.createDefault(userId.asOptional())
 
 
-    fun logIn(token: String, id: Int) {
-        this.userId = id
-        this.token = token
-        this.isLoggedOut = false
+    fun saveToken(token: String) {
+        val changed = this.token != token
+        if (changed) this.token = token
+    }
+
+    fun getDeviceUID(): String {
+        if (deviceId.isNullOrEmpty()) {
+            deviceId = UUID.randomUUID().toString().replace("-", "")
+        }
+        return deviceId ?: ""
+    }
+
+    fun login(user: UserNew) {
+        this.userId = user.id.toInt()
+        this.user = user
+        userIdChangeSubject.onNext(userId.asOptional())
+        userChangeSubject.onNext(user.asOptional())
     }
 
     fun logOut() {
-        this.token = null
         this.userId = -1
-        this.isLoggedOut = true
         this.user = null
+        userIdChangeSubject.onNext(userId.asOptional())
+        userChangeSubject.onNext(user.asOptional())
     }
 
-    fun initUser(user: UserNew) {
-        val changed = this.user != user
-        if (changed){
-            this.user = user
-            userChangeSubject.onNext(user.asOptional())
-        }
-    }
 
-    fun getUser(): UserNew?
-    = this.user
+    fun getUser(): UserNew? = this.user
 //        this.user ?: UserNew(
 //            "76002",
 //            "Mads",
@@ -94,13 +103,10 @@ class AppData(private val appPrefs: AppPrefs) {
 //            UserNotesModel(null, null)
 //        )
 
-    fun updateUserImage(image: String) {
-        this.user?.image = image
-    }
 
     fun updateUser(newUser: UserNew) {
         val changed = this.user != newUser
-        if (changed){
+        if (changed) {
             this.user = newUser
             userChangeSubject.onNext(user.asOptional())
         }
@@ -115,9 +121,10 @@ class AppData(private val appPrefs: AppPrefs) {
     }
 
     fun getUserId(): String = this.userId.toString()
-    fun isLoggedOut() = this.isLoggedOut
+    fun isLoggedOut() = !isUserAuthorized() && user == null
 
-    fun isUserAuthorized() = !token.isNullOrEmpty() && (userId != null || userId != -1) && user != null
+    fun isUserAuthorized() = (userId != null && userId != -1)
+
 
     fun getUserTown() = this.userTown
 
